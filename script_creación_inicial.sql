@@ -2,7 +2,6 @@ USE GD2C2014
 GO
 CREATE SCHEMA G_N
 GO
--- hola
 -- TABLA TEMPORAL DE HOTELES Y REGIMENES
 SELECT DISTINCT Hotel_Ciudad, 
 				Hotel_Calle, 
@@ -271,3 +270,105 @@ INSERT INTO G_N.Factura_Items(Factura_Item_Factura_Nro,
 DROP TABLE G_N.#Habitaciones_Temp
 DROP TABLE G_N.#Hoteles_Regimenes_Temp
 DROP TABLE G_N.#Reservas_Temp
+
+------------------------------------------- SEGUNDA PARTE ------------------------------------------------
+
+-- TABLA USUARIOS
+
+CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
+						   Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
+						   Usuario_Password NVARCHAR(30) NOT NULL,
+						   Usuario_Rol_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Roles(Rol_Id),
+						   Usuario_Nombre NVARCHAR(255)NOT NULL,	
+						   Usuario_Apellido NVARCHAR(255)NOT NULL,
+						   Usuario_Documento_Tipo_Id INT NOT NULL,
+						   Usuario_Documento_Nro NUMERIC(18,0) NOT NULL,
+						   Usuario_Mail NVARCHAR(255) NOT NULL,
+						   Usuario_Telefono NVARCHAR(30),
+						   Usuario_Direccion NVARCHAR (255),
+						   Usuario_Fecha_Nac DATE NOT NULL,
+						   Usuario_Hotel INT NOT NULL)
+				
+INSERT INTO G_N.Usuarios(Usuario_UserName,
+						 Usuario_Password,
+						 Usuario_Rol_Id,
+						 Usuario_Nombre,	
+						 Usuario_Apellido,
+						 Usuario_Documento_Tipo_Id,
+						 Usuario_Documento_Nro,
+						 Usuario_Mail,
+						 Usuario_Telefono,
+						 Usuario_Direccion,
+						 Usuario_Fecha_Nac,
+						 Usuario_Hotel)	   
+
+VALUES ('admin', 'w23e', 1, 'Martin', 'Perez', 1, 33204625, 'martinperez@gmail.com', '011 4-555-5555', 'Av. Rivadavia 123', '20-08-1985', 1)
+
+
+--- TABLA ROLES
+
+CREATE TABLE G_N.Roles(Rol_Id INT IDENTITY(1,1) PRIMARY KEY,
+					   Rol_Nombre NVARCHAR(50) NOT NULL UNIQUE,
+					   Rol_Estado CHAR NOT NULL CHECK (Rol_Estado IN ('A', 'N')))
+				
+INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado)
+VALUES ('Administrador General', 'A')
+						 
+INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado)
+VALUES ('Recepcionista', 'A')						 
+
+INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado)
+VALUES ('Guest', 'A')		
+
+--- TABLA FUNCIONALIDADES
+CREATE TABLE G_N.Funcionalidades(Funcionalidad_Id INT IDENTITY(1,1) PRIMARY KEY,
+								 Funcionalidad_Nombre NVARCHAR(50) NOT NULL UNIQUE)
+
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Cliente')		
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Hotel')		
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Habitacion')		
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Regimen Estadia')		
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Generar Reserva')		
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Modificar Reserva')	
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Cancelar Reserva')
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Registrar Estadia')	
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Registrar Consumibles')
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Facturar Publicaciones')
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Listado Estadistico')		
+
+
+--- TABLA ROLES-FUNCIONALIDADES
+
+CREATE TABLE G_N.Roles_Funcionalidades(Rol_Id INT FOREIGN KEY REFERENCES G_N.Roles(Rol_Id),
+									   Funcionalidad_Id INT FOREIGN KEY REFERENCES G_N.Funcionalidades(Funcionalidad_Id),
+								       PRIMARY KEY (Rol_Id, Funcionalidad_Id))
+
+--- FUNCIONALIDADES DEL ADMINISTRADOR
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 1) /* Administrador - ABM Cliente */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 2) /* Administrador - ABM Hotel */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 3) /* Administrador - ABM Habitacion */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 4) /* Administrador - ABM Regimen de Estadia */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 5) /* Administrador - Generar Reserva  */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 6) /* Administrador - Modificar Reserva */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 7) /* Administrador - Cancelar Reserva */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 8) /* Administrador - Registrar Estadía */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 9) /* Administrador - Registrar Consumibles */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 10) /* Administrador - Facturar Publicaciones */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 11) /* Administrador - Listado Estadistico */
+
+--- FUNCIONALIDADES DE RECEPCIONISTA
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 1) /* Administrador - ABM Cliente */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 5) /* Administrador - Generar Reserva  */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 6) /* Administrador - Modificar Reserva */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 7) /* Administrador - Cancelar Reserva */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 8) /* Administrador - Registrar Estadía */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 9) /* Administrador - Registrar Consumibles */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 10) /* Administrador - Facturar Publicaciones */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 11) /* Administrador - Listado Estadistico */
+
+---  FUNCIONALIDADES DE GUEST
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 5) /* Administrador - Generar Reserva  */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 6) /* Administrador - Modificar Reserva */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 7) /* Administrador - Cancelar Reserva */
+
+
