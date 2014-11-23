@@ -24,12 +24,12 @@
 *.sdf
 *.opensdf
 *.unsuccessfulbuild
-ipch/
-[Oo]bj/
-[Bb]in
-[Dd]ebug*/
-[Rr]elease*/
-Ankh.NoLoad
+FrbaHotel/ipch/
+FrbaHotel/[Oo]bj/
+FrbaHotel/[Bb]in
+FrbaHotel/[Dd]ebug*/
+FrbaHotel/[Rr]elease*/
+FrbaHotel/Ankh.NoLoad
 
 #MonoDevelop
 *.pidb
@@ -42,7 +42,7 @@ _ReSharper*/
 *.sass-cache
 
 #Project files
-[Bb]uild/
+FrbaHotel/[Bb]uild/
 
 #Subversion files
 .svn
