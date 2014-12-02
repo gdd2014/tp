@@ -16,5 +16,9 @@ namespace FrbaHotel.Utils {
 
             return con;
         }
+
+        public static String soloActivos() {
+            return " AND Estado = 'A'";
+        }
     }
 }

@@ -22,7 +22,8 @@ CREATE TABLE G_N.Hoteles(Hotel_Id INT IDENTITY(1,1) PRIMARY KEY,
 						 Hotel_Dom_Calle VARCHAR(255) NOT NULL,
 						 Hotel_Dom_Nro NUMERIC(18,0) NOT NULL,
 						 Hotel_Estrellas NUMERIC(18,0) NOT NULL,
-						 Hotel_Fecha_Creacion DATE)
+						 Hotel_Fecha_Creacion DATE,
+						 Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
 
 INSERT INTO G_N.Hoteles(Hotel_Ciudad, 
 					    Hotel_Dom_Calle,
@@ -285,7 +286,7 @@ CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_Telefono NVARCHAR(30),
 						  Usuario_Direccion NVARCHAR (255),
 						  Usuario_Fecha_Nac DATE NOT NULL,
-						  Usuario_Hotel INT NOT NULL)
+						  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
 				
 INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Password,
@@ -296,8 +297,7 @@ INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Mail,
 						 Usuario_Telefono,
 						 Usuario_Direccion,
-						 Usuario_Fecha_Nac,
-						 Usuario_Hotel)	
+						 Usuario_Fecha_Nac)	
 	VALUES('admin', 
 		   'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
 		   'Martin',
@@ -307,19 +307,24 @@ INSERT INTO G_N.Usuarios(Usuario_UserName,
 		   'martinperez@gmail.com', 
 		   '011 4-555-5555', 
 		   'Av. Rivadavia 123',
-		   '1985-12-12',
-		   1)
+		   '1985-12-12')
 
 
+CREATE TABLE G_N.Usuarios_Hoteles(Usuario_Id INT FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
+								  Hotel_Id INT FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
+								  PRIMARY KEY (Usuario_Id, Hotel_Id))
+		   
+INSERT INTO G_N.Usuarios_Hoteles VALUES(1, 1)		   
+		   
 --- TABLA ROLES
 
 CREATE TABLE G_N.Roles(Rol_Id INT IDENTITY(1,1) PRIMARY KEY,
 					   Rol_Nombre NVARCHAR(50) NOT NULL UNIQUE,
-					   Rol_Estado CHAR NOT NULL CHECK (Rol_Estado IN ('A', 'N')))
+					   Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
 				
-INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado) VALUES ('Administrador General', 'A')
-INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado) VALUES ('Recepcionista', 'A')						 
-INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado) VALUES ('Guest', 'A')		
+INSERT INTO G_N.Roles(Rol_Nombre) VALUES ('Administrador General')
+INSERT INTO G_N.Roles(Rol_Nombre) VALUES ('Recepcionista')						 
+INSERT INTO G_N.Roles(Rol_Nombre) VALUES ('Guest')		
 
 --- Usuarios_Roles
 CREATE TABLE G_N.Usuarios_Roles(Usuario_Id INT FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
