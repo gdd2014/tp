@@ -24,8 +24,6 @@ namespace FrbaHotel.ABM_de_Rol
             con = new System.Data.SqlClient.SqlConnection();
             con.ConnectionString = "Data Source=localhost\\SQLSERVER2008;Initial Catalog=GD2C2014;Persist Security Info=True;User ID=gd;Password=gd2014";
 
-            SqlCommand cmd = new SqlCommand();
-
             String query = "SELECT Hotel_Dom_Calle AS Dirección, Hotel_Estrellas AS Estrellas FROM G_N.Hoteles";
 
             con.Open();

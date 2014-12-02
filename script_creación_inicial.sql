@@ -274,24 +274,21 @@ DROP TABLE G_N.#Reservas_Temp
 ------------------------------------------- SEGUNDA PARTE ------------------------------------------------
 
 -- TABLA USUARIOS
-
 CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
-						   Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
-						   Usuario_Password NVARCHAR(30) NOT NULL,
-						   Usuario_Rol_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Roles(Rol_Id),
-						   Usuario_Nombre NVARCHAR(255)NOT NULL,	
-						   Usuario_Apellido NVARCHAR(255)NOT NULL,
-						   Usuario_Documento_Tipo_Id INT NOT NULL,
-						   Usuario_Documento_Nro NUMERIC(18,0) NOT NULL,
-						   Usuario_Mail NVARCHAR(255) NOT NULL,
-						   Usuario_Telefono NVARCHAR(30),
-						   Usuario_Direccion NVARCHAR (255),
-						   Usuario_Fecha_Nac DATE NOT NULL,
-						   Usuario_Hotel INT NOT NULL)
+						  Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
+						  Usuario_Password NVARCHAR(255) NOT NULL,
+						  Usuario_Nombre NVARCHAR(255)NOT NULL,	
+						  Usuario_Apellido NVARCHAR(255)NOT NULL,
+						  Usuario_Documento_Tipo_Id INT NOT NULL,
+						  Usuario_Documento_Nro NUMERIC(18,0) NOT NULL,
+						  Usuario_Mail NVARCHAR(255) NOT NULL,
+						  Usuario_Telefono NVARCHAR(30),
+						  Usuario_Direccion NVARCHAR (255),
+						  Usuario_Fecha_Nac DATE NOT NULL,
+						  Usuario_Hotel INT NOT NULL)
 				
 INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Password,
-						 Usuario_Rol_Id,
 						 Usuario_Nombre,	
 						 Usuario_Apellido,
 						 Usuario_Documento_Tipo_Id,
@@ -300,9 +297,18 @@ INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Telefono,
 						 Usuario_Direccion,
 						 Usuario_Fecha_Nac,
-						 Usuario_Hotel)	   
-
-VALUES ('admin', 'w23e', 1, 'Martin', 'Perez', 1, 33204625, 'martinperez@gmail.com', '011 4-555-5555', 'Av. Rivadavia 123', '20-08-1985', 1)
+						 Usuario_Hotel)	
+	VALUES('admin', 
+		   'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
+		   'Martin',
+		   'Perez',
+		   1, 
+		   33204625,
+		   'martinperez@gmail.com', 
+		   '011 4-555-5555', 
+		   'Av. Rivadavia 123',
+		   '1985-12-12',
+		   1)
 
 
 --- TABLA ROLES
@@ -311,15 +317,17 @@ CREATE TABLE G_N.Roles(Rol_Id INT IDENTITY(1,1) PRIMARY KEY,
 					   Rol_Nombre NVARCHAR(50) NOT NULL UNIQUE,
 					   Rol_Estado CHAR NOT NULL CHECK (Rol_Estado IN ('A', 'N')))
 				
-INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado)
-VALUES ('Administrador General', 'A')
-						 
-INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado)
-VALUES ('Recepcionista', 'A')						 
+INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado) VALUES ('Administrador General', 'A')
+INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado) VALUES ('Recepcionista', 'A')						 
+INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado) VALUES ('Guest', 'A')		
 
-INSERT INTO G_N.Roles(Rol_Nombre, Rol_Estado)
-VALUES ('Guest', 'A')		
+--- Usuarios_Roles
+CREATE TABLE G_N.Usuarios_Roles(Usuario_Id INT FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
+								Rol_Id INT FOREIGN KEY REFERENCES G_N.Roles(Rol_Id),
+								PRIMARY KEY (Usuario_Id, Rol_Id))
 
+INSERT INTO G_N.Usuarios_Roles VALUES(1, 1)
+								
 --- TABLA FUNCIONALIDADES
 CREATE TABLE G_N.Funcionalidades(Funcionalidad_Id INT IDENTITY(1,1) PRIMARY KEY,
 								 Funcionalidad_Nombre NVARCHAR(50) NOT NULL UNIQUE)
@@ -370,5 +378,3 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 11) /
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 5) /* Administrador - Generar Reserva  */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 6) /* Administrador - Modificar Reserva */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 7) /* Administrador - Cancelar Reserva */
-
-
