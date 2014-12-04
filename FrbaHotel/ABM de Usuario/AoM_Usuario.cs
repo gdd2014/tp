@@ -9,11 +9,13 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.ABM_de_Usuario
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
+    public partial class AoM_Usuario : Form {
+        public AoM_Usuario() {
             InitializeComponent();
+        }
+
+        private void AoM_Usuario_Load(object sender, EventArgs e) {
+
         }
     }
 }

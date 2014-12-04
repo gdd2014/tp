@@ -278,8 +278,7 @@ DROP TABLE G_N.#Reservas_Temp
 CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
 						  Usuario_Password NVARCHAR(255) NOT NULL,
-						  Usuario_Nombre NVARCHAR(255)NOT NULL,	
-						  Usuario_Apellido NVARCHAR(255)NOT NULL,
+						  Usuario_Nombre_Completo NVARCHAR(255)NOT NULL,	
 						  Usuario_Documento_Tipo_Id INT NOT NULL,
 						  Usuario_Documento_Nro NUMERIC(18,0) NOT NULL,
 						  Usuario_Mail NVARCHAR(255) NOT NULL,
@@ -290,8 +289,7 @@ CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 				
 INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Password,
-						 Usuario_Nombre,	
-						 Usuario_Apellido,
+						 Usuario_Nombre_Completo,	
 						 Usuario_Documento_Tipo_Id,
 						 Usuario_Documento_Nro,
 						 Usuario_Mail,
@@ -300,8 +298,7 @@ INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Fecha_Nac)	
 	VALUES('admin', 
 		   'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
-		   'Martin',
-		   'Perez',
+		   'Martin Perez',
 		   1, 
 		   33204625,
 		   'martinperez@gmail.com', 
@@ -336,7 +333,7 @@ INSERT INTO G_N.Usuarios_Roles VALUES(1, 1)
 --- TABLA FUNCIONALIDADES
 CREATE TABLE G_N.Funcionalidades(Funcionalidad_Id INT IDENTITY(1,1) PRIMARY KEY,
 								 Funcionalidad_Nombre NVARCHAR(50) NOT NULL UNIQUE)
-
+								 
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Cliente')		
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Hotel')		
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Habitacion')		
@@ -348,7 +345,7 @@ INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Registrar Estadia
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Registrar Consumibles')
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Facturar Publicaciones')
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Listado Estadistico')		
-
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Usuario')
 
 --- TABLA ROLES-FUNCIONALIDADES
 
@@ -368,6 +365,7 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 8) /*
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 9) /* Administrador - Registrar Consumibles */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 10) /* Administrador - Facturar Publicaciones */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 11) /* Administrador - Listado Estadistico */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 12) /* Administrador - ABM Usuarios */
 
 --- FUNCIONALIDADES DE RECEPCIONISTA
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 1) /* Administrador - ABM Cliente */

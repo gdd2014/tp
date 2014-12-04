@@ -22,16 +22,13 @@ namespace FrbaHotel {
             loginForm.Show();
         }
 
-        private void ventanaPrincipal_Load(object sender, EventArgs e) {
-
-        }
-
+       
         private void botonGuest_Click(object sender, EventArgs e) {
-            // Create a new instance of the Form2 class
-            ABM_de_Rol.ABM_Roles rolesForm = new ABM_de_Rol.ABM_Roles();
+            
+            Menu_Principal.MenuPrincipalForm mainMenu = new Menu_Principal.MenuPrincipalForm(-1, 3, -1);
 
             // Show the settings form
-            rolesForm.Show();
+            mainMenu.Show();
         }
 
     }

@@ -11,10 +11,8 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.ABM_de_Rol
 {
-    public partial class ABM_Roles : Form
-    {
-        public ABM_Roles()
-        {
+    public partial class ABM_Roles : Form {
+        public ABM_Roles() {
             InitializeComponent();
         }
 
@@ -37,5 +35,6 @@ namespace FrbaHotel.ABM_de_Rol
             con.Close();
             
         }
+
     }
 }

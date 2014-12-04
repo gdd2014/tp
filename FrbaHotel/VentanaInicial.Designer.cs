@@ -84,7 +84,6 @@
             this.Controls.Add(this.botonLogin);
             this.Name = "ventanaPrincipal";
             this.Text = "Administración Hotelera";
-            this.Load += new System.EventHandler(this.ventanaPrincipal_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

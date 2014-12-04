@@ -72,11 +72,17 @@
     <Compile Include="ABM de Rol\ABM_Roles.Designer.cs">
       <DependentUpon>ABM_Roles.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM de Usuario\Form1.cs">
+    <Compile Include="ABM de Usuario\ABM_Usuarios.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM de Usuario\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ABM de Usuario\ABM_Usuarios.Designer.cs">
+      <DependentUpon>ABM_Usuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Usuario\AoM_Usuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Usuario\AoM_Usuario.Designer.cs">
+      <DependentUpon>AoM_Usuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Cancelar Reserva\Form1.cs">
       <SubType>Form</SubType>
@@ -84,11 +90,16 @@
     <Compile Include="Cancelar Reserva\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\SeleccionDeRolForm.cs">
+    <Compile Include="GD2C2014DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GD2C2014DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Login\SeleccionDeRolYHotelForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login\SeleccionDeRolForm.Designer.cs">
-      <DependentUpon>SeleccionDeRolForm.cs</DependentUpon>
+    <Compile Include="Login\SeleccionDeRolYHotelForm.Designer.cs">
+      <DependentUpon>SeleccionDeRolYHotelForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Menu Principal\MenuPrincipalForm.cs">
       <SubType>Form</SubType>
@@ -96,7 +107,7 @@
     <Compile Include="Menu Principal\MenuPrincipalForm.Designer.cs">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ConnectionUtils.cs" />
+    <Compile Include="Utils\DBUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="VentanaInicial.cs">
       <SubType>Form</SubType>
@@ -127,11 +138,17 @@
     <EmbeddedResource Include="ABM de Rol\ABM_Roles.resx">
       <DependentUpon>ABM_Roles.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\ABM_Usuarios.resx">
+      <DependentUpon>ABM_Usuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\AoM_Usuario.resx">
+      <DependentUpon>AoM_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\SeleccionDeRolForm.resx">
-      <DependentUpon>SeleccionDeRolForm.cs</DependentUpon>
+    <EmbeddedResource Include="Login\SeleccionDeRolYHotelForm.resx">
+      <DependentUpon>SeleccionDeRolYHotelForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu Principal\MenuPrincipalForm.resx">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
@@ -148,6 +165,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.config" />
+    <None Include="GD2C2014DataSet.xsc">
+      <DependentUpon>GD2C2014DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="GD2C2014DataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>GD2C2014DataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GD2C2014DataSet.xss">
+      <DependentUpon>GD2C2014DataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
