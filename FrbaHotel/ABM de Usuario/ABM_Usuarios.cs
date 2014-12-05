@@ -18,7 +18,7 @@ namespace FrbaHotel.ABM_de_Usuario {
 
         String query = "SELECT Usuario_Id AS Id, " +
                              " Usuario_userName AS Usuario, " +
-                             " Usuario_Nombre AS Nombre, " +
+                             " Usuario_Nombre_Completo AS Nombre, " +
                              " Usuario_Mail AS Email, " +
                              " Estado FROM G_N.Usuarios";
 
@@ -36,8 +36,6 @@ namespace FrbaHotel.ABM_de_Usuario {
             this.tablaUsuarios.Columns["Nombre"].Width = 150;
             this.tablaUsuarios.Columns["Email"].Width = 200;
             this.tablaUsuarios.Columns["Estado"].Width = 60;
-
-           
         }
 
         private void botonLimpiar_Click(object sender, EventArgs e) {
@@ -45,9 +43,7 @@ namespace FrbaHotel.ABM_de_Usuario {
         }
 
         private void botonBuscar_Click(object sender, EventArgs e) {
-            
             DBUtils.llenarDataGridView(tablaUsuarios, query + " WHERE Usuario_userName LIKE '%" + uNameTextbox.Text + "%'");
-            
         }
 
         private void dgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e) {
@@ -59,9 +55,18 @@ namespace FrbaHotel.ABM_de_Usuario {
             altaForm.Show();
         }
 
-       
-
-
+        private void botonEliminarUsuario_Click(object sender, EventArgs e) {
+            if (tablaUsuarios.SelectedRows.Count == 1) {
+                DialogResult dr = MessageBox.Show("¿Está seguro que desea eliminar el usuario seleccionado?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.Yes) {
+                    String uid = tablaUsuarios.SelectedRows[0].Cells[0].Value.ToString();
+                    DBUtils.borradoLogico("Usuarios", "Usuario_Id", uid);
+                }
+            } else {
+                MessageBox.Show("Por favor seleccione un usuario");
+            }
+        
+        }
 
     }
 }

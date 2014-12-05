@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="Utils\DBUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\UIUtils.cs" />
     <Compile Include="VentanaInicial.cs">
       <SubType>Form</SubType>
     </Compile>

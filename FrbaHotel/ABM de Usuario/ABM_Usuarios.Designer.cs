@@ -105,6 +105,7 @@ namespace FrbaHotel.ABM_de_Usuario
             this.botonEliminarUsuario.TabIndex = 6;
             this.botonEliminarUsuario.Text = "Eliminar Usuario";
             this.botonEliminarUsuario.UseVisualStyleBackColor = true;
+            this.botonEliminarUsuario.Click += new System.EventHandler(this.botonEliminarUsuario_Click);
             // 
             // botonModificarUsuario
             // 

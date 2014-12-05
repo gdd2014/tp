@@ -22,7 +22,7 @@ namespace FrbaHotel.Login {
 
             SqlConnection con = DBUtils.getOpenConnection();
 
-            String loginQuery = "SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=@un AND Usuario_Password=@pw" + DBUtils.soloActivos();
+            String loginQuery = "SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=@un AND Usuario_Password=@pw" + DBUtils.ySoloActivos();
 
             SqlCommand loginCmd = new SqlCommand(loginQuery, con);
             loginCmd.Parameters.AddWithValue("un", user);
@@ -41,14 +41,14 @@ namespace FrbaHotel.Login {
             } else {
                 // Verifico Roles...
                 String rolesDeUsuarioQuery = "SELECT ur.Rol_Id FROM G_N.Usuarios_Roles ur JOIN G_N.Roles r ON ur.Rol_Id = r.Rol_Id " +
-                                                "WHERE ur.Usuario_Id=" + userId + DBUtils.soloActivos();
+                                                "WHERE ur.Usuario_Id=" + userId + DBUtils.ySoloActivos();
 
                 List<int> roles = DBUtils.queryRetornaIds(rolesDeUsuarioQuery);
 
                 
                 // Verifico Hoteles...
                 String hotelesDeUsuarioQuery = "SELECT uh.Hotel_Id FROM G_N.Usuarios_Hoteles uh JOIN G_N.Hoteles h ON uh.Hotel_Id = h.Hotel_Id " +
-                                                    "WHERE uh.Usuario_Id=" + userId + DBUtils.soloActivos();
+                                                    "WHERE uh.Usuario_Id=" + userId + DBUtils.ySoloActivos();
 
                 List<int> hoteles = DBUtils.queryRetornaIds(hotelesDeUsuarioQuery);
                 
