@@ -60,10 +60,10 @@ namespace FrbaHotel.Utils {
         public static void ejecutarSP1SoloParam(String nombre, String param, String valor) {
             SqlConnection con = getOpenConnection();
 
-            SqlCommand cmd = new SqlCommand("G_N." + nombre);
+            SqlCommand cmd = new SqlCommand("G_N." + nombre, con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add(param, valor);
+            cmd.Parameters.AddWithValue(param, valor);
             cmd.ExecuteNonQuery();
 
             con.Close();
