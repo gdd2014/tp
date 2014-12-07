@@ -14,10 +14,9 @@ namespace FrbaHotel {
         }
 
         private void botonLogin_Click(object sender, EventArgs e) {
-            // Create a new instance of the Form2 class
+            
             Login.LoginForm loginForm = new Login.LoginForm();
 
-            // Show the settings form
             this.Hide();
             loginForm.Show();
         }

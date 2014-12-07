@@ -12,6 +12,7 @@ namespace FrbaHotel.ABM_de_Usuario {
     public partial class AoM_Usuario : Form {
 
         private String usuarioModificandoId;
+        private String pswActual;
         
         public AoM_Usuario(String usuarioModificandoId) {
             this.usuarioModificandoId = usuarioModificandoId;
@@ -42,9 +43,12 @@ namespace FrbaHotel.ABM_de_Usuario {
                 // Lleno los campos con los ceñl usuario que estoy modificando...
 
                 DataRow userDataRow = DBUtils.levantarRegistroBD("Usuarios", campos(), "Usuario_Id", usuarioModificandoId);
+
+                this.pswActual = (String)userDataRow.ItemArray[1];
+
                 uNameTextbox.Text = (String) userDataRow.ItemArray[0];
-                pswTextbox.Text = (String) userDataRow.ItemArray[1];
-                rPswTextbox.Text = (String) userDataRow.ItemArray[1];
+                pswTextbox.Text = this.pswActual;
+                rPswTextbox.Text = this.pswActual;
                 nombreCompletoTextbox.Text = (String) userDataRow.ItemArray[2];
                 tDocCombo.SelectedValue = ((int) userDataRow.ItemArray[3]).ToString();
                 nDocTextbox.Text = ((Decimal) userDataRow.ItemArray[4]).ToString();
@@ -70,13 +74,24 @@ namespace FrbaHotel.ABM_de_Usuario {
             UIUtils.mostrarErrores(errores);
 
             if (errores.Count == 0) {
-                DBUtils.insertar("Usuarios", campos(), valores());
-                String idAsignado = DBUtils.queryRetornaIds("SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=" + DBUtils.stringify(uNameTextbox.Text)).First().ToString();
-                
+                String idAsignado = usuarioModificandoId;
+
+                if (esModificacion()) {
+                    DBUtils.actualizar("Usuarios", campos(), valores(), "Usuario_Id", idAsignado);
+                } else {
+                    DBUtils.insertar("Usuarios", campos(), valores());
+                    idAsignado = DBUtils.queryRetornaIds("SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=" + DBUtils.stringify(uNameTextbox.Text)).First().ToString();
+                }
                 DBUtils.insertarNxNs("Usuarios_Roles", "Usuario_Id", idAsignado, "rolId", UIUtils.valoresSeleccionados(rolesListBox));
                 DBUtils.insertarNxNs("Usuarios_Hoteles", "Usuario_Id", idAsignado, "hotelId", UIUtils.valoresSeleccionados(hotelesListBox));
 
-                MessageBox.Show("Usuario generado exitosamente...");
+                if (esModificacion()) {
+                    MessageBox.Show("Usuario modificado exitosamente...");
+                }
+                else {
+                    MessageBox.Show("Usuario generado exitosamente...");
+                }
+                
                 this.Close();
             }
         }
@@ -92,7 +107,9 @@ namespace FrbaHotel.ABM_de_Usuario {
             UIUtils.validarTextboxCompleto(telTextbox, "Teléfono", errores);
             UIUtils.validarTextboxCompleto(nDocTextbox, "Número de Documento", errores);
 
-            UIUtils.validarUnicidad(uNameTextbox, "Usuarios", "Usuario_userName", errores);
+            if (!esModificacion()) {
+                UIUtils.validarUnicidad(uNameTextbox, "Usuarios", "Usuario_userName", errores);
+            }
 
             UIUtils.validarComboCompleto(rolesListBox, "Roles", errores);
             UIUtils.validarComboCompleto(hotelesListBox, "Hoteles", errores);
@@ -121,9 +138,14 @@ namespace FrbaHotel.ABM_de_Usuario {
 
         private List<String> valores() {
             List<String> valores = new List<String>();
+            String pswText = pswTextbox.Text;
 
             valores.Add(DBUtils.stringify(uNameTextbox.Text));
-            valores.Add(DBUtils.stringify(StringUtils.getHashSha256(pswTextbox.Text)));
+            if (esModificacion() && pswText == pswActual) {
+                valores.Add(DBUtils.stringify(pswText));
+            } else {
+                valores.Add(DBUtils.stringify(StringUtils.getHashSha256(pswText)));
+            }
             valores.Add(DBUtils.stringify(nombreCompletoTextbox.Text));
             valores.Add(tDocCombo.SelectedValue.ToString());
             valores.Add(nDocTextbox.Text);

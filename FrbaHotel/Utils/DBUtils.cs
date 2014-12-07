@@ -33,6 +33,16 @@ namespace FrbaHotel.Utils {
             con.Close();
         }
 
+        public static void actualizar(String tabla, List<String> campos, List<String> valores, String campoId, String valorId) {
+            String query = "UPDATE G_N." + tabla + " SET " + StringUtils.aCampoIgualValor(campos, valores) +
+                                "WHERE " + campoId + "=" + valorId;
+
+            SqlConnection con = getOpenConnection();
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
         public static void insertarNxNs(String tabla, String campoLocal, String valorLocal, String campoFK, List<String> valoresFK) {
             String queryLimpiado = "DELETE FROM G_N." + tabla + " WHERE " + campoLocal + "=" + valorLocal;
             ejecutarQuery(queryLimpiado);
@@ -45,6 +55,18 @@ namespace FrbaHotel.Utils {
 
         public static String stringify(String baseStr) {
             return "'" + baseStr + "'";
+        }
+
+        public static void ejecutarSP1SoloParam(String nombre, String param, String valor) {
+            SqlConnection con = getOpenConnection();
+
+            SqlCommand cmd = new SqlCommand("G_N." + nombre);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add(param, valor);
+            cmd.ExecuteNonQuery();
+
+            con.Close();
         }
 
         public static void ejecutarQuery(String query) {

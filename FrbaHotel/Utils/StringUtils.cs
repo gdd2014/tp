@@ -17,5 +17,14 @@ namespace FrbaHotel.Utils {
             }
             return hashString;
         }
+
+        public static String aCampoIgualValor(List<String> campos, List<String> valores) {
+            List<String> vals = new List<String>();
+            for (int i = 0; i < campos.Count(); i++) {
+                vals.Add(campos[i] + "=" + valores[i]);
+            }
+
+            return " " + String.Join(",", vals.ToArray()) + " ";
+        }
     }
 }

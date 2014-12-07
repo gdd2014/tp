@@ -77,8 +77,6 @@
             this.loginButton.Text = "Iniciar Sesión";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
-            //this.loginButton.DataBindings.Add("Enabled", this, "isRdyToLogin");
-            
             // 
             // LoginForm
             // 
