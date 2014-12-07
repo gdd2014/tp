@@ -8,11 +8,18 @@ using System.Text;
 using System.Windows.Forms;
 using FrbaHotel.Utils;
 
-namespace FrbaHotel.ABM_de_Usuario
-{
+namespace FrbaHotel.ABM_de_Usuario {
     public partial class AoM_Usuario : Form {
-        public AoM_Usuario() {
+
+        private String usuarioModificandoId;
+        
+        public AoM_Usuario(String usuarioModificandoId) {
+            this.usuarioModificandoId = usuarioModificandoId;
             InitializeComponent();
+        }
+
+        private Boolean esModificacion() {
+            return usuarioModificandoId != null;
         }
 
         private void AoM_Usuario_Load(object sender, EventArgs e) {
@@ -29,6 +36,33 @@ namespace FrbaHotel.ABM_de_Usuario
             DBUtils.llenarComboBox(tDocCombo, tDocQuery, "tDocId", "tDocDesc");
 
             activoCheckbox.Checked = true;
+
+            if (this.esModificacion()) {
+                this.Text = "Modificación de Usuario";
+                // Lleno los campos con los ceñl usuario que estoy modificando...
+
+                DataRow userDataRow = DBUtils.levantarRegistroBD("Usuarios", campos(), "Usuario_Id", usuarioModificandoId);
+                uNameTextbox.Text = (String) userDataRow.ItemArray[0];
+                pswTextbox.Text = (String) userDataRow.ItemArray[1];
+                rPswTextbox.Text = (String) userDataRow.ItemArray[1];
+                nombreCompletoTextbox.Text = (String) userDataRow.ItemArray[2];
+                tDocCombo.SelectedValue = ((int) userDataRow.ItemArray[3]).ToString();
+                nDocTextbox.Text = ((Decimal) userDataRow.ItemArray[4]).ToString();
+                emailTextbox.Text = (String) userDataRow.ItemArray[5];
+                telTextbox.Text = (String) userDataRow.ItemArray[6];
+                domicilioTextBox.Text = (String) userDataRow.ItemArray[7];
+                fNacDTP.Value = (DateTime) userDataRow.ItemArray[8];
+                activoCheckbox.Checked = ConversionUtils.estadoABool((String)userDataRow.ItemArray[9]);
+
+                List<int> roles = DBUtils.queryRetornaIds("SELECT Rol_Id FROM G_N.Usuarios_Roles WHERE Usuario_Id=" + usuarioModificandoId);
+                rolesListBox.ClearSelected();
+                UIUtils.seleccionarItems(rolesListBox, roles);
+
+
+                List<int> hoteles = DBUtils.queryRetornaIds("SELECT Hotel_Id FROM G_N.Usuarios_Hoteles WHERE Usuario_Id=" + usuarioModificandoId);
+                hotelesListBox.ClearSelected();
+                UIUtils.seleccionarItems(hotelesListBox, hoteles);
+            }
         }
 
         private void botonGuardar_Click(object sender, EventArgs e) {
@@ -39,7 +73,8 @@ namespace FrbaHotel.ABM_de_Usuario
                 DBUtils.insertar("Usuarios", campos(), valores());
                 String idAsignado = DBUtils.queryRetornaIds("SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=" + DBUtils.stringify(uNameTextbox.Text)).First().ToString();
                 
-                DBUtils.insertarFKs("Usuarios_Roles", "Usuario_Id", idAsignado, "rolId", UIUtils.valoresSeleccionados(rolesListBox));
+                DBUtils.insertarNxNs("Usuarios_Roles", "Usuario_Id", idAsignado, "rolId", UIUtils.valoresSeleccionados(rolesListBox));
+                DBUtils.insertarNxNs("Usuarios_Hoteles", "Usuario_Id", idAsignado, "hotelId", UIUtils.valoresSeleccionados(hotelesListBox));
 
                 MessageBox.Show("Usuario generado exitosamente...");
                 this.Close();
@@ -95,8 +130,8 @@ namespace FrbaHotel.ABM_de_Usuario
             valores.Add(DBUtils.stringify(emailTextbox.Text));
             valores.Add(DBUtils.stringify(telTextbox.Text));
             valores.Add(DBUtils.stringify(domicilioTextBox.Text));
-            valores.Add(DBUtils.stringify(fNacDTP.Value.ToString("yyyy-MM-dd")));
-            valores.Add(DBUtils.boolAEstado(activoCheckbox.Checked));
+            valores.Add(DBUtils.stringify(ConversionUtils.dateTimeAStr(fNacDTP.Value)));
+            valores.Add(ConversionUtils.boolAEstado(activoCheckbox.Checked));
 
             return valores;
         }

@@ -33,7 +33,6 @@ namespace FrbaHotel.Menu_Principal {
 
         private void botonAbmUsuarios_Click(object sender, EventArgs e) {
             ABM_Usuarios uf = new ABM_Usuarios(userId, rolId, hotelId);
-            this.Close();
             uf.Show();
 
         }

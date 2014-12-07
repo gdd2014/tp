@@ -115,6 +115,7 @@ namespace FrbaHotel.ABM_de_Usuario
             this.botonModificarUsuario.TabIndex = 7;
             this.botonModificarUsuario.Text = "Modificar Usuario";
             this.botonModificarUsuario.UseVisualStyleBackColor = true;
+            this.botonModificarUsuario.Click += new System.EventHandler(this.botonModificarUsuario_Click);
             // 
             // ABM_Usuarios
             // 

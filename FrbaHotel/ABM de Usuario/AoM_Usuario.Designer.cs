@@ -309,7 +309,7 @@
             this.Controls.Add(this.uNameTextbox);
             this.Controls.Add(this.label1);
             this.Name = "AoM_Usuario";
-            this.Text = "Usuario";
+            this.Text = "Alta de Usuario";
             this.Load += new System.EventHandler(this.AoM_Usuario_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

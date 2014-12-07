@@ -33,7 +33,7 @@ namespace FrbaHotel.Utils {
             con.Close();
         }
 
-        public static void insertarFKs(String tabla, String campoLocal, String valorLocal, String campoFK, List<String> valoresFK) {
+        public static void insertarNxNs(String tabla, String campoLocal, String valorLocal, String campoFK, List<String> valoresFK) {
             String queryLimpiado = "DELETE FROM G_N." + tabla + " WHERE " + campoLocal + "=" + valorLocal;
             ejecutarQuery(queryLimpiado);
 
@@ -45,15 +45,6 @@ namespace FrbaHotel.Utils {
 
         public static String stringify(String baseStr) {
             return "'" + baseStr + "'";
-        }
-
-        public static String boolAEstado(Boolean checkeado) {
-            String character;
-            if (checkeado) {
-                character = "'A'"; 
-            } else character = "'N'";
-
-            return character;
         }
 
         public static void ejecutarQuery(String query) {
@@ -123,6 +114,22 @@ namespace FrbaHotel.Utils {
 
             reader.Close();
             con.Close();
+        }
+
+        public static DataRow levantarRegistroBD(String tabla, List<String> campos, String campoId, String valorId) {
+            SqlConnection con = getOpenConnection();
+
+            DataTable dt = new DataTable();
+
+            String q = "SELECT " + String.Join(",", campos.ToArray()) + " FROM G_N." + tabla + " WHERE " + campoId + "=" + valorId;
+
+            SqlCommand comando = new SqlCommand(q, con);
+            SqlDataAdapter adapter = new SqlDataAdapter(comando);
+            adapter.Fill(dt);
+
+            con.Close();
+
+            return dt.Rows[0];
         }
 
         public static String ySoloActivos() {

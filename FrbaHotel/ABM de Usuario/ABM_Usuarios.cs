@@ -51,7 +51,7 @@ namespace FrbaHotel.ABM_de_Usuario {
         }
 
         private void botonNuevoUsuario_Click(object sender, EventArgs e) {
-            AoM_Usuario altaForm = new AoM_Usuario();
+            AoM_Usuario altaForm = new AoM_Usuario(null);
             altaForm.Show();
         }
 
@@ -66,6 +66,17 @@ namespace FrbaHotel.ABM_de_Usuario {
                 MessageBox.Show("Por favor seleccione un usuario");
             }
         
+        }
+
+        private void botonModificarUsuario_Click(object sender, EventArgs e) {
+            if (tablaUsuarios.SelectedRows.Count == 1) {
+                String uid = tablaUsuarios.SelectedRows[0].Cells[0].Value.ToString();
+                AoM_Usuario modificacionForm = new AoM_Usuario(uid);
+                modificacionForm.Show();
+            }
+            else {
+                MessageBox.Show("Por favor seleccione un usuario");
+            }
         }
 
     }

@@ -107,6 +107,7 @@
     <Compile Include="Menu Principal\MenuPrincipalForm.Designer.cs">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ConversionUtils.cs" />
     <Compile Include="Utils\DBUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\UIUtils.cs" />

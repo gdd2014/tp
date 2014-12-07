@@ -58,6 +58,19 @@ namespace FrbaHotel.Utils {
             }
             return valores;
         }
+
+        public static void seleccionarItems(ListBox lb, List<int> valoresASeleccionar) {
+            List<DataRowView> seleccionados = new List<DataRowView>();
+            foreach (DataRowView item in lb.Items) {
+                String valor = item[lb.ValueMember].ToString();
+                if (valoresASeleccionar.Contains(Convert.ToInt32(valor))) {
+                    seleccionados.Add(item);
+                }
+            }
+            foreach (DataRowView item in seleccionados) {
+                lb.SelectedItems.Add(item);
+            }
+        }
    
     }
 }
