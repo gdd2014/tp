@@ -36,5 +36,15 @@ namespace FrbaHotel.ABM_de_Rol
             
         }
 
+        private void tablaDeRoles_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void titulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

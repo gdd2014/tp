@@ -37,6 +37,7 @@ namespace FrbaHotel.Login {
             reader.Close();
 
             if (userId == -1) {
+                DBUtils.ejecutarSP1SoloParam("Registrar_Login_Fallido", "@Username", userTextbox.Text);
                 MessageBox.Show("Usuario y/o contraseña incorrectos...");
             } else {
                 // Verifico Roles...

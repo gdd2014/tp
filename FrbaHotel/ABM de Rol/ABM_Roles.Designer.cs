@@ -40,6 +40,7 @@
             this.titulo.Size = new System.Drawing.Size(184, 13);
             this.titulo.TabIndex = 0;
             this.titulo.Text = "Altas bajas y modificaciones de Roles";
+            this.titulo.Click += new System.EventHandler(this.titulo_Click);
             // 
             // tablaDeRoles
             // 
@@ -48,6 +49,7 @@
             this.tablaDeRoles.Name = "tablaDeRoles";
             this.tablaDeRoles.Size = new System.Drawing.Size(444, 150);
             this.tablaDeRoles.TabIndex = 1;
+            this.tablaDeRoles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tablaDeRoles_CellContentClick);
             // 
             // ABM_Roles
             // 
