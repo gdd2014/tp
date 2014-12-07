@@ -40,6 +40,8 @@ namespace FrbaHotel.Login {
                 DBUtils.ejecutarSP1SoloParam("Registrar_Login_Fallido", "@Username", userTextbox.Text);
                 MessageBox.Show("Usuario y/o contraseña incorrectos...");
             } else {
+                DBUtils.ejecutarSP1SoloParam("Resetear_Login_Fallido", "@Username", userTextbox.Text);
+                
                 // Verifico Roles...
                 String rolesDeUsuarioQuery = "SELECT ur.Rol_Id FROM G_N.Usuarios_Roles ur JOIN G_N.Roles r ON ur.Rol_Id = r.Rol_Id " +
                                                 "WHERE ur.Usuario_Id=" + userId + DBUtils.ySoloActivos();
