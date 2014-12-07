@@ -285,7 +285,8 @@ CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_Telefono NVARCHAR(30),
 						  Usuario_Direccion NVARCHAR (255),
 						  Usuario_Fecha_Nac DATE NOT NULL,
-						  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
+						  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A',
+						  Usuario_Logins_Fallidos INT DEFAULT 0)
 				
 INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Password,
@@ -381,3 +382,40 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 11) /
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 5) /* Administrador - Generar Reserva  */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 6) /* Administrador - Modificar Reserva */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 7) /* Administrador - Cancelar Reserva */
+
+--------------- TERCERA PARTE --------------------------------------------------------------------
+
+--------------------------- REGISTRO LOGIN FALLIDO -----------------------------------------------
+
+CREATE PROCEDURE G_N.Registrar_Login_Fallido 
+	@Username NVARCHAR (50)
+AS
+BEGIN 
+	DECLARE @Cantidad_Logins INT 
+	SET @Cantidad_Logins = (SELECT U.Usuario_logins_Fallidos FROM G_N.Usuarios U)
+	SET @Cantidad_Logins = (@Cantidad_Logins + 1)
+	IF (@Cantidad_Logins >= 3)
+	BEGIN
+		UPDATE G_N.Usuarios
+		SET Estado = 'N'
+		WHERE @Username = Usuario_UserName
+	END
+	UPDATE G_N.Usuarios
+	SET Usuario_Logins_Fallidos = @Cantidad_Logins
+	WHERE @Username = Usuario_UserName
+END
+GO
+
+
+--------------------------------- RESETEO LOGIN FALLIDO -------------------------------
+
+CREATE PROCEDURE G_N.Resetear_Login_fallido 
+	@Username NVARCHAR (50)
+AS
+BEGIN 
+	UPDATE G_N.Usuarios 
+	SET Estado = 'A',
+	Usuario_Logins_Fallidos = 0
+	WHERE Usuario_UserName = @Username
+END
+GO
