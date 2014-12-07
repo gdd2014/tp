@@ -140,7 +140,7 @@
             // 
             // nombreCompletoTextbox
             // 
-            this.nombreCompletoTextbox.Location = new System.Drawing.Point(387, 19);
+            this.nombreCompletoTextbox.Location = new System.Drawing.Point(387, 21);
             this.nombreCompletoTextbox.Name = "nombreCompletoTextbox";
             this.nombreCompletoTextbox.Size = new System.Drawing.Size(143, 20);
             this.nombreCompletoTextbox.TabIndex = 8;

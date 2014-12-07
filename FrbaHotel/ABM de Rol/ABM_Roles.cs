@@ -46,5 +46,10 @@ namespace FrbaHotel.ABM_de_Rol
 
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
