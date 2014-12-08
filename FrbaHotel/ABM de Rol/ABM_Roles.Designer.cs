@@ -41,80 +41,84 @@
             // titulo
             // 
             this.titulo.AutoSize = true;
-            this.titulo.Location = new System.Drawing.Point(32, 21);
+            this.titulo.Location = new System.Drawing.Point(18, 19);
             this.titulo.Name = "titulo";
             this.titulo.Size = new System.Drawing.Size(86, 13);
             this.titulo.TabIndex = 0;
             this.titulo.Text = "Nombre del Rol: ";
-            this.titulo.Click += new System.EventHandler(this.titulo_Click);
             // 
             // tablaDeRoles
             // 
             this.tablaDeRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeRoles.Location = new System.Drawing.Point(35, 64);
+            this.tablaDeRoles.Location = new System.Drawing.Point(21, 62);
             this.tablaDeRoles.Name = "tablaDeRoles";
             this.tablaDeRoles.Size = new System.Drawing.Size(383, 150);
             this.tablaDeRoles.TabIndex = 1;
-            this.tablaDeRoles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tablaDeRoles_CellContentClick);
+            this.tablaDeRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tablaDeRoles.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgv_RowPrePaint);
             // 
             // nombreDeRolTb
             // 
-            this.nombreDeRolTb.Location = new System.Drawing.Point(124, 18);
+            this.nombreDeRolTb.Location = new System.Drawing.Point(110, 16);
             this.nombreDeRolTb.Name = "nombreDeRolTb";
             this.nombreDeRolTb.Size = new System.Drawing.Size(100, 20);
             this.nombreDeRolTb.TabIndex = 2;
-            this.nombreDeRolTb.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // buscarButton
             // 
-            this.buscarButton.Location = new System.Drawing.Point(291, 16);
+            this.buscarButton.Location = new System.Drawing.Point(225, 13);
             this.buscarButton.Name = "buscarButton";
             this.buscarButton.Size = new System.Drawing.Size(75, 23);
             this.buscarButton.TabIndex = 3;
             this.buscarButton.Text = "Buscar";
             this.buscarButton.UseVisualStyleBackColor = true;
+            this.buscarButton.Click += new System.EventHandler(this.buscarButton_Click);
             // 
             // limpiarButton
             // 
-            this.limpiarButton.Location = new System.Drawing.Point(386, 16);
+            this.limpiarButton.Location = new System.Drawing.Point(315, 14);
             this.limpiarButton.Name = "limpiarButton";
             this.limpiarButton.Size = new System.Drawing.Size(75, 23);
             this.limpiarButton.TabIndex = 4;
             this.limpiarButton.Text = "Limpiar";
             this.limpiarButton.UseVisualStyleBackColor = true;
+            this.limpiarButton.Click += new System.EventHandler(this.limpiarButton_Click);
             // 
             // eliminarRolButton
             // 
-            this.eliminarRolButton.Location = new System.Drawing.Point(42, 246);
+            this.eliminarRolButton.Location = new System.Drawing.Point(28, 244);
             this.eliminarRolButton.Name = "eliminarRolButton";
             this.eliminarRolButton.Size = new System.Drawing.Size(75, 23);
             this.eliminarRolButton.TabIndex = 5;
             this.eliminarRolButton.Text = "Eliminar Rol";
             this.eliminarRolButton.UseVisualStyleBackColor = true;
+            this.eliminarRolButton.Click += new System.EventHandler(this.eliminarRolButton_Click);
             // 
             // modificarRolButton
             // 
-            this.modificarRolButton.Location = new System.Drawing.Point(134, 246);
+            this.modificarRolButton.Location = new System.Drawing.Point(120, 244);
             this.modificarRolButton.Name = "modificarRolButton";
             this.modificarRolButton.Size = new System.Drawing.Size(90, 23);
             this.modificarRolButton.TabIndex = 6;
             this.modificarRolButton.Text = "Modificar Rol";
             this.modificarRolButton.UseVisualStyleBackColor = true;
+            this.modificarRolButton.Click += new System.EventHandler(this.modificarRolButton_Click);
             // 
             // nuevoRolButton
             // 
-            this.nuevoRolButton.Location = new System.Drawing.Point(386, 246);
+            this.nuevoRolButton.Location = new System.Drawing.Point(315, 244);
             this.nuevoRolButton.Name = "nuevoRolButton";
             this.nuevoRolButton.Size = new System.Drawing.Size(75, 23);
             this.nuevoRolButton.TabIndex = 7;
             this.nuevoRolButton.Text = "Nuevo Rol";
             this.nuevoRolButton.UseVisualStyleBackColor = true;
+            this.nuevoRolButton.Click += new System.EventHandler(this.nuevoRolButton_Click);
             // 
             // ABM_Roles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 285);
+            this.ClientSize = new System.Drawing.Size(429, 285);
             this.Controls.Add(this.nuevoRolButton);
             this.Controls.Add(this.modificarRolButton);
             this.Controls.Add(this.eliminarRolButton);
@@ -125,7 +129,6 @@
             this.Controls.Add(this.titulo);
             this.Name = "ABM_Roles";
             this.Text = "ABM de Roles";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeRoles)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

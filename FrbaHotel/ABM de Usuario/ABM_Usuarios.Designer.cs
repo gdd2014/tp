@@ -82,9 +82,9 @@ namespace FrbaHotel.ABM_de_Usuario
             this.tablaUsuarios.Location = new System.Drawing.Point(30, 72);
             this.tablaUsuarios.MultiSelect = false;
             this.tablaUsuarios.Name = "tablaUsuarios";
-            this.tablaUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaUsuarios.Size = new System.Drawing.Size(564, 150);
             this.tablaUsuarios.TabIndex = 4;
+            this.tablaUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaUsuarios.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgv_RowPrePaint);
             // 
             // botonNuevoUsuario

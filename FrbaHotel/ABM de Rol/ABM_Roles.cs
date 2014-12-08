@@ -8,48 +8,67 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FrbaHotel.Utils;
 
 namespace FrbaHotel.ABM_de_Rol
 {
     public partial class ABM_Roles : Form {
+
+
+        String query = "SELECT Rol_Id AS Id, " +
+                             " Rol_Nombre AS Rol, " +
+                             " Estado FROM G_N.Roles";
+
         public ABM_Roles() {
             InitializeComponent();
+
+            DBUtils.llenarDataGridView(tablaDeRoles, query);
+
+            this.tablaDeRoles.Columns["Id"].Visible = false;
+            this.tablaDeRoles.Columns["Rol"].Width = 275;
+            this.tablaDeRoles.Columns["Estado"].Width = 60;
         }
 
-        System.Data.SqlClient.SqlConnection con;
-
-        private void Form1_Load(object sender, EventArgs e) {
-            con = new System.Data.SqlClient.SqlConnection();
-            con.ConnectionString = "Data Source=localhost\\SQLSERVER2008;Initial Catalog=GD2C2014;Persist Security Info=True;User ID=gd;Password=gd2014";
-
-            String query = "SELECT Hotel_Dom_Calle AS Dirección, Hotel_Estrellas AS Estrellas FROM G_N.Hoteles";
-
-            con.Open();
-
-            DataSet dataSet = new DataSet();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
-            dataAdapter.SelectCommand.CommandTimeout = 600;
-            dataAdapter.Fill(dataSet);
-            tablaDeRoles.DataSource = dataSet.Tables[0];
-
-            con.Close();
-            
+        private void buscarButton_Click(object sender, EventArgs e) {
+            DBUtils.llenarDataGridView(tablaDeRoles, query + " WHERE Rol_Nombre LIKE '%" + nombreDeRolTb.Text + "%'");
         }
 
-        private void tablaDeRoles_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+        private void limpiarButton_Click(object sender, EventArgs e) {
+            nombreDeRolTb.Text = "";
         }
 
-        private void titulo_Click(object sender, EventArgs e)
-        {
-
+        private void dgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e) {
+            e.PaintParts &= ~DataGridViewPaintParts.Focus;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+        private void eliminarRolButton_Click(object sender, EventArgs e) {
+            if (tablaDeRoles.SelectedRows.Count == 1) {
+                DialogResult dr = MessageBox.Show("¿Está seguro que desea eliminar el rol seleccionado?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.Yes) {
+                    String rid = tablaDeRoles.SelectedRows[0].Cells[0].Value.ToString();
+                    DBUtils.borradoLogico("Roles", "Rol_Id", rid);
+                }
+            } else {
+                MessageBox.Show("Por favor seleccione un rol");
+            }
         }
+
+        private void modificarRolButton_Click(object sender, EventArgs e) {
+            if (tablaDeRoles.SelectedRows.Count == 1) {
+                String rid = tablaDeRoles.SelectedRows[0].Cells[0].Value.ToString();
+                AoM_Rol modificacionForm = new AoM_Rol(rid);
+                modificacionForm.Show();
+            }
+            else {
+                MessageBox.Show("Por favor seleccione un rol");
+            }
+        }
+
+        private void nuevoRolButton_Click(object sender, EventArgs e) {
+            AoM_Rol altaForm = new AoM_Rol(null);
+            altaForm.Show();
+        }
+ 
 
     }
 }

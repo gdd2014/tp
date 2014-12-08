@@ -347,6 +347,7 @@ INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Registrar Consumi
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Facturar Publicaciones')
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Listado Estadistico')		
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Usuario')
+INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Rol')
 
 --- TABLA ROLES-FUNCIONALIDADES
 
@@ -367,6 +368,7 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 9) /*
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 10) /* Administrador - Facturar Publicaciones */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 11) /* Administrador - Listado Estadistico */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 12) /* Administrador - ABM Usuarios */
+INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 13) /* Administrador - ABM Roles */
 
 --- FUNCIONALIDADES DE RECEPCIONISTA
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 1) /* Administrador - ABM Cliente */

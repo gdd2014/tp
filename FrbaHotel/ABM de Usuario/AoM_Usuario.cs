@@ -37,6 +37,9 @@ namespace FrbaHotel.ABM_de_Usuario {
             DBUtils.llenarComboBox(tDocCombo, tDocQuery, "tDocId", "tDocDesc");
 
             activoCheckbox.Checked = true;
+            botonLimpiar.Enabled = !esModificacion();
+            rolesListBox.ClearSelected();
+            hotelesListBox.ClearSelected();
 
             if (this.esModificacion()) {
                 this.Text = "Modificación de Usuario";
@@ -156,6 +159,26 @@ namespace FrbaHotel.ABM_de_Usuario {
             valores.Add(ConversionUtils.boolAEstado(activoCheckbox.Checked));
 
             return valores;
+        }
+
+        private void nDocTextbox_KeyPressed(object sender, KeyPressEventArgs e) {
+            UIUtils.soloNumeros(e);
+        }
+
+        private void botonLimpiar_Click(object sender, EventArgs e) {
+            uNameTextbox.Text = "";
+            pswTextbox.Text = "";
+            rPswTextbox.Text = "";
+            tDocCombo.SelectedValue = "";
+            nDocTextbox.Text = "";
+            fNacDTP.Value = DateTime.Now;
+            nombreCompletoTextbox.Text = "";
+            emailTextbox.Text = "";
+            domicilioTextBox.Text = "";
+            telTextbox.Text = "";
+            activoCheckbox.Checked = true;
+            rolesListBox.ClearSelected();
+            hotelesListBox.ClearSelected();
         }
     }
 }

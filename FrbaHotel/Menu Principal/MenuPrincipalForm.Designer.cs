@@ -30,6 +30,7 @@
         {
             this.mensajeLabel = new System.Windows.Forms.Label();
             this.botonAbmUsuarios = new System.Windows.Forms.Button();
+            this.botonAbmRoles = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mensajeLabel
@@ -51,11 +52,22 @@
             this.botonAbmUsuarios.UseVisualStyleBackColor = true;
             this.botonAbmUsuarios.Click += new System.EventHandler(this.botonAbmUsuarios_Click);
             // 
+            // botonABMRoles
+            // 
+            this.botonAbmRoles.Location = new System.Drawing.Point(188, 45);
+            this.botonAbmRoles.Name = "botonABMRoles";
+            this.botonAbmRoles.Size = new System.Drawing.Size(97, 23);
+            this.botonAbmRoles.TabIndex = 2;
+            this.botonAbmRoles.Text = "ABM de Roles";
+            this.botonAbmRoles.UseVisualStyleBackColor = true;
+            this.botonAbmRoles.Click += new System.EventHandler(this.botonABMRoles_Click);
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 204);
+            this.Controls.Add(this.botonAbmRoles);
             this.Controls.Add(this.botonAbmUsuarios);
             this.Controls.Add(this.mensajeLabel);
             this.Name = "MenuPrincipalForm";
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Label mensajeLabel;
         private System.Windows.Forms.Button botonAbmUsuarios;
+        private System.Windows.Forms.Button botonAbmRoles;
     }
 }

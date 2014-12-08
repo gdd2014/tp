@@ -177,6 +177,7 @@
             this.nDocTextbox.Name = "nDocTextbox";
             this.nDocTextbox.Size = new System.Drawing.Size(59, 20);
             this.nDocTextbox.TabIndex = 5;
+            this.nDocTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nDocTextbox_KeyPressed);
             // 
             // telTextbox
             // 
@@ -220,6 +221,7 @@
             this.botonLimpiar.TabIndex = 15;
             this.botonLimpiar.Text = "Limpiar";
             this.botonLimpiar.UseVisualStyleBackColor = true;
+            this.botonLimpiar.Click += new System.EventHandler(this.botonLimpiar_Click);
             // 
             // botonGuardar
             // 

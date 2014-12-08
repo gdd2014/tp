@@ -8,6 +8,23 @@ using System.Data;
 namespace FrbaHotel.Utils {
     
     static class UIUtils {
+
+        //Para que el textBox solo permita el tipeo de numeros
+        public static void soloNumeros(KeyPressEventArgs e) {
+            if (char.IsLetter(e.KeyChar) || //Letras
+                char.IsSymbol(e.KeyChar) || //Símbolos
+                char.IsWhiteSpace(e.KeyChar) || //Espacios
+                char.IsPunctuation(e.KeyChar)) //Puntuacion
+                e.Handled = true; //No permitir
+        }
+
+        //Para que el textBox solo permita el tipeo de letras
+        public static void soloLetras(KeyPressEventArgs e) {
+            if (char.IsNumber(e.KeyChar) || //Numeros
+                char.IsSymbol(e.KeyChar) || //Símbolos
+                char.IsPunctuation(e.KeyChar)) //Puntuacion
+                e.Handled = true; //No permitir
+        }
         
         public static void mostrarErrores(List<String> errores) {
             if (errores.Count > 0) {
