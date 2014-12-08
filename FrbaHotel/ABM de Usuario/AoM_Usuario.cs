@@ -43,7 +43,7 @@ namespace FrbaHotel.ABM_de_Usuario {
 
             if (this.esModificacion()) {
                 this.Text = "Modificación de Usuario";
-                // Lleno los campos con los ceñl usuario que estoy modificando...
+                // Lleno los campos con los del usuario que estoy modificando...
 
                 DataRow userDataRow = DBUtils.levantarRegistroBD("Usuarios", campos(), "Usuario_Id", usuarioModificandoId);
 

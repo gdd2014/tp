@@ -50,11 +50,11 @@
             // tablaDeRoles
             // 
             this.tablaDeRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeRoles.Location = new System.Drawing.Point(21, 62);
+            this.tablaDeRoles.Location = new System.Drawing.Point(28, 53);
             this.tablaDeRoles.Name = "tablaDeRoles";
+            this.tablaDeRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaDeRoles.Size = new System.Drawing.Size(383, 150);
             this.tablaDeRoles.TabIndex = 1;
-            this.tablaDeRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaDeRoles.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgv_RowPrePaint);
             // 
             // nombreDeRolTb

@@ -117,7 +117,8 @@ CREATE TABLE G_N.Clientes(Cliente_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Cliente_Depto NVARCHAR(50) NOT NULL,
 						  Cliente_Nacionalidad NVARCHAR(255) NOT NULL,
 						  Cliente_Mail_Repetido CHAR(1) DEFAULT 'F',
-						  Cliente_Documento_Repetido CHAR(1) DEFAULT 'F')
+						  Cliente_Documento_Repetido CHAR(1) DEFAULT 'F',
+						  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
 						  
 ALTER TABLE G_N.Clientes ADD CONSTRAINT MailRepeTrueOFalse CHECK (Cliente_Mail_Repetido IN ('F', 'T'))
 ALTER TABLE G_N.Clientes ADD CONSTRAINT DocRepeTrueOFalse CHECK (Cliente_Documento_Repetido IN ('F', 'T'))

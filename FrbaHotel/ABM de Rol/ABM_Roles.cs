@@ -68,7 +68,6 @@ namespace FrbaHotel.ABM_de_Rol
             AoM_Rol altaForm = new AoM_Rol(null);
             altaForm.Show();
         }
- 
 
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using FrbaHotel.Utils;
 using FrbaHotel.ABM_de_Usuario;
 using FrbaHotel.ABM_de_Rol;
+using FrbaHotel.ABM_de_Cliente;
 
 using System.Windows.Forms;
 
@@ -31,17 +32,22 @@ namespace FrbaHotel.Menu_Principal {
 
             botonAbmUsuarios.Enabled = funcionalidades.Contains(12);
             botonAbmRoles.Enabled = funcionalidades.Contains(13);
+            botonAbmClientes.Enabled = funcionalidades.Contains(1);
         }
 
         private void botonAbmUsuarios_Click(object sender, EventArgs e) {
             ABM_Usuarios uf = new ABM_Usuarios(userId, rolId, hotelId);
             uf.Show();
-
         }
 
         private void botonABMRoles_Click(object sender, EventArgs e) {
             ABM_Roles rf = new ABM_Roles();
             rf.Show();
+        }
+
+        private void botonAbmClientes_Click(object sender, EventArgs e) {
+            ABM_Clientes cf = new ABM_Clientes();
+            cf.Show();
         }
 
       

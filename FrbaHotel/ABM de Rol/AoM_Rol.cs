@@ -27,7 +27,7 @@ namespace FrbaHotel.ABM_de_Rol {
 
             if (this.esModificacion()) {
                 this.Text = "Modificación de Rol";
-                // Lleno los campos con los ceñl usuario que estoy modificando...
+                // Lleno los campos con los del rol que estoy modificando...
 
                 DataRow rolDataRow = DBUtils.levantarRegistroBD("Roles", campos(), "Rol_Id", rolModificandoId);
 
