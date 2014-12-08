@@ -76,6 +76,15 @@ namespace FrbaHotel.Utils {
             return valores;
         }
 
+        public static String valorSeleccionado(ComboBox cb) {
+            if (cb.SelectedValue == null) {
+                return "";
+            }
+            else {
+                return cb.SelectedValue.ToString();
+            }
+        }
+
         public static void seleccionarItems(ListBox lb, List<int> valoresASeleccionar) {
             List<DataRowView> seleccionados = new List<DataRowView>();
             foreach (DataRowView item in lb.Items) {

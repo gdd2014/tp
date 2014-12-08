@@ -150,7 +150,7 @@ namespace FrbaHotel.ABM_de_Usuario {
                 valores.Add(DBUtils.stringify(StringUtils.getHashSha256(pswText)));
             }
             valores.Add(DBUtils.stringify(nombreCompletoTextbox.Text));
-            valores.Add(tDocCombo.SelectedValue.ToString());
+            valores.Add(UIUtils.valorSeleccionado(tDocCombo));
             valores.Add(nDocTextbox.Text);
             valores.Add(DBUtils.stringify(emailTextbox.Text));
             valores.Add(DBUtils.stringify(telTextbox.Text));

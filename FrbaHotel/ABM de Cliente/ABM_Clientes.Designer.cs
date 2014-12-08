@@ -34,11 +34,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.tDocCombo = new System.Windows.Forms.ComboBox();
+            this.emailTextbox = new System.Windows.Forms.TextBox();
+            this.nDocTextbox = new System.Windows.Forms.TextBox();
+            this.apellidoTextbox = new System.Windows.Forms.TextBox();
+            this.nombreTextbox = new System.Windows.Forms.TextBox();
             this.botonLimpiar = new System.Windows.Forms.Button();
             this.botonBuscar = new System.Windows.Forms.Button();
             this.tablaDeClientes = new System.Windows.Forms.DataGridView();
@@ -96,11 +96,11 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.tDocCombo);
+            this.groupBox1.Controls.Add(this.emailTextbox);
+            this.groupBox1.Controls.Add(this.nDocTextbox);
+            this.groupBox1.Controls.Add(this.apellidoTextbox);
+            this.groupBox1.Controls.Add(this.nombreTextbox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label5);
@@ -113,41 +113,42 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de búsqueda";
             // 
-            // textBox1
+            // tDocCombo
             // 
-            this.textBox1.Location = new System.Drawing.Point(74, 24);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
+            this.tDocCombo.FormattingEnabled = true;
+            this.tDocCombo.Location = new System.Drawing.Point(171, 64);
+            this.tDocCombo.Name = "tDocCombo";
+            this.tDocCombo.Size = new System.Drawing.Size(121, 21);
+            this.tDocCombo.TabIndex = 4;
             // 
-            // textBox2
+            // emailTextbox
             // 
-            this.textBox2.Location = new System.Drawing.Point(256, 24);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 2;
+            this.emailTextbox.Location = new System.Drawing.Point(447, 24);
+            this.emailTextbox.Name = "emailTextbox";
+            this.emailTextbox.Size = new System.Drawing.Size(164, 20);
+            this.emailTextbox.TabIndex = 3;
             // 
-            // textBox3
+            // nDocTextbox
             // 
-            this.textBox3.Location = new System.Drawing.Point(461, 64);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 5;
+            this.nDocTextbox.Location = new System.Drawing.Point(461, 64);
+            this.nDocTextbox.Name = "nDocTextbox";
+            this.nDocTextbox.Size = new System.Drawing.Size(100, 20);
+            this.nDocTextbox.TabIndex = 5;
+            this.nDocTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nDocTextbox_KeyPressed);
             // 
-            // textBox4
+            // apellidoTextbox
             // 
-            this.textBox4.Location = new System.Drawing.Point(447, 24);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(164, 20);
-            this.textBox4.TabIndex = 3;
+            this.apellidoTextbox.Location = new System.Drawing.Point(256, 24);
+            this.apellidoTextbox.Name = "apellidoTextbox";
+            this.apellidoTextbox.Size = new System.Drawing.Size(100, 20);
+            this.apellidoTextbox.TabIndex = 2;
             // 
-            // comboBox1
+            // nombreTextbox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(171, 64);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 4;
+            this.nombreTextbox.Location = new System.Drawing.Point(74, 24);
+            this.nombreTextbox.Name = "nombreTextbox";
+            this.nombreTextbox.Size = new System.Drawing.Size(100, 20);
+            this.nombreTextbox.TabIndex = 1;
             // 
             // botonLimpiar
             // 
@@ -157,6 +158,7 @@
             this.botonLimpiar.TabIndex = 7;
             this.botonLimpiar.Text = "Limpiar";
             this.botonLimpiar.UseVisualStyleBackColor = true;
+            this.botonLimpiar.Click += new System.EventHandler(this.botonLimpiar_Click);
             // 
             // botonBuscar
             // 
@@ -166,17 +168,17 @@
             this.botonBuscar.TabIndex = 6;
             this.botonBuscar.Text = "Buscar";
             this.botonBuscar.UseVisualStyleBackColor = true;
+            this.botonBuscar.Click += new System.EventHandler(this.botonBuscar_Click);
             // 
             // tablaDeClientes
             // 
             this.tablaDeClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeClientes.Location = new System.Drawing.Point(40, 162);
             this.tablaDeClientes.Name = "tablaDeClientes";
+            this.tablaDeClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaDeClientes.Size = new System.Drawing.Size(590, 173);
             this.tablaDeClientes.TabIndex = 8;
-            this.tablaDeClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaDeClientes.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgv_RowPrePaint);
-
             // 
             // botonEliminar
             // 
@@ -186,6 +188,7 @@
             this.botonEliminar.TabIndex = 9;
             this.botonEliminar.Text = "Eliminar Cliente";
             this.botonEliminar.UseVisualStyleBackColor = true;
+            this.botonEliminar.Click += new System.EventHandler(this.botonEliminar_Click);
             // 
             // botonModificar
             // 
@@ -195,6 +198,7 @@
             this.botonModificar.TabIndex = 10;
             this.botonModificar.Text = "Modificar Cliente";
             this.botonModificar.UseVisualStyleBackColor = true;
+            this.botonModificar.Click += new System.EventHandler(this.botonModificar_Click);
             // 
             // botonNuevoCliente
             // 
@@ -204,6 +208,7 @@
             this.botonNuevoCliente.TabIndex = 11;
             this.botonNuevoCliente.Text = "Nuevo Cliente";
             this.botonNuevoCliente.UseVisualStyleBackColor = true;
+            this.botonNuevoCliente.Click += new System.EventHandler(this.botonNuevoCliente_Click);
             // 
             // ABM_Clientes
             // 
@@ -234,11 +239,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox tDocCombo;
+        private System.Windows.Forms.TextBox emailTextbox;
+        private System.Windows.Forms.TextBox nDocTextbox;
+        private System.Windows.Forms.TextBox apellidoTextbox;
+        private System.Windows.Forms.TextBox nombreTextbox;
         private System.Windows.Forms.Button botonLimpiar;
         private System.Windows.Forms.Button botonBuscar;
         private System.Windows.Forms.DataGridView tablaDeClientes;
