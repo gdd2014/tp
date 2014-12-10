@@ -33,6 +33,8 @@
             this.botonAbmRoles = new System.Windows.Forms.Button();
             this.botonAbmClientes = new System.Windows.Forms.Button();
             this.botonAbmHoteles = new System.Windows.Forms.Button();
+            this.botonAbmHabitaciones = new System.Windows.Forms.Button();
+            this.botonAbmRegimenes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mensajeLabel
@@ -84,11 +86,33 @@
             this.botonAbmHoteles.UseVisualStyleBackColor = true;
             this.botonAbmHoteles.Click += new System.EventHandler(this.botonAbmHoteles_Click);
             // 
+            // botonAbmHabitaciones
+            // 
+            this.botonAbmHabitaciones.Location = new System.Drawing.Point(28, 136);
+            this.botonAbmHabitaciones.Name = "botonAbmHabitaciones";
+            this.botonAbmHabitaciones.Size = new System.Drawing.Size(121, 23);
+            this.botonAbmHabitaciones.TabIndex = 5;
+            this.botonAbmHabitaciones.Text = "ABM de Habitaciones";
+            this.botonAbmHabitaciones.UseVisualStyleBackColor = true;
+            this.botonAbmHabitaciones.Click += new System.EventHandler(this.botonAbmHabitaciones_Click);
+            // 
+            // botonAbmRegimenes
+            // 
+            this.botonAbmRegimenes.Location = new System.Drawing.Point(190, 136);
+            this.botonAbmRegimenes.Name = "botonAbmRegimenes";
+            this.botonAbmRegimenes.Size = new System.Drawing.Size(121, 23);
+            this.botonAbmRegimenes.TabIndex = 6;
+            this.botonAbmRegimenes.Text = "ABM de Regímenes";
+            this.botonAbmRegimenes.UseVisualStyleBackColor = true;
+            this.botonAbmRegimenes.Click += new System.EventHandler(this.botonAbmRegimenes_Click);
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 204);
+            this.Controls.Add(this.botonAbmRegimenes);
+            this.Controls.Add(this.botonAbmHabitaciones);
             this.Controls.Add(this.botonAbmHoteles);
             this.Controls.Add(this.botonAbmClientes);
             this.Controls.Add(this.botonAbmRoles);
@@ -108,5 +132,7 @@
         private System.Windows.Forms.Button botonAbmRoles;
         private System.Windows.Forms.Button botonAbmClientes;
         private System.Windows.Forms.Button botonAbmHoteles;
+        private System.Windows.Forms.Button botonAbmHabitaciones;
+        private System.Windows.Forms.Button botonAbmRegimenes;
     }
 }

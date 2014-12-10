@@ -71,8 +71,9 @@ CREATE TABLE G_N.Habitaciones(Habitacion_Id INT IDENTITY(1,1) PRIMARY KEY,
 							  Habitacion_Hotel_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 							  Habitacion_Numero NUMERIC(18,0) NOT NULL,
 							  Habitacion_Piso NUMERIC(18,0) NOT NULL,
-							  Habitacion_Es_Frente CHAR(1) NOT NULL,
+							  Habitacion_Es_Frente CHAR(1) NOT NULL CHECK (Habitacion_Es_Frente IN ('S', 'N')),
 							  Habitacion_Tipo_Codigo INT NOT NULL FOREIGN KEY REFERENCES G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo),
+							  Habitacion_Descripcion NVARCHAR(255) NOT NULL DEFAULT '',
 							  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
 
 INSERT INTO G_N.Habitaciones(Habitacion_Hotel_Id,

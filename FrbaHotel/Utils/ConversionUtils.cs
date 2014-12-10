@@ -27,5 +27,19 @@ namespace FrbaHotel.Utils {
 
             return character;
         }
+
+        public static Boolean charABool(String character) {
+            return character == "S";
+        }
+
+        public static String boolAChar(Boolean boool) {
+            String character;
+            if (boool) {
+                character = "'S'";
+            }
+            else character = "'N'";
+
+            return character;
+        }
     }
 }

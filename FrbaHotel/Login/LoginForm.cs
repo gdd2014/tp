@@ -51,7 +51,7 @@ namespace FrbaHotel.Login {
                 
                 // Verifico Hoteles...
                 String hotelesDeUsuarioQuery = "SELECT uh.Hotel_Id FROM G_N.Usuarios_Hoteles uh JOIN G_N.Hoteles h ON uh.Hotel_Id = h.Hotel_Id " +
-                                                    "WHERE uh.Usuario_Id=" + userId + DBUtils.ySoloActivos();
+                                                    "WHERE uh.Usuario_Id=" + userId;
 
                 List<int> hoteles = DBUtils.queryRetornaInts(hotelesDeUsuarioQuery);
                 

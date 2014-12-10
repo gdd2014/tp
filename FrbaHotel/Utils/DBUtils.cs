@@ -114,7 +114,11 @@ namespace FrbaHotel.Utils {
 
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) {
-                result.Add(reader.GetString(0));
+                try {
+                    result.Add(reader.GetString(0));
+                } catch (Exception e) {
+                    result.Add(reader.GetDecimal(0).ToString());
+                }
             }
 
             reader.Close();

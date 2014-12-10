@@ -84,19 +84,24 @@ namespace FrbaHotel.Utils {
         }
 
         public static List<String> validarUnicidad(TextBox tb, String tabla, String campo, String campoId, String valorId, List<String> errores) {
+            return validarUnicidadExtraCond(tb, tabla, campo, campoId, valorId, "", errores);
+        }
+
+        public static List<String> validarUnicidadExtraCond(TextBox tb, String tabla, String campo, String campoId, String valorId, String extraCond, List<String> errores) {
             String value = tb.Text;
             if (tb.Text == "") return errores;
 
             String vid = valorId;
             if (vid == "") vid = "''";
             String query = "SELECT " + campo + " FROM G_N." + tabla + " WHERE " + campo + "='" + value + "'" +
-                                                                        " AND " + campoId + "<>" + vid; 
+                                                                        " AND " + campoId + "<>" + vid + " " + extraCond;
 
             List<String> valoresExistentes = DBUtils.queryRetornaStrings(query);
 
             if (valoresExistentes.Count > 0) {
                 errores.Add("El valor " + value + " ya existe en el sistema");
             }
+
             return errores;
         }
 
