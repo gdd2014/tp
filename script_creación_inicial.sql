@@ -205,9 +205,8 @@ SELECT DISTINCT h.Habitacion_Id,
 	  AND m.Habitacion_Numero = h.Habitacion_Numero
 	  AND m.Regimen_Descripcion = r.Regimen_Descripcion 
 
-CREATE TABLE G_N.Reservas(Reserva_Codigo NUMERIC(18, 0) PRIMARY KEY IDENTITY(110741, 1),
+CREATE TABLE G_N.Reservas(Reserva_Codigo INT PRIMARY KEY IDENTITY(110741, 1),
 						  Reserva_Cliente_Id INT FOREIGN KEY REFERENCES G_N.Clientes(Cliente_Id),
-						  Reserva_Habitacion_Id INT FOREIGN KEY REFERENCES G_N.Habitaciones(Habitacion_Id),
 						  Reserva_Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
 						  Reserva_Fecha_Creacion DATE NULL DEFAULT GETDATE(),
 						  Reserva_Fecha_Inicio DATE NOT NULL,
@@ -216,19 +215,24 @@ CREATE TABLE G_N.Reservas(Reserva_Codigo NUMERIC(18, 0) PRIMARY KEY IDENTITY(110
 SET IDENTITY_INSERT G_N.Reservas ON;
 INSERT INTO G_N.Reservas(Reserva_Codigo,
 						 Reserva_Cliente_Id,
-						 Reserva_Habitacion_Id,
 						 Reserva_Regimen_Id,
 						 Reserva_Fecha_Inicio,
 						 Reserva_Fecha_Fin)
-	SELECT Reserva_Codigo, Cliente_Id, Habitacion_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
+	SELECT Reserva_Codigo, Cliente_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
 	FROM G_N.#Reservas_Temp
 SET IDENTITY_INSERT G_N.Reservas OFF;
 
-UPDATE G_N.Reservas SET Reserva_Fecha_Creacion = NULL
+CREATE TABLE G_N.Reservas_Habitaciones(Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
+									   Habitacion_Id INT FOREIGN KEY REFERENCES G_N.Habitaciones(Habitacion_Id),
+									   PRIMARY KEY (Reserva_Codigo, Habitacion_Id))
+									   
+
+INSERT INTO G_N.Reservas_Habitaciones(Reserva_Codigo, Habitacion_Id)
+	SELECT Reserva_Codigo, Habitacion_Id FROM G_N.#Reservas_Temp
 
 -- TABLA ESTADÍAS
 CREATE TABLE G_N.Estadias(Estadia_Id NUMERIC(18, 0) PRIMARY KEY IDENTITY(1, 1),
-						  Estadia_Reserva_Codigo NUMERIC(18, 0) FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
+						  Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
 						  Estadia_Fecha_Inicio DATE NOT NULL,
 						  Estadia_Cant_Noches NUMERIC(18, 0) NOT NULL)
 						  
