@@ -12,9 +12,9 @@ using FrbaHotel.Utils;
 namespace FrbaHotel.ABM_de_Usuario {
     public partial class ABM_Usuarios : Form {
 
-        int userId;
-        int rolId;
-        int hotelId;
+        Decimal userId;
+        Decimal rolId;
+        Decimal hotelId;
 
         String query = "SELECT Usuario_Id AS Id, " +
                              " Usuario_userName AS Usuario, " +
@@ -23,7 +23,7 @@ namespace FrbaHotel.ABM_de_Usuario {
                              " Estado FROM G_N.Usuarios";
 
 
-        public ABM_Usuarios(int userId, int rolId, int hotelId) {
+        public ABM_Usuarios(Decimal userId, Decimal rolId, Decimal hotelId) {
             this.userId = userId;
             this.rolId = rolId;
             this.hotelId = hotelId;
@@ -51,7 +51,7 @@ namespace FrbaHotel.ABM_de_Usuario {
         }
 
         private void botonNuevoUsuario_Click(object sender, EventArgs e) {
-            AoM_Usuario altaForm = new AoM_Usuario(null);
+            AoM_Usuario altaForm = new AoM_Usuario("");
             altaForm.Show();
         }
 

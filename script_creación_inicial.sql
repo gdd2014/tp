@@ -22,8 +22,7 @@ CREATE TABLE G_N.Hoteles(Hotel_Id INT IDENTITY(1,1) PRIMARY KEY,
 						 Hotel_Dom_Calle VARCHAR(255) NOT NULL,
 						 Hotel_Dom_Nro NUMERIC(18,0) NOT NULL,
 						 Hotel_Estrellas NUMERIC(18,0) NOT NULL,
-						 Hotel_Fecha_Creacion DATE,
-						 Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
+						 Hotel_Fecha_Creacion DATE)
 
 INSERT INTO G_N.Hoteles(Hotel_Ciudad, 
 					    Hotel_Dom_Calle,
@@ -73,7 +72,8 @@ CREATE TABLE G_N.Habitaciones(Habitacion_Id INT IDENTITY(1,1) PRIMARY KEY,
 							  Habitacion_Numero NUMERIC(18,0) NOT NULL,
 							  Habitacion_Piso NUMERIC(18,0) NOT NULL,
 							  Habitacion_Es_Frente CHAR(1) NOT NULL,
-							  Habitacion_Tipo_Codigo INT NOT NULL FOREIGN KEY REFERENCES G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo))
+							  Habitacion_Tipo_Codigo INT NOT NULL FOREIGN KEY REFERENCES G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo),
+							  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A')
 
 INSERT INTO G_N.Habitaciones(Habitacion_Hotel_Id,
 							 Habitacion_Numero,
@@ -210,7 +210,7 @@ CREATE TABLE G_N.Reservas(Reserva_Codigo NUMERIC(18, 0) PRIMARY KEY IDENTITY(110
 						  Reserva_Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
 						  Reserva_Fecha_Creacion DATE NULL DEFAULT GETDATE(),
 						  Reserva_Fecha_Inicio DATE NOT NULL,
-						  Reserva_Cant_Noches NUMERIC(18, 0) NOT NULL)
+						  Reserva_Fecha_Fin DATE NOT NULL)
 
 SET IDENTITY_INSERT G_N.Reservas ON;
 INSERT INTO G_N.Reservas(Reserva_Codigo,
@@ -218,8 +218,8 @@ INSERT INTO G_N.Reservas(Reserva_Codigo,
 						 Reserva_Habitacion_Id,
 						 Reserva_Regimen_Id,
 						 Reserva_Fecha_Inicio,
-						 Reserva_Cant_Noches)
-	SELECT Reserva_Codigo, Cliente_Id, Habitacion_Id, Regimen_Id, Reserva_Fecha_Inicio, Reserva_Cant_Noches
+						 Reserva_Fecha_Fin)
+	SELECT Reserva_Codigo, Cliente_Id, Habitacion_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
 	FROM G_N.#Reservas_Temp
 SET IDENTITY_INSERT G_N.Reservas OFF;
 
@@ -385,6 +385,21 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 11) /
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 5) /* Administrador - Generar Reserva  */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 6) /* Administrador - Modificar Reserva */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 7) /* Administrador - Cancelar Reserva */
+
+
+--- BAJAS DE HOTEL
+CREATE TABLE G_N.Hoteles_Cerrados(Hotel_Id INT FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
+							      Desde_Fecha DATE NOT NULL,
+								  Hasta_Fecha DATE NOT NULL,
+								  Motivo VARCHAR(250) NOT NULL,
+								  PRIMARY KEY (Hotel_Id, Desde_Fecha, Hasta_Fecha))
+								 
+UPDATE G_N.Hoteles SET Hotel_Ciudad = RTRIM(Hotel_Ciudad)
+UPDATE G_N.Hoteles SET Hotel_Pais = 'Argentina'
+UPDATE G_N.Hoteles SET Hotel_Nombre = ''
+UPDATE G_N.Hoteles SET Hotel_Mail = ''
+UPDATE G_N.Hoteles SET Hotel_Fecha_Creacion = GETDATE()
+
 
 --------------- TERCERA PARTE --------------------------------------------------------------------
 

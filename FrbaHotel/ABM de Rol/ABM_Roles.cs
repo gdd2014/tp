@@ -65,7 +65,7 @@ namespace FrbaHotel.ABM_de_Rol
         }
 
         private void nuevoRolButton_Click(object sender, EventArgs e) {
-            AoM_Rol altaForm = new AoM_Rol(null);
+            AoM_Rol altaForm = new AoM_Rol("");
             altaForm.Show();
         }
 

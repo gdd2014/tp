@@ -54,17 +54,71 @@ namespace FrbaHotel.Utils {
             return errores;
         }
 
-        public static List<String> validarUnicidad(TextBox tb, String tabla, String campo, List<String> errores) {
+        public static List<String> validarFechaAnteriorAHoy(DateTimePicker dtp, String fechaDe, List<String> errores) {
+            if (dtp.Value == null) {
+                errores.Add("Complete el campo fecha de " + fechaDe + ".");
+            } else if (dtp.Value >= DateTime.Today) {
+                errores.Add("La fecha de " + fechaDe + " debe ser anterior al día de hoy.");
+            }
+            return errores;
+        }
+
+        public static List<String> validarFechaPosteriorAAyer(DateTimePicker dtp, String fechaDe, List<String> errores) {
+            if (dtp.Value == null) {
+                errores.Add("Complete el campo fecha de " + fechaDe + ".");
+            }
+            else if (dtp.Value < DateTime.Today) {
+                errores.Add("La fecha de " + fechaDe + " debe ser posterior al día de hoy.");
+            }
+            return errores;
+        }
+
+        public static List<String> validarFechaAnteriorAOtra(DateTimePicker dtp1, DateTimePicker dtp2, String n1, String n2, List<String> errores) {
+            if (dtp1.Value == null || dtp1.Value == null) {
+                errores.Add("Complete ambos campos de fechas.");
+            }
+            else if (dtp1.Value >= dtp2.Value){
+                errores.Add("La fecha " + n1 + " debe ser anterior a la fecha " + n2 + ".");
+            }
+            return errores;
+        }
+
+        public static List<String> validarUnicidad(TextBox tb, String tabla, String campo, String campoId, String valorId, List<String> errores) {
             String value = tb.Text;
             if (tb.Text == "") return errores;
 
-            String query = "SELECT " + campo + " FROM G_N." + tabla + " WHERE " + campo + "='" + value + "'";
+            String vid = valorId;
+            if (vid == "") vid = "''";
+            String query = "SELECT " + campo + " FROM G_N." + tabla + " WHERE " + campo + "='" + value + "'" +
+                                                                        " AND " + campoId + "<>" + vid; 
 
             List<String> valoresExistentes = DBUtils.queryRetornaStrings(query);
 
             if (valoresExistentes.Count > 0) {
                 errores.Add("El valor " + value + " ya existe en el sistema");
             }
+            return errores;
+        }
+
+        public static List<String> validarUnicidadTipoYNumDoc(ComboBox tDoc, TextBox nDoc, String tabla, String campoTDoc, String campoNDoc, String campoId, String valorId, List<String> errores) {
+            String num = nDoc.Text;
+            String tipo = valorSeleccionado(tDoc);
+
+            if (num == "" || tipo == "") return errores;
+            
+            String vid = valorId;
+            if (vid == "") vid = "''";
+
+            String query = "SELECT " + campoTDoc + " FROM G_N." + tabla + " WHERE " + campoTDoc + "=" + tipo +
+                                                                            " AND " + campoNDoc + "=" + num +
+                                                                            " AND " + campoId + "<>" + vid ;
+
+            List<int> valoresExistentes = DBUtils.queryRetornaInts(query);
+
+            if (valoresExistentes.Count > 0) {
+                errores.Add("El documento " + num + " para el tipo seleccionado ya existe en otro usuario");
+            }
+
             return errores;
         }
 
@@ -96,6 +150,18 @@ namespace FrbaHotel.Utils {
             foreach (DataRowView item in seleccionados) {
                 lb.SelectedItems.Add(item);
             }
+        }
+
+        public static void llenarComboConNumeros(int desde, int hasta, ComboBox cb) {
+            List<NumYDesc> valores = new List<NumYDesc>();
+            for (int i = desde; i <= hasta; i++) {
+                valores.Add(new NumYDesc() { num = i.ToString() });
+            }   
+             
+            cb.DataSource = valores;
+            cb.ValueMember = "num";
+            cb.DisplayMember = "desc";
+            cb.SelectedValue = "";
         }
    
     }

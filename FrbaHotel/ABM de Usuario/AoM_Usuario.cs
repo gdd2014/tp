@@ -20,7 +20,7 @@ namespace FrbaHotel.ABM_de_Usuario {
         }
 
         private Boolean esModificacion() {
-            return usuarioModificandoId != null;
+            return usuarioModificandoId != null && usuarioModificandoId != "";
         }
 
         private void AoM_Usuario_Load(object sender, EventArgs e) {
@@ -56,17 +56,16 @@ namespace FrbaHotel.ABM_de_Usuario {
                 tDocCombo.SelectedValue = ((int) userDataRow.ItemArray[3]).ToString();
                 nDocTextbox.Text = ((Decimal) userDataRow.ItemArray[4]).ToString();
                 emailTextbox.Text = (String) userDataRow.ItemArray[5];
-                telTextbox.Text = (String) userDataRow.ItemArray[6];
+                telTextbox.Text = DBUtils.levantarNullSafe(userDataRow.ItemArray[6]);
                 domicilioTextBox.Text = (String) userDataRow.ItemArray[7];
                 fNacDTP.Value = (DateTime) userDataRow.ItemArray[8];
                 activoCheckbox.Checked = ConversionUtils.estadoABool((String)userDataRow.ItemArray[9]);
 
-                List<int> roles = DBUtils.queryRetornaIds("SELECT Rol_Id FROM G_N.Usuarios_Roles WHERE Usuario_Id=" + usuarioModificandoId);
+                List<int> roles = DBUtils.queryRetornaInts("SELECT Rol_Id FROM G_N.Usuarios_Roles WHERE Usuario_Id=" + usuarioModificandoId);
                 rolesListBox.ClearSelected();
                 UIUtils.seleccionarItems(rolesListBox, roles);
 
-
-                List<int> hoteles = DBUtils.queryRetornaIds("SELECT Hotel_Id FROM G_N.Usuarios_Hoteles WHERE Usuario_Id=" + usuarioModificandoId);
+                List<int> hoteles = DBUtils.queryRetornaInts("SELECT Hotel_Id FROM G_N.Usuarios_Hoteles WHERE Usuario_Id=" + usuarioModificandoId);
                 hotelesListBox.ClearSelected();
                 UIUtils.seleccionarItems(hotelesListBox, hoteles);
             }
@@ -83,7 +82,7 @@ namespace FrbaHotel.ABM_de_Usuario {
                     DBUtils.actualizar("Usuarios", campos(), valores(), "Usuario_Id", idAsignado);
                 } else {
                     DBUtils.insertar("Usuarios", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaIds("SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=" + DBUtils.stringify(uNameTextbox.Text)).First().ToString();
+                    idAsignado = DBUtils.queryRetornaInts("SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=" + DBUtils.stringify(uNameTextbox.Text)).First().ToString();
                 }
                 DBUtils.insertarNxNs("Usuarios_Roles", "Usuario_Id", idAsignado, "rolId", UIUtils.valoresSeleccionados(rolesListBox));
                 DBUtils.insertarNxNs("Usuarios_Hoteles", "Usuario_Id", idAsignado, "hotelId", UIUtils.valoresSeleccionados(hotelesListBox));
@@ -110,9 +109,9 @@ namespace FrbaHotel.ABM_de_Usuario {
             UIUtils.validarTextboxCompleto(telTextbox, "Teléfono", errores);
             UIUtils.validarTextboxCompleto(nDocTextbox, "Número de Documento", errores);
 
-            if (!esModificacion()) {
-                UIUtils.validarUnicidad(uNameTextbox, "Usuarios", "Usuario_userName", errores);
-            }
+            UIUtils.validarUnicidad(uNameTextbox, "Usuarios", "Usuario_userName", "Usuario_Id", usuarioModificandoId, errores);            
+
+            UIUtils.validarFechaAnteriorAHoy(fNacDTP, "nacimiento", errores);
 
             UIUtils.validarComboCompleto(rolesListBox, "Roles", errores);
             UIUtils.validarComboCompleto(hotelesListBox, "Hoteles", errores);

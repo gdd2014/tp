@@ -1,0 +1,5 @@
+TODO:
+
+* Validar que no se quiten regimenes con reservas en la MODIFICACION DE HOTEL -> funcion que devuelva todos los ids de regimenes usados en reservas actuales y posteriores para el hotel en cuestion
+* Validar que no se den de baja hoteles con reservas en el periodo -> funcion que devuelve bool si tiene reservas en el periodo dado
+* crear el sp Baja_Momentanea_Hotel(HotelId, Desde, Hasta, Motivo)

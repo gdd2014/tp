@@ -57,16 +57,29 @@ namespace FrbaHotel.Utils {
             return "'" + baseStr + "'";
         }
 
-        public static void ejecutarSP1SoloParam(String nombre, String param, String valor) {
+        public static String levantarNullSafe(Object obj) {
+            if (obj == null || obj is DBNull) return "";
+            
+            return (String) obj;
+        }
+
+        public static void ejecutarSP(String nombre, List<String> pars, List<String> vals) {
             SqlConnection con = getOpenConnection();
 
             SqlCommand cmd = new SqlCommand("G_N." + nombre, con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue(param, valor);
+            for (int i = 0; i < pars.Count; i++) {
+                cmd.Parameters.AddWithValue(pars.ElementAt(i), vals.ElementAt(i));
+            }
+
             cmd.ExecuteNonQuery();
 
             con.Close();
+        }
+
+        public static void ejecutarSP1SoloParam(String nombre, String param, String valor) {
+            ejecutarSP(nombre, new List<String>() { param }, new List<String>() { valor });
         }
 
         public static void ejecutarQuery(String query) {
@@ -76,7 +89,7 @@ namespace FrbaHotel.Utils {
             con.Close();
         }
 
-        public static List<int> queryRetornaIds(String query) {
+        public static List<int> queryRetornaInts(String query) {
             SqlConnection con = getOpenConnection();
             SqlCommand cmd = new SqlCommand(query, con);
 

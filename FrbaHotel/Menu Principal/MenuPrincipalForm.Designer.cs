@@ -32,6 +32,7 @@
             this.botonAbmUsuarios = new System.Windows.Forms.Button();
             this.botonAbmRoles = new System.Windows.Forms.Button();
             this.botonAbmClientes = new System.Windows.Forms.Button();
+            this.botonAbmHoteles = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mensajeLabel
@@ -73,11 +74,22 @@
             this.botonAbmClientes.UseVisualStyleBackColor = true;
             this.botonAbmClientes.Click += new System.EventHandler(this.botonAbmClientes_Click);
             // 
+            // botonAbmHoteles
+            // 
+            this.botonAbmHoteles.Location = new System.Drawing.Point(339, 91);
+            this.botonAbmHoteles.Name = "botonAbmHoteles";
+            this.botonAbmHoteles.Size = new System.Drawing.Size(97, 23);
+            this.botonAbmHoteles.TabIndex = 4;
+            this.botonAbmHoteles.Text = "ABM de Hoteles";
+            this.botonAbmHoteles.UseVisualStyleBackColor = true;
+            this.botonAbmHoteles.Click += new System.EventHandler(this.botonAbmHoteles_Click);
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 204);
+            this.Controls.Add(this.botonAbmHoteles);
             this.Controls.Add(this.botonAbmClientes);
             this.Controls.Add(this.botonAbmRoles);
             this.Controls.Add(this.botonAbmUsuarios);
@@ -95,5 +107,6 @@
         private System.Windows.Forms.Button botonAbmUsuarios;
         private System.Windows.Forms.Button botonAbmRoles;
         private System.Windows.Forms.Button botonAbmClientes;
+        private System.Windows.Forms.Button botonAbmHoteles;
     }
 }

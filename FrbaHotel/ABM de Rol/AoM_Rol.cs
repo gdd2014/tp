@@ -34,7 +34,7 @@ namespace FrbaHotel.ABM_de_Rol {
                 nombreRolTextbox.Text = (String) rolDataRow.ItemArray[0];
                 activoCheckbox.Checked = ConversionUtils.estadoABool((String) rolDataRow.ItemArray[1]);
 
-                List<int> funcs = DBUtils.queryRetornaIds("SELECT Funcionalidad_Id FROM G_N.Roles_Funcionalidades WHERE Rol_Id=" + rolModificandoId);
+                List<int> funcs = DBUtils.queryRetornaInts("SELECT Funcionalidad_Id FROM G_N.Roles_Funcionalidades WHERE Rol_Id=" + rolModificandoId);
                 funcsListbox.ClearSelected();
                 UIUtils.seleccionarItems(funcsListbox, funcs);
             }
@@ -42,7 +42,7 @@ namespace FrbaHotel.ABM_de_Rol {
         }
 
         private Boolean esModificacion() {
-            return rolModificandoId != null;
+            return rolModificandoId != null && rolModificandoId != "";
         }
 
         private void botonGuardar_Click(object sender, EventArgs e) {
@@ -57,7 +57,7 @@ namespace FrbaHotel.ABM_de_Rol {
                 }
                 else {
                     DBUtils.insertar("Roles", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaIds("SELECT Rol_Id FROM G_N.Roles WHERE Rol_Nombre=" + DBUtils.stringify(nombreRolTextbox.Text)).First().ToString();
+                    idAsignado = DBUtils.queryRetornaInts("SELECT Rol_Id FROM G_N.Roles WHERE Rol_Nombre=" + DBUtils.stringify(nombreRolTextbox.Text)).First().ToString();
                 }
                 
                 DBUtils.insertarNxNs("Roles_Funcionalidades", "Rol_Id", idAsignado, "funcId", UIUtils.valoresSeleccionados(funcsListbox));
@@ -77,9 +77,9 @@ namespace FrbaHotel.ABM_de_Rol {
             List<String> errores = new List<String>();
 
             UIUtils.validarTextboxCompleto(nombreRolTextbox, "Nombre de rol", errores);
-            if (!esModificacion()){
-                UIUtils.validarUnicidad(nombreRolTextbox, "Roles", "Rol_Nombre", errores);
-            }
+            
+            UIUtils.validarUnicidad(nombreRolTextbox, "Roles", "Rol_Nombre", "Rol_Id", rolModificandoId, errores);
+            
 
             UIUtils.validarComboCompleto(funcsListbox, "Funcionalidades", errores);
 

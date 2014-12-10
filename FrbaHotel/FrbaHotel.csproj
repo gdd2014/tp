@@ -54,11 +54,23 @@
     <Compile Include="ABM de Cliente\ABM_Clientes.Designer.cs">
       <DependentUpon>ABM_Clientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM de Habitacion\Form1.cs">
+    <Compile Include="ABM de Cliente\AoM_Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM de Habitacion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ABM de Cliente\AoM_Cliente.Designer.cs">
+      <DependentUpon>AoM_Cliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Hotel\AoM_Hotel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Hotel\AoM_Hotel.Designer.cs">
+      <DependentUpon>AoM_Hotel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Hotel\B_Hotel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Hotel\B_Hotel.Designer.cs">
+      <DependentUpon>B_Hotel.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Regimen\Form1.cs">
       <SubType>Form</SubType>
@@ -96,6 +108,12 @@
     <Compile Include="Cancelar Reserva\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM de Hotel\ABM_Hoteles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Hotel\ABM_Hoteles.Designer.cs">
+      <DependentUpon>ABM_Hoteles.cs</DependentUpon>
+    </Compile>
     <Compile Include="GD2C2014DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -115,6 +133,7 @@
     </Compile>
     <Compile Include="Utils\ConversionUtils.cs" />
     <Compile Include="Utils\DBUtils.cs" />
+    <Compile Include="Utils\NumYDesc.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\UIUtils.cs" />
     <Compile Include="VentanaInicial.cs">
@@ -146,6 +165,15 @@
     <EmbeddedResource Include="ABM de Cliente\ABM_Clientes.resx">
       <DependentUpon>ABM_Clientes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Cliente\AoM_Cliente.resx">
+      <DependentUpon>AoM_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Hotel\AoM_Hotel.resx">
+      <DependentUpon>AoM_Hotel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Hotel\B_Hotel.resx">
+      <DependentUpon>B_Hotel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ABM de Rol\ABM_Roles.resx">
       <DependentUpon>ABM_Roles.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\AoM_Usuario.resx">
       <DependentUpon>AoM_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Hotel\ABM_Hoteles.resx">
+      <DependentUpon>ABM_Hoteles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -212,6 +243,9 @@
     <Compile Include="Registrar Estadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ABM de Habitacion\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

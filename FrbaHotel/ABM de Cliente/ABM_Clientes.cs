@@ -77,11 +77,20 @@ namespace FrbaHotel.ABM_de_Cliente {
         }
 
         private void botonModificar_Click(object sender, EventArgs e) {
-
+            if (tablaDeClientes.SelectedRows.Count == 1) {
+                String cid = tablaDeClientes.SelectedRows[0].Cells[0].Value.ToString();
+                AoM_Cliente modificacionForm = new AoM_Cliente(cid);
+                modificacionForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Por favor seleccione un cliente");
+            }
         }
 
         private void botonNuevoCliente_Click(object sender, EventArgs e) {
-
+            AoM_Cliente altaForm = new AoM_Cliente("");
+            altaForm.Show();
         }
     }
 }

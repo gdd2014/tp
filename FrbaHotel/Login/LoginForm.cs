@@ -46,14 +46,14 @@ namespace FrbaHotel.Login {
                 String rolesDeUsuarioQuery = "SELECT ur.Rol_Id FROM G_N.Usuarios_Roles ur JOIN G_N.Roles r ON ur.Rol_Id = r.Rol_Id " +
                                                 "WHERE ur.Usuario_Id=" + userId + DBUtils.ySoloActivos();
 
-                List<int> roles = DBUtils.queryRetornaIds(rolesDeUsuarioQuery);
+                List<int> roles = DBUtils.queryRetornaInts(rolesDeUsuarioQuery);
 
                 
                 // Verifico Hoteles...
                 String hotelesDeUsuarioQuery = "SELECT uh.Hotel_Id FROM G_N.Usuarios_Hoteles uh JOIN G_N.Hoteles h ON uh.Hotel_Id = h.Hotel_Id " +
                                                     "WHERE uh.Usuario_Id=" + userId + DBUtils.ySoloActivos();
 
-                List<int> hoteles = DBUtils.queryRetornaIds(hotelesDeUsuarioQuery);
+                List<int> hoteles = DBUtils.queryRetornaInts(hotelesDeUsuarioQuery);
                 
                 this.Close();
 

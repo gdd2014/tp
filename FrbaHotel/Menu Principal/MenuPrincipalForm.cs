@@ -9,17 +9,18 @@ using FrbaHotel.Utils;
 using FrbaHotel.ABM_de_Usuario;
 using FrbaHotel.ABM_de_Rol;
 using FrbaHotel.ABM_de_Cliente;
+using FrbaHotel.ABM_de_Hotel;
 
 using System.Windows.Forms;
 
 namespace FrbaHotel.Menu_Principal {
     public partial class MenuPrincipalForm : Form {
 
-        int userId;
-        int rolId;
-        int hotelId;
+        Decimal userId;
+        Decimal rolId;
+        Decimal hotelId;
 
-        public MenuPrincipalForm(int userId, int rolId, int hotelId) {
+        public MenuPrincipalForm(Decimal userId, Decimal rolId, Decimal hotelId) {
             this.userId = userId;
             this.rolId = rolId;
             this.hotelId = hotelId;
@@ -28,11 +29,12 @@ namespace FrbaHotel.Menu_Principal {
 
             String funcionesPorRolQuery = "SELECT Funcionalidad_Id FROM G_N.Roles_Funcionalidades WHERE Rol_Id=" + rolId;
 
-            List<int> funcionalidades = DBUtils.queryRetornaIds(funcionesPorRolQuery);
+            List<int> funcionalidades = DBUtils.queryRetornaInts(funcionesPorRolQuery);
 
             botonAbmUsuarios.Enabled = funcionalidades.Contains(12);
             botonAbmRoles.Enabled = funcionalidades.Contains(13);
             botonAbmClientes.Enabled = funcionalidades.Contains(1);
+            botonAbmHoteles.Enabled = funcionalidades.Contains(2);
         }
 
         private void botonAbmUsuarios_Click(object sender, EventArgs e) {
@@ -48,6 +50,11 @@ namespace FrbaHotel.Menu_Principal {
         private void botonAbmClientes_Click(object sender, EventArgs e) {
             ABM_Clientes cf = new ABM_Clientes();
             cf.Show();
+        }
+
+        private void botonAbmHoteles_Click(object sender, EventArgs e) {
+            ABM_Hoteles hf = new ABM_Hoteles(userId.ToString());
+            hf.Show();
         }
 
       
