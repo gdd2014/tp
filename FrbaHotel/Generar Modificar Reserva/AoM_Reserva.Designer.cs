@@ -42,9 +42,23 @@
             this.botonRemoveHab = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.clienteGroup = new System.Windows.Forms.GroupBox();
+            this.botonAltaCli = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tablaDeClientes = new System.Windows.Forms.DataGridView();
+            this.botonBuscarCli = new System.Windows.Forms.Button();
+            this.emailTextbox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tDocCombo = new System.Windows.Forms.ComboBox();
+            this.nDocTextbox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.botonConfirmarReserva = new System.Windows.Forms.Button();
             this.consultaGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaHabsDisp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablaHabsEnReserva)).BeginInit();
+            this.clienteGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaDeClientes)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -134,6 +148,7 @@
             this.tablaHabsDisp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaHabsDisp.Size = new System.Drawing.Size(390, 105);
             this.tablaHabsDisp.TabIndex = 21;
+            this.tablaHabsDisp.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgv_RowPrePaint);
             // 
             // tablaHabsEnReserva
             // 
@@ -183,11 +198,133 @@
             this.label5.TabIndex = 26;
             this.label5.Text = "Habitaciones en la reserva actual: ";
             // 
+            // clienteGroup
+            // 
+            this.clienteGroup.Controls.Add(this.botonAltaCli);
+            this.clienteGroup.Controls.Add(this.label9);
+            this.clienteGroup.Controls.Add(this.tablaDeClientes);
+            this.clienteGroup.Controls.Add(this.botonBuscarCli);
+            this.clienteGroup.Controls.Add(this.emailTextbox);
+            this.clienteGroup.Controls.Add(this.label8);
+            this.clienteGroup.Controls.Add(this.tDocCombo);
+            this.clienteGroup.Controls.Add(this.nDocTextbox);
+            this.clienteGroup.Controls.Add(this.label6);
+            this.clienteGroup.Controls.Add(this.label7);
+            this.clienteGroup.Enabled = false;
+            this.clienteGroup.Location = new System.Drawing.Point(50, 289);
+            this.clienteGroup.Name = "clienteGroup";
+            this.clienteGroup.Size = new System.Drawing.Size(777, 191);
+            this.clienteGroup.TabIndex = 27;
+            this.clienteGroup.TabStop = false;
+            this.clienteGroup.Text = "Cliente responsable de la reserva";
+            // 
+            // botonAltaCli
+            // 
+            this.botonAltaCli.Location = new System.Drawing.Point(635, 60);
+            this.botonAltaCli.Name = "botonAltaCli";
+            this.botonAltaCli.Size = new System.Drawing.Size(107, 23);
+            this.botonAltaCli.TabIndex = 15;
+            this.botonAltaCli.Text = "Darse de alta";
+            this.botonAltaCli.UseVisualStyleBackColor = true;
+            this.botonAltaCli.Click += new System.EventHandler(this.botonAltaCli_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(483, 66);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(145, 13);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "¿No es un cliente registrado?";
+            // 
+            // tablaDeClientes
+            // 
+            this.tablaDeClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tablaDeClientes.Location = new System.Drawing.Point(109, 101);
+            this.tablaDeClientes.Name = "tablaDeClientes";
+            this.tablaDeClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tablaDeClientes.Size = new System.Drawing.Size(590, 76);
+            this.tablaDeClientes.TabIndex = 13;
+            this.tablaDeClientes.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgv_RowPrePaint);
+            // 
+            // botonBuscarCli
+            // 
+            this.botonBuscarCli.Location = new System.Drawing.Point(75, 61);
+            this.botonBuscarCli.Name = "botonBuscarCli";
+            this.botonBuscarCli.Size = new System.Drawing.Size(75, 23);
+            this.botonBuscarCli.TabIndex = 12;
+            this.botonBuscarCli.Text = "Buscar";
+            this.botonBuscarCli.UseVisualStyleBackColor = true;
+            this.botonBuscarCli.Click += new System.EventHandler(this.botonBuscarCli_Click);
+            // 
+            // emailTextbox
+            // 
+            this.emailTextbox.Location = new System.Drawing.Point(595, 34);
+            this.emailTextbox.Name = "emailTextbox";
+            this.emailTextbox.Size = new System.Drawing.Size(164, 20);
+            this.emailTextbox.TabIndex = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(550, 37);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(39, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "E-Mail:";
+            // 
+            // tDocCombo
+            // 
+            this.tDocCombo.FormattingEnabled = true;
+            this.tDocCombo.Location = new System.Drawing.Point(130, 34);
+            this.tDocCombo.Name = "tDocCombo";
+            this.tDocCombo.Size = new System.Drawing.Size(121, 21);
+            this.tDocCombo.TabIndex = 8;
+            // 
+            // nDocTextbox
+            // 
+            this.nDocTextbox.Location = new System.Drawing.Point(420, 34);
+            this.nDocTextbox.Name = "nDocTextbox";
+            this.nDocTextbox.Size = new System.Drawing.Size(100, 20);
+            this.nDocTextbox.TabIndex = 9;
+            this.nDocTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNums_KeyPressed);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(284, 37);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(121, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Número de documento: ";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(19, 37);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(105, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Tipo de documento: ";
+            // 
+            // botonConfirmarReserva
+            // 
+            this.botonConfirmarReserva.Enabled = false;
+            this.botonConfirmarReserva.Location = new System.Drawing.Point(364, 486);
+            this.botonConfirmarReserva.Name = "botonConfirmarReserva";
+            this.botonConfirmarReserva.Size = new System.Drawing.Size(218, 23);
+            this.botonConfirmarReserva.TabIndex = 28;
+            this.botonConfirmarReserva.Text = "Confirmar reserva";
+            this.botonConfirmarReserva.UseVisualStyleBackColor = true;
+            this.botonConfirmarReserva.Click += new System.EventHandler(this.botonConfirmarReserva_Click);
+            // 
             // AoM_Reserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 391);
+            this.ClientSize = new System.Drawing.Size(923, 521);
+            this.Controls.Add(this.botonConfirmarReserva);
+            this.Controls.Add(this.clienteGroup);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.botonRemoveHab);
@@ -201,6 +338,9 @@
             this.consultaGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaHabsDisp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablaHabsEnReserva)).EndInit();
+            this.clienteGroup.ResumeLayout(false);
+            this.clienteGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaDeClientes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,5 +362,17 @@
         private System.Windows.Forms.Button botonRemoveHab;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox clienteGroup;
+        private System.Windows.Forms.ComboBox tDocCombo;
+        private System.Windows.Forms.TextBox nDocTextbox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox emailTextbox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button botonBuscarCli;
+        private System.Windows.Forms.Button botonConfirmarReserva;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataGridView tablaDeClientes;
+        private System.Windows.Forms.Button botonAltaCli;
     }
 }

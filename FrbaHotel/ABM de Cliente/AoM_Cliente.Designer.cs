@@ -49,16 +49,16 @@
             this.botonGuardar = new System.Windows.Forms.Button();
             this.botonLimpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numeroTextbox = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.paisTextbox = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.localidadTextbox = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.deptoTextbox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.pisoTextbox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.localidadTextbox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.paisTextbox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.numeroTextbox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,21 +139,21 @@
             this.nombreTextbox.Location = new System.Drawing.Point(87, 20);
             this.nombreTextbox.Name = "nombreTextbox";
             this.nombreTextbox.Size = new System.Drawing.Size(118, 20);
-            this.nombreTextbox.TabIndex = 8;
+            this.nombreTextbox.TabIndex = 1;
             // 
             // apellidoTextbox
             // 
             this.apellidoTextbox.Location = new System.Drawing.Point(288, 20);
             this.apellidoTextbox.Name = "apellidoTextbox";
             this.apellidoTextbox.Size = new System.Drawing.Size(123, 20);
-            this.apellidoTextbox.TabIndex = 9;
+            this.apellidoTextbox.TabIndex = 2;
             // 
             // nDocTextbox
             // 
             this.nDocTextbox.Location = new System.Drawing.Point(202, 59);
             this.nDocTextbox.Name = "nDocTextbox";
             this.nDocTextbox.Size = new System.Drawing.Size(111, 20);
-            this.nDocTextbox.TabIndex = 11;
+            this.nDocTextbox.TabIndex = 4;
             this.nDocTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNums_KeyPressed);
             // 
             // tDocCombo
@@ -162,35 +162,35 @@
             this.tDocCombo.Location = new System.Drawing.Point(100, 58);
             this.tDocCombo.Name = "tDocCombo";
             this.tDocCombo.Size = new System.Drawing.Size(88, 21);
-            this.tDocCombo.TabIndex = 10;
+            this.tDocCombo.TabIndex = 3;
             // 
             // emailTextbox
             // 
             this.emailTextbox.Location = new System.Drawing.Point(74, 98);
             this.emailTextbox.Name = "emailTextbox";
             this.emailTextbox.Size = new System.Drawing.Size(239, 20);
-            this.emailTextbox.TabIndex = 12;
+            this.emailTextbox.TabIndex = 5;
             // 
             // calleTextbox
             // 
             this.calleTextbox.Location = new System.Drawing.Point(65, 19);
             this.calleTextbox.Name = "calleTextbox";
             this.calleTextbox.Size = new System.Drawing.Size(176, 20);
-            this.calleTextbox.TabIndex = 13;
+            this.calleTextbox.TabIndex = 8;
             // 
             // telTextbox
             // 
             this.telTextbox.Location = new System.Drawing.Point(87, 135);
             this.telTextbox.Name = "telTextbox";
             this.telTextbox.Size = new System.Drawing.Size(91, 20);
-            this.telTextbox.TabIndex = 14;
+            this.telTextbox.TabIndex = 6;
             // 
             // nacionalidadTextbox
             // 
             this.nacionalidadTextbox.Location = new System.Drawing.Point(288, 135);
             this.nacionalidadTextbox.Name = "nacionalidadTextbox";
             this.nacionalidadTextbox.Size = new System.Drawing.Size(110, 20);
-            this.nacionalidadTextbox.TabIndex = 15;
+            this.nacionalidadTextbox.TabIndex = 7;
             // 
             // fNacDTP
             // 
@@ -199,7 +199,7 @@
             this.fNacDTP.Location = new System.Drawing.Point(154, 330);
             this.fNacDTP.Name = "fNacDTP";
             this.fNacDTP.Size = new System.Drawing.Size(109, 20);
-            this.fNacDTP.TabIndex = 16;
+            this.fNacDTP.TabIndex = 14;
             // 
             // activoCheckbox
             // 
@@ -207,7 +207,7 @@
             this.activoCheckbox.Location = new System.Drawing.Point(319, 335);
             this.activoCheckbox.Name = "activoCheckbox";
             this.activoCheckbox.Size = new System.Drawing.Size(56, 17);
-            this.activoCheckbox.TabIndex = 17;
+            this.activoCheckbox.TabIndex = 15;
             this.activoCheckbox.Text = "Activo";
             this.activoCheckbox.UseVisualStyleBackColor = true;
             // 
@@ -216,7 +216,7 @@
             this.botonGuardar.Location = new System.Drawing.Point(117, 388);
             this.botonGuardar.Name = "botonGuardar";
             this.botonGuardar.Size = new System.Drawing.Size(75, 23);
-            this.botonGuardar.TabIndex = 18;
+            this.botonGuardar.TabIndex = 16;
             this.botonGuardar.Text = "Guardar";
             this.botonGuardar.UseVisualStyleBackColor = true;
             this.botonGuardar.Click += new System.EventHandler(this.botonGuardar_Click);
@@ -252,61 +252,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Domicilio";
             // 
-            // numeroTextbox
-            // 
-            this.numeroTextbox.Location = new System.Drawing.Point(326, 19);
-            this.numeroTextbox.Name = "numeroTextbox";
-            this.numeroTextbox.Size = new System.Drawing.Size(40, 20);
-            this.numeroTextbox.TabIndex = 15;
-            this.numeroTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNums_KeyPressed);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(263, 22);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 13);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "Número * :";
-            // 
-            // paisTextbox
-            // 
-            this.paisTextbox.Location = new System.Drawing.Point(60, 55);
-            this.paisTextbox.Name = "paisTextbox";
-            this.paisTextbox.Size = new System.Drawing.Size(60, 20);
-            this.paisTextbox.TabIndex = 17;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 58);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(42, 13);
-            this.label10.TabIndex = 16;
-            this.label10.Text = "País * :";
-            // 
-            // localidadTextbox
-            // 
-            this.localidadTextbox.Location = new System.Drawing.Point(83, 89);
-            this.localidadTextbox.Name = "localidadTextbox";
-            this.localidadTextbox.Size = new System.Drawing.Size(283, 20);
-            this.localidadTextbox.TabIndex = 19;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 92);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(66, 13);
-            this.label11.TabIndex = 18;
-            this.label11.Text = "Localidad * :";
-            // 
             // deptoTextbox
             // 
             this.deptoTextbox.Location = new System.Drawing.Point(326, 55);
             this.deptoTextbox.Name = "deptoTextbox";
             this.deptoTextbox.Size = new System.Drawing.Size(40, 20);
-            this.deptoTextbox.TabIndex = 23;
+            this.deptoTextbox.TabIndex = 12;
             // 
             // label12
             // 
@@ -322,7 +273,7 @@
             this.pisoTextbox.Location = new System.Drawing.Point(181, 55);
             this.pisoTextbox.Name = "pisoTextbox";
             this.pisoTextbox.Size = new System.Drawing.Size(42, 20);
-            this.pisoTextbox.TabIndex = 21;
+            this.pisoTextbox.TabIndex = 11;
             this.pisoTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNums_KeyPressed);
             // 
             // label13
@@ -333,6 +284,55 @@
             this.label13.Size = new System.Drawing.Size(40, 13);
             this.label13.TabIndex = 20;
             this.label13.Text = "Piso * :";
+            // 
+            // localidadTextbox
+            // 
+            this.localidadTextbox.Location = new System.Drawing.Point(83, 89);
+            this.localidadTextbox.Name = "localidadTextbox";
+            this.localidadTextbox.Size = new System.Drawing.Size(283, 20);
+            this.localidadTextbox.TabIndex = 13;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 92);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(66, 13);
+            this.label11.TabIndex = 18;
+            this.label11.Text = "Localidad * :";
+            // 
+            // paisTextbox
+            // 
+            this.paisTextbox.Location = new System.Drawing.Point(60, 55);
+            this.paisTextbox.Name = "paisTextbox";
+            this.paisTextbox.Size = new System.Drawing.Size(60, 20);
+            this.paisTextbox.TabIndex = 10;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 58);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(42, 13);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "País * :";
+            // 
+            // numeroTextbox
+            // 
+            this.numeroTextbox.Location = new System.Drawing.Point(326, 19);
+            this.numeroTextbox.Name = "numeroTextbox";
+            this.numeroTextbox.Size = new System.Drawing.Size(40, 20);
+            this.numeroTextbox.TabIndex = 9;
+            this.numeroTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNums_KeyPressed);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(263, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(57, 13);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Número * :";
             // 
             // AoM_Cliente
             // 

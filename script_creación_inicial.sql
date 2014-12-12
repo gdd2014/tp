@@ -8,7 +8,6 @@ GO
 ---------------------------------------------------------------------------------------------------------
 
 -- TABLA TEMPORAL DE HOTELES Y REGIMENES ----------------------------------------------------------------------------
-
 SELECT DISTINCT Hotel_Ciudad, 
 				Hotel_Calle, 
 				Hotel_Nro_Calle,
@@ -19,7 +18,6 @@ INTO G_N.#Hoteles_Regimenes_Temp
 FROM gd_esquema.Maestra
 
 -- TABLA HOTELES ----------------------------------------------------------------------------------------------------	
-
 CREATE TABLE G_N.Hoteles(Hotel_Id INT IDENTITY(1,1) PRIMARY KEY,
 						 Hotel_Nombre VARCHAR(70),
 						 Hotel_Mail VARCHAR(50),
@@ -39,7 +37,6 @@ INSERT INTO G_N.Hoteles(Hotel_Ciudad,
 	FROM G_N.#Hoteles_Regimenes_Temp
 
 -- TABLA REGÍMENES --------------------------------------------------------------------------------------------------
-
 CREATE TABLE G_N.Regimenes(Regimen_Id INT IDENTITY(1,1) PRIMARY KEY,
 						   Regimen_Descripcion NVARCHAR(255) NOT NULL,
 						   Regimen_Precio NUMERIC(18,2) NOT NULL)
@@ -49,7 +46,6 @@ INSERT INTO G_N.Regimenes(Regimen_Descripcion, Regimen_Precio)
 	FROM G_N.#Hoteles_Regimenes_Temp
 
 -- TABLA RELACIÓN HOTELES CON REGÍMENES -----------------------------------------------------------------------------
-
 CREATE TABLE G_N.Hoteles_Regimenes(Hotel_Id INT FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 								   Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
 								   PRIMARY KEY (Hotel_Id, Regimen_Id))
@@ -65,7 +61,6 @@ INSERT INTO G_N.Hoteles_Regimenes(Hotel_Id, Regimen_Id)
 	  AND G_N.Regimenes.Regimen_Precio = G_N.#Hoteles_Regimenes_Temp.Regimen_Precio
 
 -- TABLA TIPOS DE HABITACION ----------------------------------------------------------------------------------------
-
 CREATE TABLE G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo INT PRIMARY KEY,
 								  Habitacion_Tipo_Descripcion NVARCHAR(255) NOT NULL,
 								  Habitacion_Tipo_Porcentual NUMERIC(18,2) NOT NULL,
@@ -78,7 +73,6 @@ INSERT INTO G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo,
 	FROM gd_esquema.Maestra
 		
 -- TABLA HABITACIONES -----------------------------------------------------------------------------------------------
-
 CREATE TABLE G_N.Habitaciones(Habitacion_Id INT IDENTITY(1,1) PRIMARY KEY,
 							  Habitacion_Hotel_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 							  Habitacion_Numero NUMERIC(18,0) NOT NULL,
@@ -105,7 +99,6 @@ INSERT INTO G_N.Habitaciones(Habitacion_Hotel_Id,
 	FROM G_N.Hoteles H, gd_esquema.Maestra M	
 							  
 -- TABLA TIPOS DE DOCUMENTO ---------------------------------------------------------------------------------------
-
 CREATE TABLE G_N.Documento_Tipos(Documento_Tipo_Id INT IDENTITY (1,1) PRIMARY KEY,
 								 Documento_Tipo_Descripcion VARCHAR(30) NOT NULL)
 
@@ -114,7 +107,6 @@ INSERT INTO G_N.Documento_Tipos(Documento_Tipo_Descripcion) VALUES ('D.N.I.')
 INSERT INTO G_N.Documento_Tipos(Documento_Tipo_Descripcion) VALUES ('Cédula de Identidad')
 
 -- TABLA CLIENTES -------------------------------------------------------------------------------------------------
-
 CREATE TABLE G_N.Clientes(Cliente_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Cliente_Documento_Tipo_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Documento_Tipos(Documento_Tipo_Id),
 						  Cliente_Documento_Nro NUMERIC(18,0) NOT NULL, 
@@ -172,7 +164,6 @@ UPDATE G_N.Clientes SET Cliente_Documento_Repetido = 'T'
 			HAVING COUNT(*) > 1)
 
 -- TABLA CONSUMIBLES -----------------------------------------------------------------------------------------------
-
 CREATE TABLE G_N.Consumibles(Consumible_Codigo NUMERIC(18,0) PRIMARY KEY,
 							 Consumible_Descripcion NVARCHAR(255) NOT NULL,
 							 Consumible_Precio NUMERIC(18,2) NOT NULL)
@@ -185,7 +176,6 @@ INSERT INTO G_N.Consumibles(Consumible_Codigo,
 	WHERE Consumible_Codigo IS NOT NULL
 
 -- TABLA TEMPORAL DE HABITACIONES ----------------------------------------------------------------------------------
-
 SELECT DISTINCT m.Hotel_Ciudad,
 				m.Hotel_Calle,
 				m.Hotel_Nro_Calle,
@@ -200,109 +190,8 @@ SELECT DISTINCT m.Hotel_Ciudad,
 	  AND ha.Habitacion_Numero = m.Habitacion_Numero
 	  AND ha.Habitacion_Hotel_Id = ho.Hotel_Id
 	
--- TABLA RESERVAS TEMP ---------------------------------------------------------------------------------------------
-
-SELECT DISTINCT h.Habitacion_Id,
-				m.Regimen_Descripcion,
-				r.Regimen_Id,
-				m.Reserva_Codigo,
-				m.Reserva_Fecha_Inicio,
-				m.Reserva_Cant_Noches, 
-				m.Cliente_Pasaporte_Nro, 
-				m.Cliente_Mail,
-				c.Cliente_Id
-	INTO G_N.#Reservas_Temp
-	FROM gd_esquema.Maestra m, G_N.Clientes c, G_N.#Habitaciones_Temp h, G_N.Regimenes r
-	WHERE Reserva_Codigo IS NOT NULL
-	  AND m.Cliente_Pasaporte_Nro = c.Cliente_Documento_Nro
-	  AND m.Cliente_Mail = c.Cliente_Mail
-	  AND m.Hotel_Ciudad = h.Hotel_Ciudad
-	  AND m.Hotel_Calle = h.Hotel_Calle
-	  AND m.Habitacion_Numero = h.Habitacion_Numero
-	  AND m.Regimen_Descripcion = r.Regimen_Descripcion 
-
--- TABLA RESERVAS --------------------------------------------------------------------------------------------------
-
-CREATE TABLE G_N.Reservas(Reserva_Codigo INT PRIMARY KEY IDENTITY(110741, 1),
-						  Reserva_Cliente_Id INT FOREIGN KEY REFERENCES G_N.Clientes(Cliente_Id),
-						  Reserva_Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
-						  Reserva_Fecha_Creacion DATE NULL DEFAULT GETDATE(),
-						  Reserva_Fecha_Inicio DATE NOT NULL,
-						  Reserva_Fecha_Fin DATE NOT NULL)
-
-SET IDENTITY_INSERT G_N.Reservas ON;
-INSERT INTO G_N.Reservas(Reserva_Codigo,
-						 Reserva_Cliente_Id,
-						 Reserva_Regimen_Id,
-						 Reserva_Fecha_Inicio,
-						 Reserva_Fecha_Fin)
-	SELECT Reserva_Codigo, Cliente_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
-	FROM G_N.#Reservas_Temp
-SET IDENTITY_INSERT G_N.Reservas OFF;
-
--- TABLA RESERVAS_HABITACIONES ---------------------------------------------------------------------------------------
-
-CREATE TABLE G_N.Reservas_Habitaciones(Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
-									   Habitacion_Id INT FOREIGN KEY REFERENCES G_N.Habitaciones(Habitacion_Id),
-									   PRIMARY KEY (Reserva_Codigo, Habitacion_Id))
-									   
-
-INSERT INTO G_N.Reservas_Habitaciones(Reserva_Codigo, Habitacion_Id)
-	SELECT Reserva_Codigo, Habitacion_Id FROM G_N.#Reservas_Temp
-
--- TABLA ESTADÍAS ---------------------------------------------------------------------------------------
-
-CREATE TABLE G_N.Estadias(Estadia_Id NUMERIC(18, 0) PRIMARY KEY IDENTITY(1, 1),
-						  Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
-						  Estadia_Fecha_Inicio DATE NOT NULL,
-						  Estadia_Cant_Noches NUMERIC(18, 0) NOT NULL)
-						  
-INSERT INTO G_N.Estadias(Estadia_Reserva_Codigo, Estadia_Fecha_Inicio, Estadia_Cant_Noches)
-	SELECT DISTINCT m.Reserva_Codigo, m.Estadia_Fecha_Inicio, m.Estadia_Cant_Noches 
-	FROM gd_esquema.Maestra m, G_N.#Reservas_Temp rt
-	WHERE m.Reserva_Codigo = rt.Reserva_Codigo
-	  AND m.Estadia_Fecha_Inicio IS NOT NULL
-	  AND m.Estadia_Cant_Noches IS NOT NULL
-
--- TABLA FACTURAS ----------------------------------------------------------------------------------------
-
-CREATE TABLE G_N.Facturas(Factura_Nro NUMERIC(18, 0) PRIMARY KEY,
-						  Factura_Fecha DATE NOT NULL,
-						  Factura_Total NUMERIC(18,2) NOT NULL,
-						  Factura_Estadia_Id NUMERIC(18,0) FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Id))
-
-INSERT INTO G_N.Facturas
-	SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha, m.Factura_Total, e.Estadia_Id
-		FROM gd_esquema.Maestra m, G_N.Estadias e
-		WHERE Factura_Nro IS NOT NULL
-		  AND m.Reserva_Codigo = e.Estadia_Reserva_Codigo
-		  
--- TABLA ITEMS DE FACTURAS -------------------------------------------------------------------------------
-
-CREATE TABLE G_N.Factura_Items(Factura_Item_Id NUMERIC(18, 0) IDENTITY(1, 1) PRIMARY KEY,
-							   Factura_Item_Factura_Nro NUMERIC(18, 0) FOREIGN KEY REFERENCES G_N.Facturas(Factura_Nro),
-							   Factura_Item_Consumible_Codigo NUMERIC(18, 0) NULL FOREIGN KEY REFERENCES G_N.Consumibles(Consumible_Codigo),
-							   Factura_Item_Cantidad NUMERIC(18, 0) NOT NULL,
-							   Factura_Item_Monto NUMERIC(18, 2) NOT NULL)
-
-
-INSERT INTO G_N.Factura_Items(Factura_Item_Factura_Nro,
-							  Factura_Item_Consumible_Codigo,
-							  Factura_Item_Cantidad,
-							  Factura_Item_Monto)
-	SELECT Factura_Nro, Consumible_Codigo, Item_Factura_Cantidad, Item_Factura_Monto
-	FROM gd_esquema.Maestra m
-	WHERE Item_Factura_Cantidad IS NOT NULL
-	  AND Item_Factura_Monto IS NOT NULL
-	  
--- DROP TEMP TABLES --------------------------------------------------------------------------------------
-
-DROP TABLE G_N.#Habitaciones_Temp
-DROP TABLE G_N.#Hoteles_Regimenes_Temp
-DROP TABLE G_N.#Reservas_Temp
-
--- TABLA USUARIOS ----------------------------------------------------------------------------------------
-
+	
+-- TABLA USUARIOS --------------------------------------------------------------------------------------------------
 CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
 						  Usuario_Password NVARCHAR(255) NOT NULL,
@@ -315,7 +204,8 @@ CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_Fecha_Nac DATE NOT NULL,
 						  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A',
 						  Usuario_Logins_Fallidos INT DEFAULT 0)
-				
+		
+-- ADMIN		
 INSERT INTO G_N.Usuarios(Usuario_UserName,
 						 Usuario_Password,
 						 Usuario_Nombre_Completo,	
@@ -335,7 +225,134 @@ INSERT INTO G_N.Usuarios(Usuario_UserName,
 		   'Av. Rivadavia 123',
 		   '1985-12-12')
 
+-- GUEST GENERICO		   
+INSERT INTO G_N.Usuarios(Usuario_UserName,
+						 Usuario_Password,
+						 Usuario_Nombre_Completo,	
+						 Usuario_Documento_Tipo_Id,
+						 Usuario_Documento_Nro,
+						 Usuario_Mail,
+						 Usuario_Telefono,
+						 Usuario_Direccion,
+						 Usuario_Fecha_Nac)	
+	VALUES('guest', 
+		   'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 
+		   'Martin Perez',
+		   2, 
+		   33669541,
+		   'martinsuarez@gmail.com', 
+		   '011 4-555-5556', 
+		   'Av. Rivadavia 124',
+		   '1985-12-16')
+	
+-- TABLA RESERVAS
+-- TABLA RESERVAS TEMP ---------------------------------------------------------------------------------------------
+SELECT DISTINCT h.Habitacion_Id,
+				m.Regimen_Descripcion,
+				r.Regimen_Id,
+				m.Reserva_Codigo,
+				m.Reserva_Fecha_Inicio,
+				m.Reserva_Cant_Noches, 
+				m.Cliente_Pasaporte_Nro, 
+				m.Cliente_Mail,
+				c.Cliente_Id
+	INTO G_N.#Reservas_Temp
+	FROM gd_esquema.Maestra m, G_N.Clientes c, G_N.#Habitaciones_Temp h, G_N.Regimenes r
+	WHERE Reserva_Codigo IS NOT NULL
+	  AND m.Cliente_Pasaporte_Nro = c.Cliente_Documento_Nro
+	  AND m.Cliente_Mail = c.Cliente_Mail
+	  AND m.Hotel_Ciudad = h.Hotel_Ciudad
+	  AND m.Hotel_Calle = h.Hotel_Calle
+	  AND m.Habitacion_Numero = h.Habitacion_Numero
+	  AND m.Regimen_Descripcion = r.Regimen_Descripcion 
+	  
+CREATE TABLE G_N.Reserva_Estados(Reserva_Estado_Id INT PRIMARY KEY IDENTITY(1, 1),
+								 Reserva_Estado_Descripcion NVARCHAR(50) NOT NULL DEFAULT '')
+								 
+INSERT INTO G_N.Reserva_Estados VALUES ('Reserva correcta')
+INSERT INTO G_N.Reserva_Estados VALUES ('Reserva modificada')
+INSERT INTO G_N.Reserva_Estados VALUES ('Reserva cancelada por Recepción')
+INSERT INTO G_N.Reserva_Estados VALUES ('Reserva cancelada por Cliente')
+INSERT INTO G_N.Reserva_Estados VALUES ('Reserva cancelada por No-Show')
+INSERT INTO G_N.Reserva_Estados VALUES ('Reserva efectivizada')
 
+-- TABLA RESERVAS --------------------------------------------------------------------------------------------------
+CREATE TABLE G_N.Reservas(Reserva_Codigo INT PRIMARY KEY IDENTITY(110741, 1),
+						  Reserva_Cliente_Id INT FOREIGN KEY REFERENCES G_N.Clientes(Cliente_Id),
+						  Reserva_Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
+						  Reserva_Fecha_Creacion DATE NULL DEFAULT GETDATE(),
+						  Reserva_Fecha_Inicio DATE NOT NULL,
+						  Reserva_Fecha_Fin DATE NOT NULL,
+						  Reserva_Estado_Id INT NOT NULL DEFAULT 1 FOREIGN KEY REFERENCES G_N.Reserva_Estados(Reserva_Estado_Id),
+						  Reserva_Usuario_Id INT NOT NULL DEFAULT 2 FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id))
+
+SET IDENTITY_INSERT G_N.Reservas ON;
+INSERT INTO G_N.Reservas(Reserva_Codigo,
+						 Reserva_Cliente_Id,
+						 Reserva_Regimen_Id,
+						 Reserva_Fecha_Inicio,
+						 Reserva_Fecha_Fin)
+	SELECT Reserva_Codigo, Cliente_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
+	FROM G_N.#Reservas_Temp
+SET IDENTITY_INSERT G_N.Reservas OFF;
+
+-- TABLA RESERVAS_HABITACIONES ---------------------------------------------------------------------------------------
+CREATE TABLE G_N.Reservas_Habitaciones(Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
+									   Habitacion_Id INT FOREIGN KEY REFERENCES G_N.Habitaciones(Habitacion_Id),
+									   PRIMARY KEY (Reserva_Codigo, Habitacion_Id))
+									   
+
+INSERT INTO G_N.Reservas_Habitaciones(Reserva_Codigo, Habitacion_Id)
+	SELECT Reserva_Codigo, Habitacion_Id FROM G_N.#Reservas_Temp
+
+-- TABLA ESTADÍAS ---------------------------------------------------------------------------------------
+CREATE TABLE G_N.Estadias(Estadia_Id NUMERIC(18, 0) PRIMARY KEY IDENTITY(1, 1),
+						  Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
+						  Estadia_Fecha_Inicio DATE NOT NULL,
+						  Estadia_Cant_Noches NUMERIC(18, 0) NOT NULL)
+						  
+INSERT INTO G_N.Estadias(Estadia_Reserva_Codigo, Estadia_Fecha_Inicio, Estadia_Cant_Noches)
+	SELECT DISTINCT m.Reserva_Codigo, m.Estadia_Fecha_Inicio, m.Estadia_Cant_Noches 
+	FROM gd_esquema.Maestra m, G_N.#Reservas_Temp rt
+	WHERE m.Reserva_Codigo = rt.Reserva_Codigo
+	  AND m.Estadia_Fecha_Inicio IS NOT NULL
+	  AND m.Estadia_Cant_Noches IS NOT NULL
+
+-- TABLA FACTURAS ----------------------------------------------------------------------------------------
+CREATE TABLE G_N.Facturas(Factura_Nro NUMERIC(18, 0) PRIMARY KEY,
+						  Factura_Fecha DATE NOT NULL,
+						  Factura_Total NUMERIC(18,2) NOT NULL,
+						  Factura_Estadia_Id NUMERIC(18,0) FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Id))
+
+INSERT INTO G_N.Facturas
+	SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha, m.Factura_Total, e.Estadia_Id
+		FROM gd_esquema.Maestra m, G_N.Estadias e
+		WHERE Factura_Nro IS NOT NULL
+		  AND m.Reserva_Codigo = e.Estadia_Reserva_Codigo
+		  
+-- TABLA ITEMS DE FACTURAS -------------------------------------------------------------------------------
+CREATE TABLE G_N.Factura_Items(Factura_Item_Id NUMERIC(18, 0) IDENTITY(1, 1) PRIMARY KEY,
+							   Factura_Item_Factura_Nro NUMERIC(18, 0) FOREIGN KEY REFERENCES G_N.Facturas(Factura_Nro),
+							   Factura_Item_Consumible_Codigo NUMERIC(18, 0) NULL FOREIGN KEY REFERENCES G_N.Consumibles(Consumible_Codigo),
+							   Factura_Item_Cantidad NUMERIC(18, 0) NOT NULL,
+							   Factura_Item_Monto NUMERIC(18, 2) NOT NULL)
+
+
+INSERT INTO G_N.Factura_Items(Factura_Item_Factura_Nro,
+							  Factura_Item_Consumible_Codigo,
+							  Factura_Item_Cantidad,
+							  Factura_Item_Monto)
+	SELECT Factura_Nro, Consumible_Codigo, Item_Factura_Cantidad, Item_Factura_Monto
+	FROM gd_esquema.Maestra m
+	WHERE Item_Factura_Cantidad IS NOT NULL
+	  AND Item_Factura_Monto IS NOT NULL
+	  
+-- DROP TEMP TABLES --------------------------------------------------------------------------------------
+DROP TABLE G_N.#Habitaciones_Temp
+DROP TABLE G_N.#Hoteles_Regimenes_Temp
+DROP TABLE G_N.#Reservas_Temp
+
+-- TABLA USUARIOS-HOTELES ----------------------------------------------------------------------------------------
 CREATE TABLE G_N.Usuarios_Hoteles(Usuario_Id INT FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
 								  Hotel_Id INT FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 								  PRIMARY KEY (Usuario_Id, Hotel_Id))
@@ -440,9 +457,8 @@ UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 5 WHERE Habitacion_T
 --------------------------------------------------------------------------------------------------------
 -- STORED PROCEDURES -----------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------
-
+GO
 -- REGISTRO LOGIN FALLIDO ------------------------------------------------------------------------------
-
 CREATE PROCEDURE G_N.Registrar_Login_Fallido 
 	@Username NVARCHAR (50)
 AS
@@ -463,7 +479,6 @@ END
 GO
 
 -- RESETEO LOGIN FALLIDO -------------------------------------------------------------------------------
-
 CREATE PROCEDURE G_N.Resetear_Login_fallido 
 	@Username NVARCHAR (50)
 AS
@@ -481,19 +496,33 @@ GO
 ---------------------------------------------------------------------------------------------------------
 
 -- FUNCION RECIBE ID HOTEL Y DEVUELVE REGIMENES ACTIVOS -------------------------------------------------
-
-CREATE FUNCTION G_N.Func_Regimenes_de_Hotel (@Hotel_id INT)
-RETURNS table
+CREATE FUNCTION G_N.Regimenes_Necesarios_Hotel(@Hotel_id INT)
+RETURNS TABLE
 AS 
 	RETURN (SELECT DISTINCT Res.Reserva_Regimen_Id 
 			FROM G_N.Habitaciones Hab, G_N.Reservas_Habitaciones  RH, G_N.Reservas Res 
 			WHERE Hab.Habitacion_Hotel_Id = @Hotel_id
-			AND Hab.Habitacion_Id = RH.Habitacion_Id
-			AND RH.Reserva_Codigo = Res.Reserva_Codigo
-		    AND Res.Reserva_fecha_fin > = GETDATE()) 
+			  AND Hab.Habitacion_Id = RH.Habitacion_Id
+			  AND RH.Reserva_Codigo = Res.Reserva_Codigo
+		      AND Res.Reserva_fecha_fin > = GETDATE()) 
+			
+-- FUNCION QUE RETORNA SI UN HOTEL TIENE RESERVAS EN UN PERIODO DADO
+CREATE FUNCTION G_N.Tiene_Reservas_en_Periodo(@Hotel_id INT, @Inicio DATE, @Fin DATE)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @Resultado INT, @Cuenta INT
+	SET @Cuenta = (SELECT  COUNT(Res.Reserva_Codigo) Q
+					 FROM G_N.Habitaciones Hab, G_N.Reservas_Habitaciones RH, G_N.Reservas Res
+					 WHERE Hab.Habitacion_Id = RH.Habitacion_Id
+					   AND RH.Reserva_Codigo = Res.Reserva_Codigo
+					   AND Hab.Habitacion_Hotel_Id = @Hotel_id
+					   AND ((Res.Reserva_Fecha_inicio BETWEEN @Inicio AND @Fin) 
+					    OR (Res.Reserva_Fecha_fin BETWEEN @Inicio AND @Fin) 
+						OR (Res.Reserva_Fecha_inicio < @Inicio AND Res.Reserva_Fecha_Fin > @Fin)))
+						
+	IF (@Cuenta > 0) SET @Resultado = 1
+	ELSE SET @Resultado = 0
+	RETURN @Resultado 
+END
 
-
-/*Select * from G_N.Func_Regimenes_de_Hotel(1) order by 1
-Drop Function G_N.Func_Regimenes_de_Hotel/*
-
---------------------------------------------------------------------------------------------------------
