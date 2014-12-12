@@ -35,6 +35,7 @@
             this.botonAbmHoteles = new System.Windows.Forms.Button();
             this.botonAbmHabitaciones = new System.Windows.Forms.Button();
             this.botonAbmRegimenes = new System.Windows.Forms.Button();
+            this.BotonAdmReservas = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mensajeLabel
@@ -48,7 +49,7 @@
             // 
             // botonAbmUsuarios
             // 
-            this.botonAbmUsuarios.Location = new System.Drawing.Point(28, 91);
+            this.botonAbmUsuarios.Location = new System.Drawing.Point(38, 91);
             this.botonAbmUsuarios.Name = "botonAbmUsuarios";
             this.botonAbmUsuarios.Size = new System.Drawing.Size(98, 23);
             this.botonAbmUsuarios.TabIndex = 1;
@@ -58,7 +59,7 @@
             // 
             // botonAbmRoles
             // 
-            this.botonAbmRoles.Location = new System.Drawing.Point(190, 91);
+            this.botonAbmRoles.Location = new System.Drawing.Point(214, 91);
             this.botonAbmRoles.Name = "botonAbmRoles";
             this.botonAbmRoles.Size = new System.Drawing.Size(97, 23);
             this.botonAbmRoles.TabIndex = 2;
@@ -68,7 +69,7 @@
             // 
             // botonAbmClientes
             // 
-            this.botonAbmClientes.Location = new System.Drawing.Point(28, 46);
+            this.botonAbmClientes.Location = new System.Drawing.Point(38, 46);
             this.botonAbmClientes.Name = "botonAbmClientes";
             this.botonAbmClientes.Size = new System.Drawing.Size(98, 23);
             this.botonAbmClientes.TabIndex = 3;
@@ -78,7 +79,7 @@
             // 
             // botonAbmHoteles
             // 
-            this.botonAbmHoteles.Location = new System.Drawing.Point(339, 91);
+            this.botonAbmHoteles.Location = new System.Drawing.Point(387, 46);
             this.botonAbmHoteles.Name = "botonAbmHoteles";
             this.botonAbmHoteles.Size = new System.Drawing.Size(97, 23);
             this.botonAbmHoteles.TabIndex = 4;
@@ -98,7 +99,7 @@
             // 
             // botonAbmRegimenes
             // 
-            this.botonAbmRegimenes.Location = new System.Drawing.Point(190, 136);
+            this.botonAbmRegimenes.Location = new System.Drawing.Point(202, 136);
             this.botonAbmRegimenes.Name = "botonAbmRegimenes";
             this.botonAbmRegimenes.Size = new System.Drawing.Size(121, 23);
             this.botonAbmRegimenes.TabIndex = 6;
@@ -106,11 +107,22 @@
             this.botonAbmRegimenes.UseVisualStyleBackColor = true;
             this.botonAbmRegimenes.Click += new System.EventHandler(this.botonAbmRegimenes_Click);
             // 
+            // BotonAdmReservas
+            // 
+            this.BotonAdmReservas.Location = new System.Drawing.Point(190, 46);
+            this.BotonAdmReservas.Name = "BotonAdmReservas";
+            this.BotonAdmReservas.Size = new System.Drawing.Size(146, 23);
+            this.BotonAdmReservas.TabIndex = 7;
+            this.BotonAdmReservas.Text = "Administracion de reservas";
+            this.BotonAdmReservas.UseVisualStyleBackColor = true;
+            this.BotonAdmReservas.Click += new System.EventHandler(this.BotonAdmReservas_Click);
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 204);
+            this.Controls.Add(this.BotonAdmReservas);
             this.Controls.Add(this.botonAbmRegimenes);
             this.Controls.Add(this.botonAbmHabitaciones);
             this.Controls.Add(this.botonAbmHoteles);
@@ -134,5 +146,6 @@
         private System.Windows.Forms.Button botonAbmHoteles;
         private System.Windows.Forms.Button botonAbmHabitaciones;
         private System.Windows.Forms.Button botonAbmRegimenes;
+        private System.Windows.Forms.Button BotonAdmReservas;
     }
 }

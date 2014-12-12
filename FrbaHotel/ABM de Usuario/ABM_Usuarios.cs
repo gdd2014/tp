@@ -12,9 +12,9 @@ using FrbaHotel.Utils;
 namespace FrbaHotel.ABM_de_Usuario {
     public partial class ABM_Usuarios : Form {
 
-        Decimal userId;
-        Decimal rolId;
-        Decimal hotelId;
+        String userId;
+        String rolId;
+        String hotelId;
 
         String query = "SELECT Usuario_Id AS Id, " +
                              " Usuario_userName AS Usuario, " +
@@ -23,7 +23,7 @@ namespace FrbaHotel.ABM_de_Usuario {
                              " Estado FROM G_N.Usuarios";
 
 
-        public ABM_Usuarios(Decimal userId, Decimal rolId, Decimal hotelId) {
+        public ABM_Usuarios(String userId, String rolId, String hotelId) {
             this.userId = userId;
             this.rolId = rolId;
             this.hotelId = hotelId;

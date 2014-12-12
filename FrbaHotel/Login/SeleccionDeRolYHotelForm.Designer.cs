@@ -70,6 +70,7 @@
             this.mensajeHotelLabel.Size = new System.Drawing.Size(215, 13);
             this.mensajeHotelLabel.TabIndex = 3;
             this.mensajeHotelLabel.Text = "Seleccione el hotel en el que desea operar: ";
+         
             // 
             // hotelesCombo
             // 
@@ -78,6 +79,7 @@
             this.hotelesCombo.Name = "hotelesCombo";
             this.hotelesCombo.Size = new System.Drawing.Size(162, 21);
             this.hotelesCombo.TabIndex = 4;
+           
             // 
             // SeleccionDeRolYHotelForm
             // 

@@ -26,6 +26,7 @@ namespace FrbaHotel {
             
             Menu_Principal.MenuPrincipalForm mainMenu = new Menu_Principal.MenuPrincipalForm(-1, 3, -1);
 
+            this.Hide();
             // Show the settings form
             mainMenu.Show();
         }

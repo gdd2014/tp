@@ -12,20 +12,21 @@ using FrbaHotel.ABM_de_Cliente;
 using FrbaHotel.ABM_de_Hotel;
 using FrbaHotel.ABM_de_Habitacion;
 using FrbaHotel.ABM_de_Regimen;
+using FrbaHotel.Generar_Modificar_Reserva;
 
 using System.Windows.Forms;
 
 namespace FrbaHotel.Menu_Principal {
     public partial class MenuPrincipalForm : Form {
 
-        Decimal userId;
-        Decimal rolId;
-        Decimal hotelId;
+        String userId;
+        String rolId;
+        String hotelId;
 
         public MenuPrincipalForm(Decimal userId, Decimal rolId, Decimal hotelId) {
-            this.userId = userId;
-            this.rolId = rolId;
-            this.hotelId = hotelId;
+            if (userId != -1) this.userId = userId.ToString(); else this.userId = "";
+            if (rolId != -1) this.rolId = rolId.ToString(); else this.rolId = "";
+            if (hotelId != -1) this.hotelId = hotelId.ToString(); else this.hotelId = "";
 
             InitializeComponent();
 
@@ -67,10 +68,22 @@ namespace FrbaHotel.Menu_Principal {
         }
 
         private void botonAbmRegimenes_Click(object sender, EventArgs e) {
-            ABM_Regimenes hf = new ABM_Regimenes();
-            hf.Show();
+            ABM_Regimenes rf = new ABM_Regimenes();
+            rf.Show();
         }
 
+        private void BotonAdmReservas_Click(object sender, EventArgs e) {
+            if (this.hotelId == "") {
+                Seleccion_Hotel sh = new Seleccion_Hotel(userId);
+                sh.Show();
+            } else {
+                Admin_Reservas ar = new Admin_Reservas(hotelId, userId);
+            }
+            
+
+
+        }
+       
       
     }
 }

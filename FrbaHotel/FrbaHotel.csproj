@@ -131,6 +131,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GD2C2014DataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Generar Modificar Reserva\AoM_Reserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Modificar Reserva\AoM_Reserva.Designer.cs">
+      <DependentUpon>AoM_Reserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Modificar Reserva\Seleccion_Hotel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Modificar Reserva\Seleccion_Hotel.Designer.cs">
+      <DependentUpon>Seleccion_Hotel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\SeleccionDeRolYHotelForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +157,7 @@
     </Compile>
     <Compile Include="Utils\ConversionUtils.cs" />
     <Compile Include="Utils\DBUtils.cs" />
+    <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="Utils\NumYDesc.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\UIUtils.cs" />
@@ -154,11 +167,11 @@
     <Compile Include="VentanaInicial.Designer.cs">
       <DependentUpon>VentanaInicial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Generar Modificar Reserva\Form1.cs">
+    <Compile Include="Generar Modificar Reserva\Admin_Reservas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Generar Modificar Reserva\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Generar Modificar Reserva\Admin_Reservas.Designer.cs">
+      <DependentUpon>Admin_Reservas.cs</DependentUpon>
     </Compile>
     <Compile Include="Listado Estadistico\Form1.cs">
       <SubType>Form</SubType>
@@ -209,6 +222,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Hotel\ABM_Hoteles.resx">
       <DependentUpon>ABM_Hoteles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Modificar Reserva\Admin_Reservas.resx">
+      <DependentUpon>Admin_Reservas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Modificar Reserva\AoM_Reserva.resx">
+      <DependentUpon>AoM_Reserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Modificar Reserva\Seleccion_Hotel.resx">
+      <DependentUpon>Seleccion_Hotel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

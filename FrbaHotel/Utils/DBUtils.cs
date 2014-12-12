@@ -89,6 +89,25 @@ namespace FrbaHotel.Utils {
             con.Close();
         }
 
+
+        public static List<Decimal> queryRetornaDecimals(String query)
+        {
+            SqlConnection con = getOpenConnection();
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            List<Decimal> ids = new List<Decimal>();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read()) {
+                ids.Add(reader.GetDecimal(0));
+            }
+
+            reader.Close();
+            con.Close();
+
+            return ids;
+        }
+
         public static List<int> queryRetornaInts(String query) {
             SqlConnection con = getOpenConnection();
             SqlCommand cmd = new SqlCommand(query, con);
@@ -116,7 +135,7 @@ namespace FrbaHotel.Utils {
             while (reader.Read()) {
                 try {
                     result.Add(reader.GetString(0));
-                } catch (Exception e) {
+                } catch (Exception) {
                     result.Add(reader.GetDecimal(0).ToString());
                 }
             }
@@ -127,14 +146,17 @@ namespace FrbaHotel.Utils {
             return result;
         }
 
-        public static void llenarDataGridView(DataGridView dgv, String query) {
+        public static DataTable llenarDataGridView(DataGridView dgv, String query) {
             SqlConnection con = getOpenConnection();
 
             DataSet dataSet = new DataSet();
             SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
             dataAdapter.SelectCommand.CommandTimeout = 600;
             dataAdapter.Fill(dataSet);
-            dgv.DataSource = dataSet.Tables[0];
+            DataTable dt = dataSet.Tables[0];
+            dgv.DataSource = dt;
+
+            return dt;
         }
 
         public static void llenarComboBox(ListControl cb, String query, String valueMember, String displayMember) {

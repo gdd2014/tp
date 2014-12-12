@@ -58,7 +58,8 @@ INSERT INTO G_N.Hoteles_Regimenes(Hotel_Id, Regimen_Id)
 -- TABLA TIPOS DE HABITACION
 CREATE TABLE G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo INT PRIMARY KEY,
 								  Habitacion_Tipo_Descripcion NVARCHAR(255) NOT NULL,
-								  Habitacion_Tipo_Porcentual NUMERIC(18,2) NOT NULL)
+								  Habitacion_Tipo_Porcentual NUMERIC(18,2) NOT NULL,
+								  Habitacion_Tipo_Capacidad INT)
 
 INSERT INTO G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo,
 								 Habitacion_Tipo_Descripcion,
@@ -404,6 +405,12 @@ UPDATE G_N.Hoteles SET Hotel_Pais = 'Argentina'
 UPDATE G_N.Hoteles SET Hotel_Nombre = ''
 UPDATE G_N.Hoteles SET Hotel_Mail = ''
 UPDATE G_N.Hoteles SET Hotel_Fecha_Creacion = GETDATE()
+
+UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 1 WHERE Habitacion_Tipo_Codigo = 1001
+UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 2 WHERE Habitacion_Tipo_Codigo = 1002
+UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 3 WHERE Habitacion_Tipo_Codigo = 1003
+UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 4 WHERE Habitacion_Tipo_Codigo = 1004
+UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 5 WHERE Habitacion_Tipo_Codigo = 1005
 
 
 --------------- TERCERA PARTE --------------------------------------------------------------------
