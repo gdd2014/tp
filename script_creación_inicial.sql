@@ -2,7 +2,13 @@ USE GD2C2014
 GO
 CREATE SCHEMA G_N
 GO
--- TABLA TEMPORAL DE HOTELES Y REGIMENES
+
+---------------------------------------------------------------------------------------------------------
+-- TABLAS------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+-- TABLA TEMPORAL DE HOTELES Y REGIMENES ----------------------------------------------------------------------------
+
 SELECT DISTINCT Hotel_Ciudad, 
 				Hotel_Calle, 
 				Hotel_Nro_Calle,
@@ -12,7 +18,8 @@ SELECT DISTINCT Hotel_Ciudad,
 INTO G_N.#Hoteles_Regimenes_Temp
 FROM gd_esquema.Maestra
 
--- TABLA HOTELES	
+-- TABLA HOTELES ----------------------------------------------------------------------------------------------------	
+
 CREATE TABLE G_N.Hoteles(Hotel_Id INT IDENTITY(1,1) PRIMARY KEY,
 						 Hotel_Nombre VARCHAR(70),
 						 Hotel_Mail VARCHAR(50),
@@ -31,7 +38,8 @@ INSERT INTO G_N.Hoteles(Hotel_Ciudad,
 	SELECT DISTINCT Hotel_Ciudad, Hotel_Calle, Hotel_Nro_Calle, Hotel_CantEstrella
 	FROM G_N.#Hoteles_Regimenes_Temp
 
--- TABLA REGÍMENES
+-- TABLA REGÍMENES --------------------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Regimenes(Regimen_Id INT IDENTITY(1,1) PRIMARY KEY,
 						   Regimen_Descripcion NVARCHAR(255) NOT NULL,
 						   Regimen_Precio NUMERIC(18,2) NOT NULL)
@@ -40,7 +48,8 @@ INSERT INTO G_N.Regimenes(Regimen_Descripcion, Regimen_Precio)
 	SELECT DISTINCT Regimen_Descripcion, Regimen_Precio
 	FROM G_N.#Hoteles_Regimenes_Temp
 
--- TABLA RELACIÓN HOTELES CON REGÍMENES
+-- TABLA RELACIÓN HOTELES CON REGÍMENES -----------------------------------------------------------------------------
+
 CREATE TABLE G_N.Hoteles_Regimenes(Hotel_Id INT FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 								   Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
 								   PRIMARY KEY (Hotel_Id, Regimen_Id))
@@ -55,7 +64,8 @@ INSERT INTO G_N.Hoteles_Regimenes(Hotel_Id, Regimen_Id)
 	  AND G_N.Regimenes.Regimen_Descripcion = G_N.#Hoteles_Regimenes_Temp.Regimen_Descripcion
 	  AND G_N.Regimenes.Regimen_Precio = G_N.#Hoteles_Regimenes_Temp.Regimen_Precio
 
--- TABLA TIPOS DE HABITACION
+-- TABLA TIPOS DE HABITACION ----------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo INT PRIMARY KEY,
 								  Habitacion_Tipo_Descripcion NVARCHAR(255) NOT NULL,
 								  Habitacion_Tipo_Porcentual NUMERIC(18,2) NOT NULL,
@@ -67,7 +77,8 @@ INSERT INTO G_N.Habitacion_Tipos(Habitacion_Tipo_Codigo,
 	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion, Habitacion_Tipo_Porcentual 
 	FROM gd_esquema.Maestra
 		
--- TABLA HABITACIONES
+-- TABLA HABITACIONES -----------------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Habitaciones(Habitacion_Id INT IDENTITY(1,1) PRIMARY KEY,
 							  Habitacion_Hotel_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 							  Habitacion_Numero NUMERIC(18,0) NOT NULL,
@@ -91,10 +102,10 @@ INSERT INTO G_N.Habitaciones(Habitacion_Hotel_Id,
 		M.Habitacion_Piso,
 		M.Habitacion_Frente, 
 		M.Habitacion_Tipo_Codigo
-	FROM G_N.Hoteles H, gd_esquema.Maestra M
-	
+	FROM G_N.Hoteles H, gd_esquema.Maestra M	
 							  
--- TABLA TIPOS DE DOCUMENTO
+-- TABLA TIPOS DE DOCUMENTO ---------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Documento_Tipos(Documento_Tipo_Id INT IDENTITY (1,1) PRIMARY KEY,
 								 Documento_Tipo_Descripcion VARCHAR(30) NOT NULL)
 
@@ -102,7 +113,8 @@ INSERT INTO G_N.Documento_Tipos(Documento_Tipo_Descripcion) VALUES ('Pasaporte')
 INSERT INTO G_N.Documento_Tipos(Documento_Tipo_Descripcion) VALUES ('D.N.I.')
 INSERT INTO G_N.Documento_Tipos(Documento_Tipo_Descripcion) VALUES ('Cédula de Identidad')
 
--- TABLA CLIENTES
+-- TABLA CLIENTES -------------------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Clientes(Cliente_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Cliente_Documento_Tipo_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Documento_Tipos(Documento_Tipo_Id),
 						  Cliente_Documento_Nro NUMERIC(18,0) NOT NULL, 
@@ -159,7 +171,8 @@ UPDATE G_N.Clientes SET Cliente_Documento_Repetido = 'T'
 			GROUP BY CAST(Cliente_Documento_Tipo_Id AS NVARCHAR) + '-' + CAST(Cliente_Documento_Nro AS NVARCHAR)
 			HAVING COUNT(*) > 1)
 
--- TABLA CONSUMIBLES
+-- TABLA CONSUMIBLES -----------------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Consumibles(Consumible_Codigo NUMERIC(18,0) PRIMARY KEY,
 							 Consumible_Descripcion NVARCHAR(255) NOT NULL,
 							 Consumible_Precio NUMERIC(18,2) NOT NULL)
@@ -171,7 +184,8 @@ INSERT INTO G_N.Consumibles(Consumible_Codigo,
 	FROM gd_esquema.Maestra 
 	WHERE Consumible_Codigo IS NOT NULL
 
--- TABLA TEMPORAL DE HABITACIONES
+-- TABLA TEMPORAL DE HABITACIONES ----------------------------------------------------------------------------------
+
 SELECT DISTINCT m.Hotel_Ciudad,
 				m.Hotel_Calle,
 				m.Hotel_Nro_Calle,
@@ -186,7 +200,8 @@ SELECT DISTINCT m.Hotel_Ciudad,
 	  AND ha.Habitacion_Numero = m.Habitacion_Numero
 	  AND ha.Habitacion_Hotel_Id = ho.Hotel_Id
 	
--- TABLA RESERVAS
+-- TABLA RESERVAS TEMP ---------------------------------------------------------------------------------------------
+
 SELECT DISTINCT h.Habitacion_Id,
 				m.Regimen_Descripcion,
 				r.Regimen_Id,
@@ -206,6 +221,8 @@ SELECT DISTINCT h.Habitacion_Id,
 	  AND m.Habitacion_Numero = h.Habitacion_Numero
 	  AND m.Regimen_Descripcion = r.Regimen_Descripcion 
 
+-- TABLA RESERVAS --------------------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Reservas(Reserva_Codigo INT PRIMARY KEY IDENTITY(110741, 1),
 						  Reserva_Cliente_Id INT FOREIGN KEY REFERENCES G_N.Clientes(Cliente_Id),
 						  Reserva_Regimen_Id INT FOREIGN KEY REFERENCES G_N.Regimenes(Regimen_Id),
@@ -223,6 +240,8 @@ INSERT INTO G_N.Reservas(Reserva_Codigo,
 	FROM G_N.#Reservas_Temp
 SET IDENTITY_INSERT G_N.Reservas OFF;
 
+-- TABLA RESERVAS_HABITACIONES ---------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Reservas_Habitaciones(Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
 									   Habitacion_Id INT FOREIGN KEY REFERENCES G_N.Habitaciones(Habitacion_Id),
 									   PRIMARY KEY (Reserva_Codigo, Habitacion_Id))
@@ -231,7 +250,8 @@ CREATE TABLE G_N.Reservas_Habitaciones(Reserva_Codigo INT FOREIGN KEY REFERENCES
 INSERT INTO G_N.Reservas_Habitaciones(Reserva_Codigo, Habitacion_Id)
 	SELECT Reserva_Codigo, Habitacion_Id FROM G_N.#Reservas_Temp
 
--- TABLA ESTADÍAS
+-- TABLA ESTADÍAS ---------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Estadias(Estadia_Id NUMERIC(18, 0) PRIMARY KEY IDENTITY(1, 1),
 						  Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
 						  Estadia_Fecha_Inicio DATE NOT NULL,
@@ -244,7 +264,8 @@ INSERT INTO G_N.Estadias(Estadia_Reserva_Codigo, Estadia_Fecha_Inicio, Estadia_C
 	  AND m.Estadia_Fecha_Inicio IS NOT NULL
 	  AND m.Estadia_Cant_Noches IS NOT NULL
 
--- TABLA FACTURAS
+-- TABLA FACTURAS ----------------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Facturas(Factura_Nro NUMERIC(18, 0) PRIMARY KEY,
 						  Factura_Fecha DATE NOT NULL,
 						  Factura_Total NUMERIC(18,2) NOT NULL,
@@ -256,7 +277,8 @@ INSERT INTO G_N.Facturas
 		WHERE Factura_Nro IS NOT NULL
 		  AND m.Reserva_Codigo = e.Estadia_Reserva_Codigo
 		  
--- TABLA ITEMS DE FACTURAS
+-- TABLA ITEMS DE FACTURAS -------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Factura_Items(Factura_Item_Id NUMERIC(18, 0) IDENTITY(1, 1) PRIMARY KEY,
 							   Factura_Item_Factura_Nro NUMERIC(18, 0) FOREIGN KEY REFERENCES G_N.Facturas(Factura_Nro),
 							   Factura_Item_Consumible_Codigo NUMERIC(18, 0) NULL FOREIGN KEY REFERENCES G_N.Consumibles(Consumible_Codigo),
@@ -272,16 +294,15 @@ INSERT INTO G_N.Factura_Items(Factura_Item_Factura_Nro,
 	FROM gd_esquema.Maestra m
 	WHERE Item_Factura_Cantidad IS NOT NULL
 	  AND Item_Factura_Monto IS NOT NULL
-
 	  
--- DROP TEMP TABLES
+-- DROP TEMP TABLES --------------------------------------------------------------------------------------
+
 DROP TABLE G_N.#Habitaciones_Temp
 DROP TABLE G_N.#Hoteles_Regimenes_Temp
 DROP TABLE G_N.#Reservas_Temp
 
-------------------------------------------- SEGUNDA PARTE ------------------------------------------------
+-- TABLA USUARIOS ----------------------------------------------------------------------------------------
 
--- TABLA USUARIOS
 CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
 						  Usuario_Password NVARCHAR(255) NOT NULL,
@@ -321,7 +342,7 @@ CREATE TABLE G_N.Usuarios_Hoteles(Usuario_Id INT FOREIGN KEY REFERENCES G_N.Usua
 		   
 INSERT INTO G_N.Usuarios_Hoteles VALUES(1, 1)		   
 		   
---- TABLA ROLES
+-- TABLA ROLES --------------------------------------------------------------------------------------------
 
 CREATE TABLE G_N.Roles(Rol_Id INT IDENTITY(1,1) PRIMARY KEY,
 					   Rol_Nombre NVARCHAR(50) NOT NULL UNIQUE,
@@ -331,14 +352,15 @@ INSERT INTO G_N.Roles(Rol_Nombre) VALUES ('Administrador General')
 INSERT INTO G_N.Roles(Rol_Nombre) VALUES ('Recepcionista')						 
 INSERT INTO G_N.Roles(Rol_Nombre) VALUES ('Guest')		
 
---- Usuarios_Roles
+-- TABLA USUARIOS_ROLES -----------------------------------------------------------------------------------
+
 CREATE TABLE G_N.Usuarios_Roles(Usuario_Id INT FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
 								Rol_Id INT FOREIGN KEY REFERENCES G_N.Roles(Rol_Id),
 								PRIMARY KEY (Usuario_Id, Rol_Id))
 
 INSERT INTO G_N.Usuarios_Roles VALUES(1, 1)
 								
---- TABLA FUNCIONALIDADES
+-- TABLA FUNCIONALIDADES ----------------------------------------------------------------------------------
 CREATE TABLE G_N.Funcionalidades(Funcionalidad_Id INT IDENTITY(1,1) PRIMARY KEY,
 								 Funcionalidad_Nombre NVARCHAR(50) NOT NULL UNIQUE)
 								 
@@ -356,13 +378,14 @@ INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('Listado Estadisti
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Usuario')
 INSERT INTO G_N.Funcionalidades(Funcionalidad_Nombre) VALUES ('ABM Rol')
 
---- TABLA ROLES-FUNCIONALIDADES
+-- TABLA ROLES-FUNCIONALIDADES ----------------------------------------------------------------------------
 
 CREATE TABLE G_N.Roles_Funcionalidades(Rol_Id INT FOREIGN KEY REFERENCES G_N.Roles(Rol_Id),
 									   Funcionalidad_Id INT FOREIGN KEY REFERENCES G_N.Funcionalidades(Funcionalidad_Id),
 								       PRIMARY KEY (Rol_Id, Funcionalidad_Id))
 
---- FUNCIONALIDADES DEL ADMINISTRADOR
+-- FUNCIONALIDADES DEL ADMINISTRADOR ---------------------------------------------------------------------
+
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 1) /* Administrador - ABM Cliente */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 2) /* Administrador - ABM Hotel */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 3) /* Administrador - ABM Habitacion */
@@ -377,7 +400,8 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 11) /
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 12) /* Administrador - ABM Usuarios */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (1, 13) /* Administrador - ABM Roles */
 
---- FUNCIONALIDADES DE RECEPCIONISTA
+-- FUNCIONALIDADES DE RECEPCIONISTA ---------------------------------------------------------------------
+
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 1) /* Administrador - ABM Cliente */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 5) /* Administrador - Generar Reserva  */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 6) /* Administrador - Modificar Reserva */
@@ -387,13 +411,14 @@ INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 9) /*
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 10) /* Administrador - Facturar Publicaciones */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (2, 11) /* Administrador - Listado Estadistico */
 
----  FUNCIONALIDADES DE GUEST
+-- FUNCIONALIDADES DE GUEST ----------------------------------------------------------------------------
+
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 5) /* Administrador - Generar Reserva  */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 6) /* Administrador - Modificar Reserva */
 INSERT INTO G_N.Roles_Funcionalidades(Rol_Id, Funcionalidad_Id) VALUES (3, 7) /* Administrador - Cancelar Reserva */
 
+-- BAJAS DE HOTEL --------------------------------------------------------------------------------------
 
---- BAJAS DE HOTEL
 CREATE TABLE G_N.Hoteles_Cerrados(Hotel_Id INT FOREIGN KEY REFERENCES G_N.Hoteles(Hotel_Id),
 							      Desde_Fecha DATE NOT NULL,
 								  Hasta_Fecha DATE NOT NULL,
@@ -412,10 +437,11 @@ UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 3 WHERE Habitacion_T
 UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 4 WHERE Habitacion_Tipo_Codigo = 1004
 UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 5 WHERE Habitacion_Tipo_Codigo = 1005
 
+--------------------------------------------------------------------------------------------------------
+-- STORED PROCEDURES -----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
 
---------------- TERCERA PARTE --------------------------------------------------------------------
-
---------------------------- REGISTRO LOGIN FALLIDO -----------------------------------------------
+-- REGISTRO LOGIN FALLIDO ------------------------------------------------------------------------------
 
 CREATE PROCEDURE G_N.Registrar_Login_Fallido 
 	@Username NVARCHAR (50)
@@ -436,8 +462,7 @@ BEGIN
 END
 GO
 
-
---------------------------------- RESETEO LOGIN FALLIDO -------------------------------
+-- RESETEO LOGIN FALLIDO -------------------------------------------------------------------------------
 
 CREATE PROCEDURE G_N.Resetear_Login_fallido 
 	@Username NVARCHAR (50)
@@ -449,3 +474,26 @@ BEGIN
 	WHERE Usuario_UserName = @Username
 END
 GO
+
+
+---------------------------------------------------------------------------------------------------------
+-- FUNCIONES --------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+-- FUNCION RECIBE ID HOTEL Y DEVUELVE REGIMENES ACTIVOS -------------------------------------------------
+
+CREATE FUNCTION G_N.Func_Regimenes_de_Hotel (@Hotel_id INT)
+RETURNS table
+AS 
+	RETURN (SELECT DISTINCT Res.Reserva_Regimen_Id 
+			FROM G_N.Habitaciones Hab, G_N.Reservas_Habitaciones  RH, G_N.Reservas Res 
+			WHERE Hab.Habitacion_Hotel_Id = @Hotel_id
+			AND Hab.Habitacion_Id = RH.Habitacion_Id
+			AND RH.Reserva_Codigo = Res.Reserva_Codigo
+		    AND Res.Reserva_fecha_fin > = GETDATE()) 
+
+
+/*Select * from G_N.Func_Regimenes_de_Hotel(1) order by 1
+Drop Function G_N.Func_Regimenes_de_Hotel/*
+
+--------------------------------------------------------------------------------------------------------
