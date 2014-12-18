@@ -27,8 +27,7 @@ namespace FrbaHotel.ABM_de_Usuario {
             String rolQuery = "SELECT r.Rol_Id AS rolId, Rol_Nombre AS rolName FROM G_N.Roles r " +
                                     DBUtils.soloActivos();
 
-            String hotelQuery = "SELECT h.Hotel_Id AS hotelId, h.Hotel_Dom_Calle + ' ' + CAST(h.Hotel_Dom_Nro AS NVARCHAR) AS hotelDom FROM G_N.Hoteles h " +
-                                    DBUtils.soloActivos();
+            String hotelQuery = "SELECT h.Hotel_Id AS hotelId, h.Hotel_Dom_Calle + ' ' + CAST(h.Hotel_Dom_Nro AS NVARCHAR) AS hotelDom FROM G_N.Hoteles h ";
 
             String tDocQuery = "SELECT Documento_Tipo_Id AS tDocId, Documento_Tipo_Descripcion AS tDocDesc FROM G_N.Documento_Tipos";
 
@@ -81,8 +80,7 @@ namespace FrbaHotel.ABM_de_Usuario {
                 if (esModificacion()) {
                     DBUtils.actualizar("Usuarios", campos(), valores(), "Usuario_Id", idAsignado);
                 } else {
-                    DBUtils.insertar("Usuarios", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaInts("SELECT Usuario_Id FROM G_N.Usuarios WHERE Usuario_UserName=" + DBUtils.stringify(uNameTextbox.Text)).First().ToString();
+                    idAsignado = DBUtils.insertarIdentity("Usuarios", campos(), valores());
                 }
                 DBUtils.insertarNxNs("Usuarios_Roles", "Usuario_Id", idAsignado, "rolId", UIUtils.valoresSeleccionados(rolesListBox));
                 DBUtils.insertarNxNs("Usuarios_Hoteles", "Usuario_Id", idAsignado, "hotelId", UIUtils.valoresSeleccionados(hotelesListBox));
@@ -160,7 +158,7 @@ namespace FrbaHotel.ABM_de_Usuario {
             return valores;
         }
 
-        private void nDocTextbox_KeyPressed(object sender, KeyPressEventArgs e) {
+        private void soloNumeros(object sender, KeyPressEventArgs e) {
             UIUtils.soloNumeros(e);
         }
 

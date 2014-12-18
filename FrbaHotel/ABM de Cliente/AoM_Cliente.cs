@@ -96,9 +96,7 @@ namespace FrbaHotel.ABM_de_Cliente {
                 if (esModificacion()) {
                     DBUtils.actualizar("Clientes", campos(), valores(), "Cliente_Id", idAsignado);
                 } else {
-                    DBUtils.insertar("Clientes", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaInts("SELECT Cliente_Id FROM G_N.Clientes WHERE Cliente_Mail=" + DBUtils.stringify(emailTextbox.Text) +
-                                                                                              " AND Cliente_Documento_Nro=" + nDocTextbox.Text).First().ToString();
+                    idAsignado = DBUtils.insertarIdentity("Clientes", campos(), valores());                                                                             
                 }
 
                 if (esModificacion()) {

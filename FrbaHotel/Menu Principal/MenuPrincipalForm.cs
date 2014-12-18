@@ -13,6 +13,8 @@ using FrbaHotel.ABM_de_Hotel;
 using FrbaHotel.ABM_de_Habitacion;
 using FrbaHotel.ABM_de_Regimen;
 using FrbaHotel.Generar_Modificar_Reserva;
+using FrbaHotel.Registrar_Estadia;
+using FrbaHotel.Registrar_Consumible;
 
 using System.Windows.Forms;
 
@@ -40,6 +42,9 @@ namespace FrbaHotel.Menu_Principal {
             botonAbmHoteles.Enabled = funcionalidades.Contains(2);
             botonAbmHabitaciones.Enabled = funcionalidades.Contains(3);
             botonAbmRegimenes.Enabled = funcionalidades.Contains(4);
+            BotonAdmReservas.Enabled = funcionalidades.Contains(5) && funcionalidades.Contains(6) && funcionalidades.Contains(7);
+            botonAdmEstadias.Enabled = funcionalidades.Contains(8);
+            botonRegCons.Enabled = funcionalidades.Contains(9);
         }
 
         private void botonAbmUsuarios_Click(object sender, EventArgs e) {
@@ -78,10 +83,18 @@ namespace FrbaHotel.Menu_Principal {
                 sh.Show();
             } else {
                 Admin_Reservas ar = new Admin_Reservas(hotelId, userId);
+                ar.Show();
             }
-            
+        }
 
+        private void botomAdmEstadias_Click(object sender, EventArgs e) {
+            Admin_Estadias ests = new Admin_Estadias(hotelId);
+            ests.Show();
+        }
 
+        private void botonRegCons_Click(object sender, EventArgs e) {
+            Elegir_Estadia rc = new Elegir_Estadia();
+            rc.Show();
         }
        
       

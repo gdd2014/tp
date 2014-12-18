@@ -177,7 +177,7 @@
             this.nDocTextbox.Name = "nDocTextbox";
             this.nDocTextbox.Size = new System.Drawing.Size(59, 20);
             this.nDocTextbox.TabIndex = 5;
-            this.nDocTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nDocTextbox_KeyPressed);
+            this.nDocTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNumeros);
             // 
             // telTextbox
             // 

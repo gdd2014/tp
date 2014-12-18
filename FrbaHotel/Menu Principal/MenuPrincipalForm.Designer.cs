@@ -36,6 +36,8 @@
             this.botonAbmHabitaciones = new System.Windows.Forms.Button();
             this.botonAbmRegimenes = new System.Windows.Forms.Button();
             this.BotonAdmReservas = new System.Windows.Forms.Button();
+            this.botonAdmEstadias = new System.Windows.Forms.Button();
+            this.botonRegCons = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mensajeLabel
@@ -117,11 +119,33 @@
             this.BotonAdmReservas.UseVisualStyleBackColor = true;
             this.BotonAdmReservas.Click += new System.EventHandler(this.BotonAdmReservas_Click);
             // 
+            // botonAdmEstadias
+            // 
+            this.botonAdmEstadias.Location = new System.Drawing.Point(366, 91);
+            this.botonAdmEstadias.Name = "botonAdmEstadias";
+            this.botonAdmEstadias.Size = new System.Drawing.Size(146, 23);
+            this.botonAdmEstadias.TabIndex = 8;
+            this.botonAdmEstadias.Text = "Administracion de estadias";
+            this.botonAdmEstadias.UseVisualStyleBackColor = true;
+            this.botonAdmEstadias.Click += new System.EventHandler(this.botomAdmEstadias_Click);
+            // 
+            // botonRegCons
+            // 
+            this.botonRegCons.Location = new System.Drawing.Point(366, 136);
+            this.botonRegCons.Name = "botonRegCons";
+            this.botonRegCons.Size = new System.Drawing.Size(146, 23);
+            this.botonRegCons.TabIndex = 9;
+            this.botonRegCons.Text = "Registrar consumibles";
+            this.botonRegCons.UseVisualStyleBackColor = true;
+            this.botonRegCons.Click += new System.EventHandler(this.botonRegCons_Click);
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 204);
+            this.ClientSize = new System.Drawing.Size(584, 204);
+            this.Controls.Add(this.botonRegCons);
+            this.Controls.Add(this.botonAdmEstadias);
             this.Controls.Add(this.BotonAdmReservas);
             this.Controls.Add(this.botonAbmRegimenes);
             this.Controls.Add(this.botonAbmHabitaciones);
@@ -147,5 +171,7 @@
         private System.Windows.Forms.Button botonAbmHabitaciones;
         private System.Windows.Forms.Button botonAbmRegimenes;
         private System.Windows.Forms.Button BotonAdmReservas;
+        private System.Windows.Forms.Button botonAdmEstadias;
+        private System.Windows.Forms.Button botonRegCons;
     }
 }

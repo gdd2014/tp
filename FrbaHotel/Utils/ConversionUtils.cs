@@ -41,5 +41,20 @@ namespace FrbaHotel.Utils {
 
             return character;
         }
+
+
+        public static Boolean IntABool(int entero) {
+            return entero != 0;
+        }
+
+        public static int boolAInt(Boolean boool) {
+            int entero;
+            if (boool) {
+                entero = 1;
+            }
+            else entero = 0;
+
+            return entero;
+        }
     }
 }

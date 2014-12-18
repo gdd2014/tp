@@ -23,6 +23,18 @@ namespace FrbaHotel.Utils {
             ejecutarQuery("UPDATE G_N." + tabla + " SET Estado='N' WHERE " + columnaIdentificadora + "=" + valor);
         }
 
+        public static String insertarIdentity(String tabla, List<String> campos, List<String> valores) {
+            String query = "INSERT INTO G_N." + tabla + "(" + String.Join(",", campos.ToArray()) + ")" +
+                               " VALUES (" + String.Join(",", valores.ToArray()) + ");SELECT CAST(scope_identity() AS int)";
+
+            SqlConnection con = getOpenConnection();
+            SqlCommand cmd = new SqlCommand(query, con);
+            int res = (int) cmd.ExecuteScalar();
+            con.Close();
+
+            return res.ToString();
+        }
+
         public static void insertar(String tabla, List<String> campos, List<String> valores) {
             String query = "INSERT INTO G_N." + tabla + "(" + String.Join(",", campos.ToArray()) + ")" +
                                " VALUES (" + String.Join(",", valores.ToArray()) + ")";
@@ -31,7 +43,8 @@ namespace FrbaHotel.Utils {
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.ExecuteNonQuery();
             con.Close();
-        }
+
+       }
 
         public static void actualizar(String tabla, List<String> campos, List<String> valores, String campoId, String valorId) {
             String query = "UPDATE G_N." + tabla + " SET " + StringUtils.aCampoIgualValor(campos, valores) +
@@ -108,6 +121,29 @@ namespace FrbaHotel.Utils {
             return ids;
         }
 
+
+        public static DateTime queryRetornaDate(String query) {
+            SqlConnection con = getOpenConnection();
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            DateTime date = DateTime.MinValue;
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read()) {
+                try {
+                    date = reader.GetDateTime(0);
+                } catch {
+                    date = DateTime.MinValue;
+                }
+                
+            }
+
+            reader.Close();
+            con.Close();
+
+            return date;
+        }
+
         public static List<int> queryRetornaInts(String query) {
             SqlConnection con = getOpenConnection();
             SqlCommand cmd = new SqlCommand(query, con);
@@ -123,6 +159,18 @@ namespace FrbaHotel.Utils {
             con.Close();
 
             return ids;
+        }
+
+        public static int queryRetornaInt(String query) {
+            SqlConnection con = getOpenConnection();
+            SqlCommand cmd = new SqlCommand(query, con);
+
+
+            int i = (int) cmd.ExecuteScalar();
+            
+            con.Close();
+
+            return i;
         }
 
         public static List<String> queryRetornaStrings(String query) {
@@ -190,7 +238,10 @@ namespace FrbaHotel.Utils {
 
             con.Close();
 
-            return dt.Rows[0];
+            if (dt.Rows.Count > 0)
+                return dt.Rows[0];
+            else 
+                return null;
         }
 
         public static String ySoloActivos() {

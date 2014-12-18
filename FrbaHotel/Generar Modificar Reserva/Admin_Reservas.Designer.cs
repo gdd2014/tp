@@ -55,6 +55,7 @@
             this.botonCancelar.TabIndex = 1;
             this.botonCancelar.Text = "Cancelar reserva";
             this.botonCancelar.UseVisualStyleBackColor = true;
+            this.botonCancelar.Click += new System.EventHandler(this.botonCancelar_Click);
             // 
             // botonModificar
             // 
@@ -64,6 +65,7 @@
             this.botonModificar.TabIndex = 2;
             this.botonModificar.Text = "Modificar reserva";
             this.botonModificar.UseVisualStyleBackColor = true;
+            this.botonModificar.Click += new System.EventHandler(this.botonModificar_Click);
             // 
             // label1
             // 
@@ -80,6 +82,8 @@
             this.codReservaTextbox.Name = "codReservaTextbox";
             this.codReservaTextbox.Size = new System.Drawing.Size(100, 20);
             this.codReservaTextbox.TabIndex = 4;
+            this.codReservaTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNumeros);
+            
             // 
             // groupBox1
             // 

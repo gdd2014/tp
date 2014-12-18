@@ -114,11 +114,11 @@
     <Compile Include="ABM de Usuario\AoM_Usuario.Designer.cs">
       <DependentUpon>AoM_Usuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancelar Reserva\Form1.cs">
+    <Compile Include="Cancelar Reserva\Cancel_Reserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cancelar Reserva\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Cancelar Reserva\Cancel_Reserva.Designer.cs">
+      <DependentUpon>Cancel_Reserva.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Hotel\ABM_Hoteles.cs">
       <SubType>Form</SubType>
@@ -154,6 +154,18 @@
     </Compile>
     <Compile Include="Menu Principal\MenuPrincipalForm.Designer.cs">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registrar Consumible\Elegir_Estadia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar Consumible\Elegir_Estadia.Designer.cs">
+      <DependentUpon>Elegir_Estadia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registrar Estadia\Reg_Checkin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registrar Estadia\Reg_Checkin.Designer.cs">
+      <DependentUpon>Reg_Checkin.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\ConversionUtils.cs" />
     <Compile Include="Utils\DBUtils.cs" />
@@ -223,6 +235,9 @@
     <EmbeddedResource Include="ABM de Hotel\ABM_Hoteles.resx">
       <DependentUpon>ABM_Hoteles.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Reserva\Cancel_Reserva.resx">
+      <DependentUpon>Cancel_Reserva.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Admin_Reservas.resx">
       <DependentUpon>Admin_Reservas.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +255,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Menu Principal\MenuPrincipalForm.resx">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Consumible\Elegir_Estadia.resx">
+      <DependentUpon>Elegir_Estadia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Consumible\Registrar_Consumibles.resx">
+      <DependentUpon>Registrar_Consumibles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Estadia\Admin_Estadias.resx">
+      <DependentUpon>Admin_Estadias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registrar Estadia\Reg_Checkin.resx">
+      <DependentUpon>Reg_Checkin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VentanaInicial.resx">
       <DependentUpon>VentanaInicial.cs</DependentUpon>
@@ -274,17 +301,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Registrar Consumible\Form1.cs">
+    <Compile Include="Registrar Consumible\Registrar_Consumibles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Consumible\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registrar Consumible\Registrar_Consumibles.Designer.cs">
+      <DependentUpon>Registrar_Consumibles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registrar Estadia\Form1.cs">
+    <Compile Include="Registrar Estadia\Admin_Estadias.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Estadia\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registrar Estadia\Admin_Estadias.Designer.cs">
+      <DependentUpon>Admin_Estadias.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

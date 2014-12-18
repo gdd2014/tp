@@ -196,14 +196,14 @@ CREATE TABLE G_N.Usuarios(Usuario_Id INT IDENTITY(1,1) PRIMARY KEY,
 						  Usuario_UserName NVARCHAR(50) NOT NULL UNIQUE,
 						  Usuario_Password NVARCHAR(255) NOT NULL,
 						  Usuario_Nombre_Completo NVARCHAR(255)NOT NULL,	
-						  Usuario_Documento_Tipo_Id INT NOT NULL,
+						  Usuario_Documento_Tipo_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Documento_Tipos(Documento_Tipo_Id),
 						  Usuario_Documento_Nro NUMERIC(18,0) NOT NULL,
 						  Usuario_Mail NVARCHAR(255) NOT NULL,
 						  Usuario_Telefono NVARCHAR(30),
 						  Usuario_Direccion NVARCHAR (255),
 						  Usuario_Fecha_Nac DATE NOT NULL,
 						  Estado CHAR NOT NULL CHECK (Estado IN ('A', 'N')) DEFAULT 'A',
-						  Usuario_Logins_Fallidos INT DEFAULT 0)
+						  Usuario_Logins_Fallidos INT NOT NULL DEFAULT 0)
 		
 -- ADMIN		
 INSERT INTO G_N.Usuarios(Usuario_UserName,
@@ -284,7 +284,9 @@ CREATE TABLE G_N.Reservas(Reserva_Codigo INT PRIMARY KEY IDENTITY(110741, 1),
 						  Reserva_Fecha_Inicio DATE NOT NULL,
 						  Reserva_Fecha_Fin DATE NOT NULL,
 						  Reserva_Estado_Id INT NOT NULL DEFAULT 1 FOREIGN KEY REFERENCES G_N.Reserva_Estados(Reserva_Estado_Id),
-						  Reserva_Usuario_Id INT NOT NULL DEFAULT 2 FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id))
+						  Reserva_Usuario_Id INT NOT NULL DEFAULT 2 FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
+						  Reserva_Fecha_Cancelacion DATE,
+						  Reserva_Motivo_Cancelacion NVARCHAR(100))
 
 SET IDENTITY_INSERT G_N.Reservas ON;
 INSERT INTO G_N.Reservas(Reserva_Codigo,
@@ -306,26 +308,34 @@ INSERT INTO G_N.Reservas_Habitaciones(Reserva_Codigo, Habitacion_Id)
 	SELECT Reserva_Codigo, Habitacion_Id FROM G_N.#Reservas_Temp
 
 -- TABLA ESTADÍAS ---------------------------------------------------------------------------------------
-CREATE TABLE G_N.Estadias(Estadia_Id NUMERIC(18, 0) PRIMARY KEY IDENTITY(1, 1),
-						  Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
+CREATE TABLE G_N.Estadias(Estadia_Reserva_Codigo INT PRIMARY KEY FOREIGN KEY REFERENCES G_N.Reservas(Reserva_Codigo),
 						  Estadia_Fecha_Inicio DATE NOT NULL,
-						  Estadia_Cant_Noches NUMERIC(18, 0) NOT NULL)
+						  Estadia_Fecha_Fin DATE NULL)
 						  
-INSERT INTO G_N.Estadias(Estadia_Reserva_Codigo, Estadia_Fecha_Inicio, Estadia_Cant_Noches)
-	SELECT DISTINCT m.Reserva_Codigo, m.Estadia_Fecha_Inicio, m.Estadia_Cant_Noches 
+INSERT INTO G_N.Estadias(Estadia_Reserva_Codigo, Estadia_Fecha_Inicio, Estadia_Fecha_Fin)
+	SELECT DISTINCT m.Reserva_Codigo, m.Estadia_Fecha_Inicio, DATEADD(DAY, m.Estadia_Cant_Noches, m.Estadia_Fecha_Inicio) 
 	FROM gd_esquema.Maestra m, G_N.#Reservas_Temp rt
 	WHERE m.Reserva_Codigo = rt.Reserva_Codigo
 	  AND m.Estadia_Fecha_Inicio IS NOT NULL
 	  AND m.Estadia_Cant_Noches IS NOT NULL
+	  
+CREATE TABLE G_N.Estadias_Clientes(Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Reserva_Codigo),
+								   Cliente_Id INT FOREIGN KEY REFERENCES G_N.Clientes(Cliente_Id),
+								       PRIMARY KEY (Estadia_Reserva_Codigo, Cliente_Id))
+									   
+INSERT INTO G_N.Estadias_Clientes(Estadia_Reserva_Codigo, Cliente_Id)
+	SELECT e.Estadia_Reserva_Codigo, r.Reserva_Cliente_Id FROM G_N.Estadias e 
+		JOIN G_N.Reservas r ON e.Estadia_Reserva_Codigo = r.Reserva_Codigo
+	
 
 -- TABLA FACTURAS ----------------------------------------------------------------------------------------
 CREATE TABLE G_N.Facturas(Factura_Nro NUMERIC(18, 0) PRIMARY KEY,
 						  Factura_Fecha DATE NOT NULL,
 						  Factura_Total NUMERIC(18,2) NOT NULL,
-						  Factura_Estadia_Id NUMERIC(18,0) FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Id))
+						  Factura_Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Reserva_Codigo))
 
 INSERT INTO G_N.Facturas
-	SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha, m.Factura_Total, e.Estadia_Id
+	SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha, m.Factura_Total, e.Estadia_Reserva_Codigo
 		FROM gd_esquema.Maestra m, G_N.Estadias e
 		WHERE Factura_Nro IS NOT NULL
 		  AND m.Reserva_Codigo = e.Estadia_Reserva_Codigo
@@ -346,7 +356,26 @@ INSERT INTO G_N.Factura_Items(Factura_Item_Factura_Nro,
 	FROM gd_esquema.Maestra m
 	WHERE Item_Factura_Cantidad IS NOT NULL
 	  AND Item_Factura_Monto IS NOT NULL
-	  
+
+	
+-- TABLA ESTADIAS CONSUMIBLES -------------------------------------------------------------------------------	
+CREATE TABLE G_N.Estadias_Consumibles(Id INT PRIMARY KEY IDENTITY(1,1),
+									  Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Reserva_Codigo),
+									  Consumible_Codigo NUMERIC(18,0) FOREIGN KEY REFERENCES G_N.Consumibles(Consumible_Codigo),
+									  Consumible_Cantidad INT NOT NULL,
+									  Habitacion_Id INT FOREIGN KEY REFERENCES G_N.Habitaciones(Habitacion_Id))
+  
+INSERT INTO G_N.Estadias_Consumibles(Estadia_Reserva_Codigo,
+									 Consumible_Codigo,
+									 Consumible_Cantidad)
+	SELECT Reserva_Codigo, Consumible_Codigo, SUM(Item_Factura_Cantidad)
+	FROM gd_esquema.Maestra m
+	WHERE Item_Factura_Cantidad IS NOT NULL
+	  AND Item_Factura_Monto IS NOT NULL
+	  AND Consumible_Codigo IS NOT NULL
+	GROUP BY Reserva_Codigo, Consumible_Codigo
+	
+	
 -- DROP TEMP TABLES --------------------------------------------------------------------------------------
 DROP TABLE G_N.#Habitaciones_Temp
 DROP TABLE G_N.#Hoteles_Regimenes_Temp
@@ -464,7 +493,7 @@ CREATE PROCEDURE G_N.Registrar_Login_Fallido
 AS
 BEGIN 
 	DECLARE @Cantidad_Logins INT 
-	SET @Cantidad_Logins = (SELECT U.Usuario_logins_Fallidos FROM G_N.Usuarios U)
+	SET @Cantidad_Logins = (SELECT U.Usuario_logins_Fallidos FROM G_N.Usuarios U WHERE @Username = Usuario_UserName)
 	SET @Cantidad_Logins = (@Cantidad_Logins + 1)
 	IF (@Cantidad_Logins >= 3)
 	BEGIN
@@ -490,6 +519,16 @@ BEGIN
 END
 GO
 
+-- BAJA MOMENTANEA DE HOTEL ----------------------------------------------------------------------------
+CREATE PROCEDURE G_N.Baja_Momentanea_Hotel @Hotel_Id INT, @Desde DATE, @Hasta DATE, @Motivo NVARCHAR (100)
+AS
+BEGIN 
+INSERT INTO G_N.Hoteles_Cerrados
+VALUES (@Hotel_Id, @Desde, @Hasta, @Motivo)
+
+END
+GO
+
 
 ---------------------------------------------------------------------------------------------------------
 -- FUNCIONES --------------------------------------------------------------------------------------------
@@ -502,12 +541,15 @@ AS
 	RETURN (SELECT DISTINCT Res.Reserva_Regimen_Id 
 			FROM G_N.Habitaciones Hab, G_N.Reservas_Habitaciones  RH, G_N.Reservas Res 
 			WHERE Hab.Habitacion_Hotel_Id = @Hotel_id
+			  AND Res.Reserva_Fecha_Cancelacion IS NULL
 			  AND Hab.Habitacion_Id = RH.Habitacion_Id
 			  AND RH.Reserva_Codigo = Res.Reserva_Codigo
 		      AND Res.Reserva_fecha_fin > = GETDATE()) 
+		
+GO
 			
 -- FUNCION QUE RETORNA SI UN HOTEL TIENE RESERVAS EN UN PERIODO DADO
-CREATE FUNCTION G_N.Tiene_Reservas_en_Periodo(@Hotel_id INT, @Inicio DATE, @Fin DATE)
+CREATE FUNCTION G_N.Hot_Tiene_Reservas_en_Periodo(@Hotel_id INT, @Inicio DATE, @Fin DATE)
 RETURNS INT
 AS 
 BEGIN
@@ -516,6 +558,7 @@ BEGIN
 					 FROM G_N.Habitaciones Hab, G_N.Reservas_Habitaciones RH, G_N.Reservas Res
 					 WHERE Hab.Habitacion_Id = RH.Habitacion_Id
 					   AND RH.Reserva_Codigo = Res.Reserva_Codigo
+					   AND Res.Reserva_Fecha_Cancelacion IS NULL
 					   AND Hab.Habitacion_Hotel_Id = @Hotel_id
 					   AND ((Res.Reserva_Fecha_inicio BETWEEN @Inicio AND @Fin) 
 					    OR (Res.Reserva_Fecha_fin BETWEEN @Inicio AND @Fin) 
@@ -526,3 +569,59 @@ BEGIN
 	RETURN @Resultado 
 END
 
+GO
+			
+-- FUNCION QUE RETORNA SI UNA HABITACION TIENE RESERVAS EN UN PERIODO DADO
+CREATE FUNCTION G_N.Hab_Tiene_Reservas_en_Periodo(@Habitacion_id INT, @Inicio DATE, @Fin DATE)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @Resultado INT, @Cuenta INT
+	SET @Cuenta = (SELECT  COUNT(Res.Reserva_Codigo) Q
+					 FROM G_N.Habitaciones Hab, G_N.Reservas_Habitaciones RH, G_N.Reservas Res
+					 WHERE Hab.Habitacion_Id = @Habitacion_id
+					   AND Hab.Habitacion_Id = RH.Habitacion_Id
+					   AND RH.Reserva_Codigo = Res.Reserva_Codigo
+					   AND Res.Reserva_Fecha_Cancelacion IS NULL
+					   
+					   AND ((Res.Reserva_Fecha_inicio BETWEEN @Inicio AND @Fin) 
+					    OR (Res.Reserva_Fecha_fin BETWEEN @Inicio AND @Fin) 
+						OR (Res.Reserva_Fecha_inicio < @Inicio AND Res.Reserva_Fecha_Fin > @Fin)))
+						
+	IF (@Cuenta > 0) SET @Resultado = 1
+	ELSE SET @Resultado = 0
+	RETURN @Resultado 
+END
+
+GO
+
+CREATE FUNCTION G_N.Hotel_De_Reserva(@Reserva_codigo INT)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @Resultado INT
+	SET @Resultado = (SELECT DISTINCT h.Habitacion_Hotel_Id 
+							FROM G_N.Reservas r 
+							JOIN G_N.Reservas_Habitaciones rh ON r.Reserva_Codigo = rh.Reserva_Codigo
+							JOIN G_N.Habitaciones h ON rh.Habitacion_Id = h.Habitacion_Id
+							WHERE r.Reserva_Codigo = @Reserva_codigo)
+	RETURN @Resultado;
+END
+
+
+GO
+
+CREATE FUNCTION G_N.Capacidad_De_Reserva(@Reserva_codigo INT)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @Resultado INT
+	SET @Resultado = (SELECT SUM(ht.Habitacion_Tipo_Capacidad)
+							FROM G_N.Reservas_Habitaciones rh 
+							JOIN G_N.Habitaciones h ON rh.Habitacion_Id = h.Habitacion_Id
+							JOIN G_N.Habitacion_Tipos ht ON ht.Habitacion_Tipo_Codigo = h.Habitacion_Tipo_Codigo
+						WHERE rh.Reserva_Codigo = @Reserva_codigo
+						GROUP BY rh.Reserva_Codigo)
+
+	RETURN @Resultado;
+END

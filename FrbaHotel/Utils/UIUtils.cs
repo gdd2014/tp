@@ -144,6 +144,16 @@ namespace FrbaHotel.Utils {
             }
         }
 
+        public static String textoDeUnValorDeListbox(ListBox lb, String valor) {
+            foreach(DataRowView item in lb.Items) {
+                if (item[lb.ValueMember].ToString() == valor) {
+                    return item[lb.DisplayMember].ToString();
+                }
+            }
+
+            return "";
+        }
+
         public static void seleccionarItems(ListBox lb, List<int> valoresASeleccionar) {
             List<DataRowView> seleccionados = new List<DataRowView>();
             foreach (DataRowView item in lb.Items) {

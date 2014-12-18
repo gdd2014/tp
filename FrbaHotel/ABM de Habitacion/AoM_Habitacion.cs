@@ -105,9 +105,7 @@ namespace FrbaHotel.ABM_de_Habitacion {
                 if (esModificacion()) {
                     DBUtils.actualizar("Habitaciones", campos(), valores(), "Habitacion_Id", idAsignado);
                 } else {
-                    DBUtils.insertar("Habitaciones", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaInts("SELECT Habitacion_Id FROM G_N.Habitaciones WHERE Habitacion_Numero=" + numeroTextbox.Text +
-                                                                                              " AND Habitacion_Hotel_Id=" + hotelId).First().ToString();
+                    idAsignado = DBUtils.insertarIdentity("Habitaciones", campos(), valores());
                 }
 
                 if (esModificacion()) {

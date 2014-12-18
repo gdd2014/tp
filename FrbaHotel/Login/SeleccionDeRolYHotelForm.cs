@@ -30,7 +30,7 @@ namespace FrbaHotel.Login {
             // Lleno el combo de hoteles...
             String hotelesQuery = "SELECT h.Hotel_Id AS hotelId, h.Hotel_Dom_Calle + ' ' + CAST(h.Hotel_Dom_Nro AS NVARCHAR) AS hotelDom FROM G_N.Hoteles h " +
                                      "JOIN G_N.Usuarios_Hoteles uh ON h.Hotel_Id = uh.Hotel_Id " +
-                                     "WHERE uh.Usuario_Id=" + userId + DBUtils.ySoloActivos();
+                                     "WHERE uh.Usuario_Id=" + userId;
 
 
             DBUtils.llenarComboBox(hotelesCombo, hotelesQuery, "hotelId", "hotelDom");

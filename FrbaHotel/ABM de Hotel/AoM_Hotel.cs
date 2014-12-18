@@ -108,9 +108,9 @@ namespace FrbaHotel.ABM_de_Hotel {
                 if (esModificacion()) {
                     DBUtils.actualizar("Hoteles", campos(), valores(), "Hotel_Id", idAsignado);
                 } else {
-                    DBUtils.insertar("Hoteles", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaInts("SELECT Hotel_Id FROM G_N.Hoteles WHERE Hotel_Dom_Calle=" + DBUtils.stringify(calleTextbox.Text) +
-                                                                                            " AND Hotel_Dom_Nro=" + numeroTextbox.Text).First().ToString();
+                    idAsignado = DBUtils.insertarIdentity("Hoteles", campos(), valores());
+                    
+                    // Le asigno el hotel al usuario actual
                     DBUtils.ejecutarQuery("INSERT INTO G_N.Usuarios_Hoteles VALUES (" + userId + ", " + idAsignado + ")");
                 }
 
@@ -140,7 +140,17 @@ namespace FrbaHotel.ABM_de_Hotel {
             UIUtils.validarComboCompleto(estrellasCombo, "Estrellas", errores);
             UIUtils.validarComboCompleto(regimenesLisbox, "Regímenes", errores);
 
-            // TODO Validar que no se quiten regimenes con reservas
+            if (esModificacion()) {
+                // Valido que no se quiten regimenes con reservas futuras o actuales
+                List<int> regsNecesarios = DBUtils.queryRetornaInts("SELECT * FROM G_N.Regimenes_Necesarios_Hotel(" + hotelModificandoId + ")");
+
+                foreach (int reg in regsNecesarios) {
+                    if (!UIUtils.valoresSeleccionados(regimenesLisbox).Contains(reg.ToString())) {
+                        errores.Add("No se puede quitar el regimen " + UIUtils.textoDeUnValorDeListbox(regimenesLisbox, reg.ToString()) + " ya que existen reservas asociadas al mismo");
+                    }
+                }
+            }
+               
 
             return errores;
         }

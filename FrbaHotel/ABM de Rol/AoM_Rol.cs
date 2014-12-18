@@ -56,8 +56,7 @@ namespace FrbaHotel.ABM_de_Rol {
                     DBUtils.actualizar("Roles", campos(), valores(), "Rol_Id", idAsignado);
                 }
                 else {
-                    DBUtils.insertar("Roles", campos(), valores());
-                    idAsignado = DBUtils.queryRetornaInts("SELECT Rol_Id FROM G_N.Roles WHERE Rol_Nombre=" + DBUtils.stringify(nombreRolTextbox.Text)).First().ToString();
+                    idAsignado = DBUtils.insertarIdentity("Roles", campos(), valores());
                 }
                 
                 DBUtils.insertarNxNs("Roles_Funcionalidades", "Rol_Id", idAsignado, "funcId", UIUtils.valoresSeleccionados(funcsListbox));

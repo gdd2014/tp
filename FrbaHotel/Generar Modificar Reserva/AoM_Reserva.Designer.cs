@@ -54,6 +54,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.botonConfirmarReserva = new System.Windows.Forms.Button();
+            this.modLabel = new System.Windows.Forms.Label();
             this.consultaGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaHabsDisp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablaHabsEnReserva)).BeginInit();
@@ -96,6 +97,7 @@
             this.desdeDTP.Name = "desdeDTP";
             this.desdeDTP.Size = new System.Drawing.Size(109, 20);
             this.desdeDTP.TabIndex = 17;
+            this.desdeDTP.ValueChanged += new System.EventHandler(this.desdeDTP_ValueChanged);
             // 
             // hastaDTP
             // 
@@ -105,6 +107,7 @@
             this.hastaDTP.Name = "hastaDTP";
             this.hastaDTP.Size = new System.Drawing.Size(109, 20);
             this.hastaDTP.TabIndex = 18;
+            this.hastaDTP.ValueChanged += new System.EventHandler(this.hastaDTP_ValueChanged);
             // 
             // regsCombo
             // 
@@ -143,7 +146,7 @@
             // tablaHabsDisp
             // 
             this.tablaHabsDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaHabsDisp.Location = new System.Drawing.Point(26, 146);
+            this.tablaHabsDisp.Location = new System.Drawing.Point(26, 185);
             this.tablaHabsDisp.Name = "tablaHabsDisp";
             this.tablaHabsDisp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaHabsDisp.Size = new System.Drawing.Size(390, 105);
@@ -153,7 +156,7 @@
             // tablaHabsEnReserva
             // 
             this.tablaHabsEnReserva.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaHabsEnReserva.Location = new System.Drawing.Point(507, 146);
+            this.tablaHabsEnReserva.Location = new System.Drawing.Point(507, 185);
             this.tablaHabsEnReserva.Name = "tablaHabsEnReserva";
             this.tablaHabsEnReserva.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaHabsEnReserva.Size = new System.Drawing.Size(390, 105);
@@ -162,7 +165,7 @@
             // 
             // botonAddHab
             // 
-            this.botonAddHab.Location = new System.Drawing.Point(434, 163);
+            this.botonAddHab.Location = new System.Drawing.Point(434, 202);
             this.botonAddHab.Name = "botonAddHab";
             this.botonAddHab.Size = new System.Drawing.Size(57, 23);
             this.botonAddHab.TabIndex = 23;
@@ -172,7 +175,7 @@
             // 
             // botonRemoveHab
             // 
-            this.botonRemoveHab.Location = new System.Drawing.Point(434, 205);
+            this.botonRemoveHab.Location = new System.Drawing.Point(434, 244);
             this.botonRemoveHab.Name = "botonRemoveHab";
             this.botonRemoveHab.Size = new System.Drawing.Size(57, 23);
             this.botonRemoveHab.TabIndex = 24;
@@ -183,7 +186,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(47, 127);
+            this.label4.Location = new System.Drawing.Point(47, 166);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(267, 13);
             this.label4.TabIndex = 25;
@@ -192,7 +195,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(524, 127);
+            this.label5.Location = new System.Drawing.Point(524, 166);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(171, 13);
             this.label5.TabIndex = 26;
@@ -211,7 +214,7 @@
             this.clienteGroup.Controls.Add(this.label6);
             this.clienteGroup.Controls.Add(this.label7);
             this.clienteGroup.Enabled = false;
-            this.clienteGroup.Location = new System.Drawing.Point(50, 289);
+            this.clienteGroup.Location = new System.Drawing.Point(50, 328);
             this.clienteGroup.Name = "clienteGroup";
             this.clienteGroup.Size = new System.Drawing.Size(777, 191);
             this.clienteGroup.TabIndex = 27;
@@ -310,7 +313,7 @@
             // botonConfirmarReserva
             // 
             this.botonConfirmarReserva.Enabled = false;
-            this.botonConfirmarReserva.Location = new System.Drawing.Point(364, 486);
+            this.botonConfirmarReserva.Location = new System.Drawing.Point(364, 525);
             this.botonConfirmarReserva.Name = "botonConfirmarReserva";
             this.botonConfirmarReserva.Size = new System.Drawing.Size(218, 23);
             this.botonConfirmarReserva.TabIndex = 28;
@@ -318,11 +321,23 @@
             this.botonConfirmarReserva.UseVisualStyleBackColor = true;
             this.botonConfirmarReserva.Click += new System.EventHandler(this.botonConfirmarReserva_Click);
             // 
+            // modLabel
+            // 
+            this.modLabel.AutoSize = true;
+            this.modLabel.Location = new System.Drawing.Point(271, 123);
+            this.modLabel.Name = "modLabel";
+            this.modLabel.Size = new System.Drawing.Size(388, 13);
+            this.modLabel.TabIndex = 29;
+            this.modLabel.Text = "Para modificar las fechas y/o regimen, retire las habitaciones de la reserva actu" +
+                "al";
+            this.modLabel.Visible = false;
+            // 
             // AoM_Reserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 521);
+            this.ClientSize = new System.Drawing.Size(923, 562);
+            this.Controls.Add(this.modLabel);
             this.Controls.Add(this.botonConfirmarReserva);
             this.Controls.Add(this.clienteGroup);
             this.Controls.Add(this.label5);
@@ -374,5 +389,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DataGridView tablaDeClientes;
         private System.Windows.Forms.Button botonAltaCli;
+        private System.Windows.Forms.Label modLabel;
     }
 }
