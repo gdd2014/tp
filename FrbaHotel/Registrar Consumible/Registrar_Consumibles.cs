@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FrbaHotel.Utils;
+using FrbaHotel.Facturacion;
 
 namespace FrbaHotel.Registrar_Consumible {
 
@@ -34,7 +35,10 @@ namespace FrbaHotel.Registrar_Consumible {
                                                     "FROM G_N.Habitaciones h " +
                                                     "JOIN G_N.Reservas_Habitaciones rh ON h.Habitacion_Id = rh.Habitacion_Id " +
                                                       "WHERE rh.Reserva_Codigo = " + codRes, "Id", "Nro");
-            
+
+            DateTime fechaCheckout = DBUtils.queryRetornaDate("SELECT Estadia_Fecha_Fin FROM G_N.Estadias WHERE Estadia_Reserva_Codigo=" + codRes);
+            botonConfYfact.Enabled = fechaCheckout > DateTime.MinValue;
+
         }
 
         private void configurarTablaDeConsumibles(DataGridView dgv) {
@@ -119,6 +123,26 @@ namespace FrbaHotel.Registrar_Consumible {
                 } 
 
             } 
+        }
+
+        private void botonConfYfact_Click(object sender, EventArgs e) {
+            List<String> errores = validar();
+            UIUtils.mostrarErrores(errores);
+
+            if (errores.Count == 0)
+            {
+                foreach (DataGridViewRow dr in tablaConsEnEstadia.Rows)
+                {
+                    if (dr.Cells["Id"].Value != null)
+                        DBUtils.ejecutarQuery("INSERT INTO G_N.Estadias_Consumibles(Estadia_Reserva_Codigo, Consumible_Codigo, Consumible_Cantidad, Habitacion_Id)" +
+                                                 " VALUES (" + codReserva + "," + dr.Cells["Id"].Value.ToString() + "," + dr.Cells["Cantidad"].Value.ToString() + "," + UIUtils.valorSeleccionado(HabsCombo) + ")");
+                }
+
+                MessageBox.Show("Consumibles agregados satisfactoriamente, procediendo a facturar");
+                this.Close();
+                Facturacion.Facturacion factForm = new Facturacion.Facturacion(codReserva);
+                factForm.Show();
+            }
         }
     }
 }

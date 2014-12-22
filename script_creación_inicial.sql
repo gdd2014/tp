@@ -283,6 +283,7 @@ CREATE TABLE G_N.Reservas(Reserva_Codigo INT PRIMARY KEY IDENTITY(110741, 1),
 						  Reserva_Fecha_Creacion DATE NULL DEFAULT GETDATE(),
 						  Reserva_Fecha_Inicio DATE NOT NULL,
 						  Reserva_Fecha_Fin DATE NOT NULL,
+						  Reserva_Precio_Por_Noche NUMERIC(18,2),
 						  Reserva_Estado_Id INT NOT NULL DEFAULT 1 FOREIGN KEY REFERENCES G_N.Reserva_Estados(Reserva_Estado_Id),
 						  Reserva_Usuario_Id INT NOT NULL DEFAULT 2 FOREIGN KEY REFERENCES G_N.Usuarios(Usuario_Id),
 						  Reserva_Fecha_Cancelacion DATE,
@@ -329,13 +330,22 @@ INSERT INTO G_N.Estadias_Clientes(Estadia_Reserva_Codigo, Cliente_Id)
 	
 
 -- TABLA FACTURAS ----------------------------------------------------------------------------------------
+CREATE TABLE G_N.Pago_Tipos(Pago_Tipo_Id INT IDENTITY(1,1) PRIMARY KEY,
+							Pago_Tipo_Descripcion NVARCHAR(50) NOT NULL)
+							
+INSERT INTO G_N.Pago_Tipos VALUES ('Efectivo')
+INSERT INTO G_N.Pago_Tipos VALUES ('Tarjeta de crédito')
+
 CREATE TABLE G_N.Facturas(Factura_Nro NUMERIC(18, 0) PRIMARY KEY,
 						  Factura_Fecha DATE NOT NULL,
 						  Factura_Total NUMERIC(18,2) NOT NULL,
-						  Factura_Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Reserva_Codigo))
+						  Factura_Estadia_Reserva_Codigo INT FOREIGN KEY REFERENCES G_N.Estadias(Estadia_Reserva_Codigo),
+						  Factura_Pago_Tipo_Id INT NOT NULL FOREIGN KEY REFERENCES G_N.Pago_Tipos(Pago_Tipo_Id),
+						  Factura_Tarjeta_Numero DECIMAL(18,0),
+						  Factura_Tarjeta_Cod_Seg INT)
 
 INSERT INTO G_N.Facturas
-	SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha, m.Factura_Total, e.Estadia_Reserva_Codigo
+	SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha, m.Factura_Total, e.Estadia_Reserva_Codigo, 1, NULL, NULL
 		FROM gd_esquema.Maestra m, G_N.Estadias e
 		WHERE Factura_Nro IS NOT NULL
 		  AND m.Reserva_Codigo = e.Estadia_Reserva_Codigo
@@ -526,6 +536,19 @@ BEGIN
 INSERT INTO G_N.Hoteles_Cerrados
 VALUES (@Hotel_Id, @Desde, @Hasta, @Motivo)
 
+END
+GO
+
+-- PROCEDURE PARA CANCELAR LAS RESERVAS QUE NO SE PRESENTARON DEL DÍA DE AYER ---------------------------
+CREATE PROCEDURE G_N.Bajar_Reservas_De_Ayer_Por_No_Show
+AS
+BEGIN 
+	UPDATE G_N.Reservas
+	SET Reserva_Estado_Id = 5,
+	    Reserva_Fecha_Cancelacion = GETDATE(),
+	    Reserva_Motivo_Cancelacion = 'Dada de baja automáticamente por no show' 
+	WHERE Reserva_Fecha_Inicio = Convert(DATE, DATEADD(DAY, -1, GETDATE()))
+	  AND Reserva_Codigo NOT IN (SELECT Estadia_Reserva_Codigo FROM G_N.Estadias)
 END
 GO
 

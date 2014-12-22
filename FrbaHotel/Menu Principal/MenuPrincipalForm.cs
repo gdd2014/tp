@@ -44,7 +44,7 @@ namespace FrbaHotel.Menu_Principal {
             botonAbmRegimenes.Enabled = funcionalidades.Contains(4);
             BotonAdmReservas.Enabled = funcionalidades.Contains(5) && funcionalidades.Contains(6) && funcionalidades.Contains(7);
             botonAdmEstadias.Enabled = funcionalidades.Contains(8);
-            botonRegCons.Enabled = funcionalidades.Contains(9);
+            botonRegCons.Enabled = funcionalidades.Contains(9) && funcionalidades.Contains(10);
         }
 
         private void botonAbmUsuarios_Click(object sender, EventArgs e) {
@@ -93,7 +93,7 @@ namespace FrbaHotel.Menu_Principal {
         }
 
         private void botonRegCons_Click(object sender, EventArgs e) {
-            Elegir_Estadia rc = new Elegir_Estadia();
+            Elegir_Estadia rc = new Elegir_Estadia(hotelId);
             rc.Show();
         }
        

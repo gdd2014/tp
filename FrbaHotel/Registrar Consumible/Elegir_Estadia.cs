@@ -11,8 +11,11 @@ using FrbaHotel.Utils;
 namespace FrbaHotel.Registrar_Consumible {
 
     public partial class Elegir_Estadia : Form {
-        
-        public Elegir_Estadia() {
+
+        String hotelId;
+
+        public Elegir_Estadia(String hotelId) {
+            this.hotelId = hotelId;
             InitializeComponent();
         }
 
@@ -34,7 +37,9 @@ namespace FrbaHotel.Registrar_Consumible {
             UIUtils.validarTextboxCompleto(codReservaTextbox, "Código de Reserva", errores);
 
             if (errores.Count == 0) {
-                int ests = DBUtils.queryRetornaInt("SELECT COUNT(*) FROM G_N.Estadias WHERE Estadia_Reserva_Codigo=" + codReservaTextbox.Text);
+                int ests = DBUtils.queryRetornaInt("SELECT COUNT(*) FROM G_N.Estadias e JOIN G_N.Reservas r ON e.Estadia_Reserva_Codigo = r.Reserva_Codigo " +
+                                                                     " WHERE e.Estadia_Reserva_Codigo=" + codReservaTextbox.Text +
+                                                                       " AND G_N.Hotel_De_Reserva(r.Reserva_Codigo)=" + hotelId);
                 int facts = DBUtils.queryRetornaInt("SELECT COUNT(*) FROM G_N.Facturas WHERE Factura_Estadia_Reserva_Codigo=" + codReservaTextbox.Text);
 
                 if (ests == 0) {

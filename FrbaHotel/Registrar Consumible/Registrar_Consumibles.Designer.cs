@@ -37,6 +37,7 @@
             this.botonConfirmar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.HabsCombo = new System.Windows.Forms.ComboBox();
+            this.botonConfYfact = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaConsEnEstadia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablaConsDisp)).BeginInit();
             this.SuspendLayout();
@@ -101,7 +102,7 @@
             // 
             // botonConfirmar
             // 
-            this.botonConfirmar.Location = new System.Drawing.Point(437, 170);
+            this.botonConfirmar.Location = new System.Drawing.Point(306, 170);
             this.botonConfirmar.Name = "botonConfirmar";
             this.botonConfirmar.Size = new System.Drawing.Size(75, 23);
             this.botonConfirmar.TabIndex = 33;
@@ -112,7 +113,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(128, 175);
+            this.label1.Location = new System.Drawing.Point(24, 175);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 13);
             this.label1.TabIndex = 34;
@@ -121,16 +122,27 @@
             // HabsCombo
             // 
             this.HabsCombo.FormattingEnabled = true;
-            this.HabsCombo.Location = new System.Drawing.Point(258, 172);
+            this.HabsCombo.Location = new System.Drawing.Point(154, 172);
             this.HabsCombo.Name = "HabsCombo";
             this.HabsCombo.Size = new System.Drawing.Size(75, 21);
             this.HabsCombo.TabIndex = 35;
+            // 
+            // botonConfYfact
+            // 
+            this.botonConfYfact.Location = new System.Drawing.Point(410, 170);
+            this.botonConfYfact.Name = "botonConfYfact";
+            this.botonConfYfact.Size = new System.Drawing.Size(134, 23);
+            this.botonConfYfact.TabIndex = 36;
+            this.botonConfYfact.Text = "Confirmar y facturar";
+            this.botonConfYfact.UseVisualStyleBackColor = true;
+            this.botonConfYfact.Click += new System.EventHandler(this.botonConfYfact_Click);
             // 
             // Registrar_Consumibles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(574, 205);
+            this.Controls.Add(this.botonConfYfact);
             this.Controls.Add(this.HabsCombo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.botonConfirmar);
@@ -160,5 +172,6 @@
         private System.Windows.Forms.Button botonConfirmar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox HabsCombo;
+        private System.Windows.Forms.Button botonConfYfact;
     }
 }

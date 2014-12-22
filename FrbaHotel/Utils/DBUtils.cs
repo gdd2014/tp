@@ -244,6 +244,24 @@ namespace FrbaHotel.Utils {
                 return null;
         }
 
+
+        public static DataRow levantarRegistroBD(String q) {
+            SqlConnection con = getOpenConnection();
+
+            DataTable dt = new DataTable();
+
+            SqlCommand comando = new SqlCommand(q, con);
+            SqlDataAdapter adapter = new SqlDataAdapter(comando);
+            adapter.Fill(dt);
+
+            con.Close();
+
+            if (dt.Rows.Count > 0)
+                return dt.Rows[0];
+            else
+                return null;
+        }
+
         public static String ySoloActivos() {
             return " AND Estado = 'A'";
         }

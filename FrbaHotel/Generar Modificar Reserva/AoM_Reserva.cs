@@ -210,7 +210,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva {
             Decimal capacidad = Decimal.Parse(dgvr.Cells[4].Value.ToString());
             Decimal estrellas = Decimal.Parse(dgvr.Cells[5].Value.ToString());
 
-            return precioBase * capacidad * estrellas;
+            return (precioBase + (estrellas * 10)) * capacidad;
         }
 
         private void botonRemoveHab_Click(object sender, EventArgs e) {
@@ -278,7 +278,8 @@ namespace FrbaHotel.Generar_Modificar_Reserva {
                 } else {
                     MessageBox.Show("Reserva modificada exitosamente.");
                 }
-                
+
+                DBUtils.ejecutarSP("Bajar_Reservas_De_Ayer_Por_No_Show", new List<String>(), new List<String>());
                 this.Close();
             } else {
                 MessageBox.Show("Por favor seleccione un cliente.");
@@ -294,6 +295,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva {
             campos.Add("Reserva_Fecha_Fin");
             campos.Add("Reserva_Usuario_Id");
             campos.Add("Reserva_Estado_Id");
+            campos.Add("Reserva_Precio_Por_Noche");
 
             return campos;
         }
@@ -321,6 +323,8 @@ namespace FrbaHotel.Generar_Modificar_Reserva {
             } else {
                 valores.Add("1");
             }
+
+            valores.Add(costoDeReserva.ToString("0.##"));
 
             return valores;
         }

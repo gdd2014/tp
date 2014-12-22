@@ -135,7 +135,7 @@
             this.botonRegCons.Name = "botonRegCons";
             this.botonRegCons.Size = new System.Drawing.Size(146, 23);
             this.botonRegCons.TabIndex = 9;
-            this.botonRegCons.Text = "Registrar consumibles";
+            this.botonRegCons.Text = "Consumibles y Facturación";
             this.botonRegCons.UseVisualStyleBackColor = true;
             this.botonRegCons.Click += new System.EventHandler(this.botonRegCons_Click);
             // 
