@@ -49,6 +49,7 @@ namespace FrbaHotel.Generar_Modificar_Reserva {
 
             habsQuery = baseQuery +
                        " WHERE h.Habitacion_Hotel_Id = " + this.hotelId +
+                         " AND G_N.Hotel_Esta_Abierto_en_Periodo(ho.Hotel_Id, {fDesde}, {fHasta}) = 1 " +
                          " AND G_N.Hab_Tiene_Reservas_en_Periodo(h.Habitacion_Id, {fDesde}, {fHasta}) = 0 ";
 
             habsDispDT = this.configurarTablaHabs(tablaHabsDisp);

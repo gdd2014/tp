@@ -38,6 +38,7 @@
             this.BotonAdmReservas = new System.Windows.Forms.Button();
             this.botonAdmEstadias = new System.Windows.Forms.Button();
             this.botonRegCons = new System.Windows.Forms.Button();
+            this.botonListadosEstadisticos = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mensajeLabel
@@ -139,11 +140,22 @@
             this.botonRegCons.UseVisualStyleBackColor = true;
             this.botonRegCons.Click += new System.EventHandler(this.botonRegCons_Click);
             // 
+            // botonListadosEstadisticos
+            // 
+            this.botonListadosEstadisticos.Location = new System.Drawing.Point(190, 180);
+            this.botonListadosEstadisticos.Name = "botonListadosEstadisticos";
+            this.botonListadosEstadisticos.Size = new System.Drawing.Size(146, 23);
+            this.botonListadosEstadisticos.TabIndex = 10;
+            this.botonListadosEstadisticos.Text = "Listados Estadísticos";
+            this.botonListadosEstadisticos.UseVisualStyleBackColor = true;
+            this.botonListadosEstadisticos.Click += new System.EventHandler(this.botonListadosEstadisticos_Click);
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 204);
+            this.ClientSize = new System.Drawing.Size(584, 226);
+            this.Controls.Add(this.botonListadosEstadisticos);
             this.Controls.Add(this.botonRegCons);
             this.Controls.Add(this.botonAdmEstadias);
             this.Controls.Add(this.BotonAdmReservas);
@@ -173,5 +185,6 @@
         private System.Windows.Forms.Button BotonAdmReservas;
         private System.Windows.Forms.Button botonAdmEstadias;
         private System.Windows.Forms.Button botonRegCons;
+        private System.Windows.Forms.Button botonListadosEstadisticos;
     }
 }

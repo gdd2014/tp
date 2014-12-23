@@ -149,6 +149,7 @@
     <Compile Include="Generar Modificar Reserva\Seleccion_Hotel.Designer.cs">
       <DependentUpon>Seleccion_Hotel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Listado Estadistico\HelperDeListados.cs" />
     <Compile Include="Login\SeleccionDeRolYHotelForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +177,7 @@
     <Compile Include="Utils\ConversionUtils.cs" />
     <Compile Include="Utils\DBUtils.cs" />
     <Compile Include="Utils\GridUtils.cs" />
+    <Compile Include="Utils\Item.cs" />
     <Compile Include="Utils\NumYDesc.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\UIUtils.cs" />
@@ -191,11 +193,11 @@
     <Compile Include="Generar Modificar Reserva\Admin_Reservas.Designer.cs">
       <DependentUpon>Admin_Reservas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listado Estadistico\Form1.cs">
+    <Compile Include="Listado Estadistico\Listados_Estadisticos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Listado Estadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Listado Estadistico\Listados_Estadisticos.Designer.cs">
+      <DependentUpon>Listados_Estadisticos.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\LoginForm.cs">
       <SubType>Form</SubType>
@@ -255,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Modificar Reserva\Seleccion_Hotel.resx">
       <DependentUpon>Seleccion_Hotel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\Listados_Estadisticos.resx">
+      <DependentUpon>Listados_Estadisticos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

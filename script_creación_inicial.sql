@@ -493,6 +493,14 @@ UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 3 WHERE Habitacion_T
 UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 4 WHERE Habitacion_Tipo_Codigo = 1004
 UPDATE G_N.Habitacion_Tipos SET Habitacion_Tipo_Capacidad = 5 WHERE Habitacion_Tipo_Codigo = 1005
 
+-- SE CANCELAN LAS RESERVAS POR NO SHOW
+UPDATE G_N.Reservas
+	SET Reserva_Estado_Id = 5,
+	    Reserva_Fecha_Cancelacion = Reserva_Fecha_Inicio,
+	    Reserva_Motivo_Cancelacion = 'Dada de baja automáticamente por no show' 
+	WHERE Reserva_Fecha_Inicio < GETDATE()
+	  AND Reserva_Codigo NOT IN (SELECT Estadia_Reserva_Codigo FROM G_N.Estadias)
+
 --------------------------------------------------------------------------------------------------------
 -- STORED PROCEDURES -----------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------
@@ -613,6 +621,26 @@ BEGIN
 						
 	IF (@Cuenta > 0) SET @Resultado = 1
 	ELSE SET @Resultado = 0
+	RETURN @Resultado 
+END
+
+GO
+
+-- Funcion que retorna si un hotel está abierto en el período determinado
+CREATE FUNCTION G_N.Hotel_Esta_Abierto_en_Periodo(@Hotel_Id INT, @Inicio DATE, @Fin DATE)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @Resultado INT, @Cuenta INT
+	SET @Cuenta = (SELECT  COUNT(hc.Hotel_Id) Q
+					 FROM G_N.Hoteles_Cerrados hc
+					 WHERE hc.Hotel_Id = @Hotel_Id		   
+					   AND ((hc.Desde_Fecha BETWEEN @Inicio AND @Fin) 
+					    OR (hc.Hasta_Fecha BETWEEN @Inicio AND @Fin) 
+						OR (hc.Desde_Fecha < @Inicio AND hc.Hasta_Fecha > @Fin)))
+						
+	IF (@Cuenta > 0) SET @Resultado = 0
+	ELSE SET @Resultado = 1
 	RETURN @Resultado 
 END
 
