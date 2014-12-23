@@ -294,7 +294,8 @@ INSERT INTO G_N.Reservas(Reserva_Codigo,
 						 Reserva_Cliente_Id,
 						 Reserva_Regimen_Id,
 						 Reserva_Fecha_Inicio,
-						 Reserva_Fecha_Fin)
+						 Reserva_Fecha_Fin,
+						 Reserva_Precio_Por_Noche)
 	SELECT Reserva_Codigo, Cliente_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
 	FROM G_N.#Reservas_Temp
 SET IDENTITY_INSERT G_N.Reservas OFF;
@@ -675,4 +676,26 @@ BEGIN
 						GROUP BY rh.Reserva_Codigo)
 
 	RETURN @Resultado;
+END
+
+GO
+  
+CREATE FUNCTION G_N.Fecha_Max(@val1 DATE, @val2 DATE)
+RETURNS DATE
+AS
+BEGIN
+  IF @val1 > @val2
+    RETURN @val1
+  RETURN ISNULL(@val2,@val1)
+END
+
+GO
+
+CREATE FUNCTION G_N.Fecha_Min(@val1 DATE, @val2 DATE)
+RETURNS DATE
+AS
+BEGIN
+  IF @val1 < @val2
+    RETURN @val1
+  RETURN ISNULL(@val2,@val1)
 END

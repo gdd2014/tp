@@ -37,7 +37,7 @@ namespace FrbaHotel.Listado_Estadistico {
 
             if (errores.Count == 0) {
                 DateTime primerDiaDelAnio = DateTime.Parse(UIUtils.valorSeleccionado(comboAnio)+ "-01-01");
-                int mesesDelTrismestre = Int32.Parse(UIUtils.valorSeleccionado(comboTrimestre)) * 3 - 2;
+                int mesesDelTrismestre = Int32.Parse(UIUtils.valorSeleccionado(comboTrimestre)) * 3 - 3;
                 String comienzoTrimestre = DBUtils.stringify(ConversionUtils.dateTimeAStr(primerDiaDelAnio.AddMonths(mesesDelTrismestre)));
                 String finTrismestre = DBUtils.stringify(ConversionUtils.dateTimeAStr(primerDiaDelAnio.AddMonths(mesesDelTrismestre + 3).AddDays(-1)));
 

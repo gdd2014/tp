@@ -39,18 +39,30 @@ namespace FrbaHotel.Listado_Estadistico {
                     break;
                 case 3:
                     q = queryBasicaHotel +
-                             " SUM(DATEDIFF(DAY, G_N.Fecha_Max(hc.Desde_Fecha, '2014-10-01'), G_N.Fecha_Min(hc.Hasta_Fecha, '2014-12-31'))) AS 'Días Cerrado' " +
+                             " SUM(DATEDIFF(DAY, G_N.Fecha_Max(hc.Desde_Fecha, " + desde + "), G_N.Fecha_Min(hc.Hasta_Fecha, " + hasta + "))) AS 'Días Cerrado' " +
                                 " FROM G_N.Hoteles h " +
                                 " JOIN G_N.Hoteles_Cerrados hc ON h.Hotel_Id = hc.Hotel_Id " +
-                            " WHERE (hc.Desde_Fecha BETWEEN '2014-10-01' AND '2014-12-31') OR " +
-                                 " (hc.Hasta_Fecha BETWEEN '2014-10-01' AND '2014-12-31') OR " +
-                                 " (hc.Desde_Fecha < '2014-10-01' AND hc.Hasta_Fecha > '2014-12-31') " + 
+                            " WHERE (hc.Desde_Fecha BETWEEN " + desde + " AND " + hasta + ") OR " +
+                                 " (hc.Hasta_Fecha BETWEEN " + desde + " AND " + hasta + ") OR " +
+                                 " (hc.Desde_Fecha < " + desde + " AND hc.Hasta_Fecha > " + hasta + ") " + 
                                  groupByBasicoHotel;
 	
                     break;
                 case 4:
-                    q = queryBasicaHotel +
-                                 "COUNT ";
+                    q = "SELECT TOP 5 h.Hotel_Nombre AS 'Nombre De Hotel', " +
+                                " h.Hotel_Dom_Calle + ' ' + CAST(h.Hotel_Dom_Nro AS NVARCHAR) AS Direccion, " +
+		                        " hab.Habitacion_Numero AS 'Numero de habitación', " +
+                                " SUM(DATEDIFF(DAY, G_N.Fecha_Max(r.Reserva_Fecha_Inicio, " + desde + "), G_N.Fecha_Min(r.Reserva_Fecha_Fin, " + hasta + "))) AS 'Días Reservada', " +
+			                    " COUNT(hab.Habitacion_Numero) AS 'Cantidad de reservas' " +
+		                    " FROM G_N.Hoteles h " +
+		                    " JOIN G_N.Habitaciones hab ON hab.Habitacion_Hotel_Id = h.Hotel_Id " +
+		                    " JOIN G_N.Reservas_Habitaciones rh ON rh.Habitacion_Id = hab.Habitacion_Id " +
+		                    " JOIN G_N.Reservas r ON r.Reserva_Codigo = rh.Reserva_Codigo " +
+                        " WHERE (r.Reserva_Fecha_Inicio BETWEEN " + desde + " AND" + hasta + ") OR " +
+                             "  (r.Reserva_Fecha_Fin BETWEEN " + desde + " AND " + hasta + ") OR " +
+                             "  (r.Reserva_Fecha_Inicio < " + desde + " AND r.Reserva_Fecha_Fin > " + hasta + ") " +
+                        " GROUP BY h.Hotel_Nombre, hab.Habitacion_Numero, h.Hotel_Dom_Calle + ' ' + CAST(h.Hotel_Dom_Nro AS NVARCHAR) " +
+	                    " ORDER BY 4 DESC";
                     break;
                 case 5:
                     q = queryBasicaHotel +
@@ -79,9 +91,11 @@ namespace FrbaHotel.Listado_Estadistico {
                     listaDeResultados.Columns[2].Width = 165;
                     break;
                 case 4:
-                    listaDeResultados.Columns[0].Width = 180;
-                    listaDeResultados.Columns[1].Width = 290;
-                    listaDeResultados.Columns[2].Width = 165;
+                    listaDeResultados.Columns[0].Width = 155;
+                    listaDeResultados.Columns[1].Width = 220;
+                    listaDeResultados.Columns[2].Width = 80;
+                    listaDeResultados.Columns[3].Width = 90;
+                    listaDeResultados.Columns[4].Width = 90;
                     break;
                 case 5:
                     listaDeResultados.Columns[0].Width = 180;

@@ -95,7 +95,7 @@
             this.listaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.listaDeResultados.Location = new System.Drawing.Point(40, 66);
             this.listaDeResultados.Name = "listaDeResultados";
-            this.listaDeResultados.Size = new System.Drawing.Size(680, 156);
+            this.listaDeResultados.Size = new System.Drawing.Size(680, 184);
             this.listaDeResultados.TabIndex = 6;
             // 
             // botonGenerarReporte
@@ -112,7 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 262);
+            this.ClientSize = new System.Drawing.Size(761, 280);
             this.Controls.Add(this.botonGenerarReporte);
             this.Controls.Add(this.listaDeResultados);
             this.Controls.Add(this.comboReporte);
