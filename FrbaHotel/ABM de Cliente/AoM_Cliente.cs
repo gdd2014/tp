@@ -169,7 +169,7 @@ namespace FrbaHotel.ABM_de_Cliente {
             valores.Add(nDocTextbox.Text);
 
             valores.Add(DBUtils.stringify(apellidoTextbox.Text));
-            valores.Add(DBUtils.stringify(apellidoTextbox.Text));
+            valores.Add(DBUtils.stringify(nombreTextbox.Text));
 
             valores.Add(DBUtils.stringify(ConversionUtils.dateTimeAStr(fNacDTP.Value)));
 
