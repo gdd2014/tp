@@ -255,7 +255,8 @@ SELECT DISTINCT h.Habitacion_Id,
 				m.Reserva_Cant_Noches, 
 				m.Cliente_Pasaporte_Nro, 
 				m.Cliente_Mail,
-				c.Cliente_Id
+				c.Cliente_Id,
+				(m.Regimen_Precio + m.Hotel_CantEstrella * m.Hotel_Recarga_Estrella) * (m.Habitacion_Tipo_Codigo % 1000) AS Precio_Por_Noche
 	INTO G_N.#Reservas_Temp
 	FROM gd_esquema.Maestra m, G_N.Clientes c, G_N.#Habitaciones_Temp h, G_N.Regimenes r
 	WHERE Reserva_Codigo IS NOT NULL
@@ -296,7 +297,11 @@ INSERT INTO G_N.Reservas(Reserva_Codigo,
 						 Reserva_Fecha_Inicio,
 						 Reserva_Fecha_Fin,
 						 Reserva_Precio_Por_Noche)
-	SELECT Reserva_Codigo, Cliente_Id, Regimen_Id, Reserva_Fecha_Inicio, DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio)
+	SELECT Reserva_Codigo, 
+		   Cliente_Id, Regimen_Id, 
+		   Reserva_Fecha_Inicio, 
+		   DATEADD(DAY, Reserva_Cant_Noches, Reserva_Fecha_Inicio),
+		   Precio_Por_Noche
 	FROM G_N.#Reservas_Temp
 SET IDENTITY_INSERT G_N.Reservas OFF;
 
@@ -699,3 +704,29 @@ BEGIN
     RETURN @val1
   RETURN ISNULL(@val2,@val1)
 END
+
+GO
+
+CREATE FUNCTION G_N.Puntos_Por_Consumibles(@Monto NUMERIC(18,2), @Codigo_Consumible NUMERIC(18,0))
+	RETURNS INT
+	AS
+	BEGIN
+		DECLARE @Resultado INT
+		IF @Codigo_Consumible IS NULL SET @Resultado = 0
+		ELSE SET @Resultado = @Monto / 5
+		
+		RETURN @Resultado
+	END
+
+GO
+	
+CREATE FUNCTION G_N.Puntos_Por_Estadia(@Monto NUMERIC(18,2), @Codigo_Consumible NUMERIC(18,0))
+	RETURNS INT
+	AS
+	BEGIN
+		DECLARE @Resultado INT
+		IF @Codigo_Consumible IS NOT NULL SET @Resultado = 0
+		ELSE SET @Resultado = @Monto / 10
+		
+		RETURN @Resultado
+	END

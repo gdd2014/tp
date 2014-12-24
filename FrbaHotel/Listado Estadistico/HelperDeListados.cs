@@ -65,8 +65,19 @@ namespace FrbaHotel.Listado_Estadistico {
 	                    " ORDER BY 4 DESC";
                     break;
                 case 5:
-                    q = queryBasicaHotel +
-                                 "COUNT ";
+                    q = " SELECT TOP 5 c.Cliente_Nombre + ' ' + c.Cliente_Apellido  AS Nombre,  " +
+		                             " dt.Documento_Tipo_Descripcion AS 'Tipo de documento', " +
+		                             " c.Cliente_Documento_Nro AS 'Numero de documento', " +
+		                             " SUM(G_N.Puntos_Por_Estadia(fi.Factura_Item_Monto, fi.Factura_Item_Consumible_Codigo)) +  " +
+		                             " SUM(G_N.Puntos_Por_Consumibles(fi.Factura_Item_Monto, fi.Factura_Item_Consumible_Codigo)) AS Puntos " +
+		                        " FROM G_N.Clientes c " +
+	                                " JOIN G_N.Documento_Tipos dt ON c.Cliente_Documento_Tipo_Id = dt.Documento_Tipo_Id " +
+	                                " JOIN G_N.Reservas r ON r.Reserva_Cliente_Id = c.Cliente_Id " +
+	                                " JOIN G_N.Facturas f ON f.Factura_Estadia_Reserva_Codigo = r.Reserva_Codigo " +
+	                                " JOIN G_N.Factura_Items fi ON f.Factura_Nro = fi.Factura_Item_Factura_Nro " +
+                                " WHERE (f.Factura_Fecha BETWEEN " + desde + " AND " + hasta + ") " +
+                                " GROUP BY c.Cliente_Nombre + ' ' + c.Cliente_Apellido, dt.Documento_Tipo_Descripcion, c.Cliente_Documento_Nro " +
+                                " ORDER BY 4 DESC ";
                     break;
             }
             
@@ -98,9 +109,10 @@ namespace FrbaHotel.Listado_Estadistico {
                     listaDeResultados.Columns[4].Width = 90;
                     break;
                 case 5:
-                    listaDeResultados.Columns[0].Width = 180;
-                    listaDeResultados.Columns[1].Width = 290;
-                    listaDeResultados.Columns[2].Width = 165;
+                    listaDeResultados.Columns[0].Width = 255;
+                    listaDeResultados.Columns[1].Width = 140;
+                    listaDeResultados.Columns[2].Width = 90;
+                    listaDeResultados.Columns[2].Width = 140;
                     break;
 
             }
